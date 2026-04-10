@@ -2,25 +2,22 @@
 name: engineering-context
 description: >-
   Audits and remediates workspace instruction quality for agentic coding.
-  Use when reducing context bloat, resolving contradictory guidance, or
-  tightening instruction reliability across canonical docs, rules, and skills.
+  Trigger when: (1) context cleanup, context rot, or documentation hygiene,
+  (2) canonical instruction source maintenance (AGENTS.md, CLAUDE.md,
+  .cursorrules, README-agent.md, or host-specific equivalents),
+  (3) contradiction, duplication, or staleness remediation across instruction
+  files, (4) "agent is confused" / "too much context" / "workspace is noisy",
+  (5) instruction file review or quality scoring, (6) setting up or auditing
+  AGENTS.md or CLAUDE.md structure, (7) context window optimization or
+  instruction prioritization, (8) permission boundary or security guardrail
+  review in agent instruction files.
 ---
 
 # Context Engineering
 
-Use this skill to keep instruction context high-signal, testable, and non-contradictory.
 Treat instruction files as production interfaces: each edit should reduce model mistakes in future sessions.
 
-## When To Use
-
-Trigger this skill when the user asks for any of:
-
-- context cleanup, context rot cleanup, or documentation hygiene
-- canonical instruction source maintenance (for example: `AGENTS.md`, `CLAUDE.md`, `README-agent.md`, or host-specific equivalents)
-- contradiction, duplication, or staleness remediation across instruction files
-- "agent is confused" / "too much context" / "workspace is noisy"
-
-## Provider + Research-Aligned Principles
+## Principles
 
 - **Clarity over cleverness**: Write explicit, directly actionable instructions.
 - **Instruction hierarchy is explicit**: Define precedence and conflict handling across instruction sources before editing.
@@ -43,9 +40,10 @@ Run this sequence:
    - Map each file's purpose in one line before editing.
 
 2. **Diagnose with explicit tags**
-   - Tag each issue with one or more: `contradiction`, `context_rot`, `bloat`, `redundancy`, `mixed_concerns`, `missing_guardrail`.
+   - Read [reference.md](reference.md) for the detailed failure-pattern rubric and refactoring patterns.
+   - Tag each issue with one or more: `contradiction`, `context_rot`, `bloat`, `redundancy`, `mixed_concerns`, `missing_guardrail`, `positional_burial`, `missing_permissions`, `tone_overtrigger`, `missing_checkpoint`, `missing_decomposition`, `security_gap`.
    - Record impact: `high` (can cause wrong behavior), `medium` (causes ambiguity), `low` (style/noise).
-   - Prioritize `contradiction` and `high` impact items first.
+   - Prioritize `contradiction`, `security_gap`, and `high` impact items first.
 
 3. **Design the minimal fix**
    - Prefer deletion or pointer replacement over rewriting large blocks.
@@ -114,17 +112,7 @@ Return results in this order:
 
 ## References
 
-Use these as operating guidance when refining this skill:
-
-- **Model provider guidance (skills/instructions)**
-  - OpenAI docs: prompt guidance + instruction hierarchy + agent reliability patterns
-  - Anthropic prompt engineering guidance: system prompts, XML/tag structuring, examples, and edge-case handling
-  - Cursor docs: rules/skills best practices (focused rules, canonical pointers, iterative rule growth)
-- **Open standards**
-  - Agent Skills open standard (`agentskills.io`) for portable skill structure
-- **Academic context-engineering foundations**
-  - Chain-of-Thought Prompting (Wei et al., 2022): explicit intermediate reasoning structure
-  - ReAct (Yao et al., 2023): reasoning + action loops for tool-grounded behavior
-  - Retrieval-Augmented Generation (Lewis et al., 2020): retrieval-backed grounding for factual reliability
-  - Self-Refine (Madaan et al., 2023): iterative critique-refine loops
-  - Reflexion (Shinn et al., 2023): retrospective verbal feedback and memory for error reduction
+- [reference.md](reference.md) — failure-pattern rubric, refactoring patterns, document roles, verification checklist. Read during Step 2 (Diagnose).
+- [references/priority-resolution.md](references/priority-resolution.md) — precedence rules and conflict matrix for multi-source instruction files. Read during Step 1 when multiple instruction sources exist.
+- [references/agents-md-spec.md](references/agents-md-spec.md) — AGENTS.md standard structure and validation. Read when auditing or creating AGENTS.md files.
+- [references/context-design-patterns.md](references/context-design-patterns.md) — dynamic loading tiers, positional optimization, format guidance. Read during Step 3 (Design).
