@@ -1,0 +1,23 @@
+{
+  "skill_name": "hamza-voice",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draft a LinkedIn connection request to a senior data engineer at Stripe. I saw she posted about migrating from Airflow to Dagster and I'm interested in the tradeoffs. I also recently applied for a DE role at Stripe.",
+      "expected_output": "A 3-5 sentence LinkedIn message that leads with the specific Airflow/Dagster post, mentions the application naturally, uses em-dashes, and sounds peer-to-peer — not supplicant.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Write a short email to a recruiter who reached out to me about a Senior Analytics Engineer role at a Series B fintech. I'm interested but want to know more about the team size, tech stack, and whether the role reports to engineering or a business function before committing to a call.",
+      "expected_output": "A warm but direct email, 2-3 short paragraphs. Expresses genuine interest, asks the three specific questions upfront, and closes with availability. No fake enthusiasm, no 'thanks for reaching out!'",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need to write a short post for LinkedIn about a lesson I learned building data platforms from scratch at two different companies. The insight is that the hardest part isn't the technical architecture — it's getting stakeholders to trust the data enough to actually change their behavior. Keep it under 200 words.",
+      "expected_output": "A LinkedIn post that opens with the insight (not a hook-bait opener), grounds it in real experience without being a humble-brag, and closes with a thought that invites reflection. Prose, not bullet points. No emojis. Under 200 words.",
+      "files": []
+    }
+  ]
+}
