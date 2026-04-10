@@ -1,6 +1,6 @@
-# AGENTS.md Standard Structure and Validation
+# AGENTS.md Validation
 
-AGENTS.md is a portable, tool-agnostic instruction file for AI coding agents. Donated to the Agentic AI Foundation (Dec 2025) by OpenAI and Anthropic. Functions as "a README for agents."
+Validate and structure AGENTS.md files using these standard sections and checks.
 
 ## Standard Sections
 
@@ -73,11 +73,3 @@ src/frontend/AGENTS.md (frontend-specific patterns)
 
 Subdirectory files narrow scope. They never broaden or contradict root rules.
 
-## Multi-Agent Considerations
-
-When a project uses multiple specialized agents (planner, coder, reviewer, tester):
-
-- Define agent boundaries: which agent owns which task type
-- Specify handoff protocols: what artifacts pass between agents
-- Scope context per agent role: planners see architecture, coders see implementation, reviewers see diffs
-- Document which instruction files each agent role should read

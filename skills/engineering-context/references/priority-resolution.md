@@ -1,6 +1,6 @@
 # Priority Resolution Framework
 
-How to resolve conflicts when multiple instruction sources coexist.
+Resolve conflicts between coexisting instruction sources using these rules.
 
 ## Default Precedence (highest to lowest)
 

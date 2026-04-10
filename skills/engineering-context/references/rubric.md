@@ -1,6 +1,6 @@
-# Engineering Context Reference
+# Diagnostic Rubric
 
-Detailed rubric for deep context audits.
+Use this rubric to classify and remediate instruction file issues.
 
 ## Failure Patterns
 
@@ -89,26 +89,12 @@ Keep shared rules in one canonical file and replace copies with references.
 
 Move progress/changelog text out of persistent references.
 
-## Document Roles
-
-- `AGENTS.md`: canonical cross-tool project conventions.
-- `CLAUDE.md`: thin tool-specific overlay or pointer.
-- `docs/INDEX.md`: pointer map only.
-- `docs/ROADMAP.md`: forward-looking initiatives and intake.
-- `docs/archive/*`: historical completion detail.
-
-## Portability Guidance
-
-- Keep shared conventions in `AGENTS.md`.
-- Keep tool-specific behavior in tool-specific files only.
-- Prefer pointers over duplicate prose across tools.
-
 ## Practical Thresholds
 
 | Metric | Target | Rationale |
 |---|---|---|
-| Always-loaded file size | <150 lines / ~2000 tokens | Beyond this, models lose attention on middle content (Liu et al. 2023) |
-| Split threshold | >200 lines | Split into root + subdirectory files (Augment research on 2500+ repos) |
+| Always-loaded file size | <150 lines / ~2000 tokens | Beyond this, models lose attention on middle content |
+| Split threshold | >200 lines | Split into root + subdirectory files |
 | Single section length | <40 lines | Longer sections should use a `Read when:` split to a reference file |
 | Freshness | Flag dates >30 days old | Unless marked with an explicit "still valid" annotation |
 | Instruction density | >60% actionable directives | Ratio of imperative instructions to explanatory prose |
@@ -122,12 +108,3 @@ Move progress/changelog text out of persistent references.
 - File paths or symbol names referenced in instructions that no longer exist: tag `context_rot` / `high`.
 - Dependency versions pinned in instructions that differ from lockfile: tag `context_rot` / `medium`.
 
-## Extended Verification Checklist
-
-- [ ] No contradictory guidance across instruction files.
-- [ ] No completed-work tracking in active roadmap docs.
-- [ ] No status/changelog narrative in `docs/INDEX.md`.
-- [ ] No broken file references in instruction docs.
-- [ ] No leftover temporary override files (for example `AGENTS.override.md`).
-- [ ] `CLAUDE.md` remains a pointer/thin overlay, not a second AGENTS clone.
-- [ ] High-risk instructions are placed in obvious top-level sections.

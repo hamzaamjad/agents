@@ -1,17 +1,10 @@
 # Context Design Patterns
 
-Patterns for designing instruction files that optimize model attention and support dynamic loading.
-
-## Table of Contents
-
-- Positional Optimization
-- Dynamic Loading Tiers
-- Format Guidance (XML vs Markdown)
-- Constraint Ordering
+Apply these patterns to optimize model attention and support dynamic loading in instruction files.
 
 ## Positional Optimization
 
-LLMs exhibit a U-shaped attention curve: strong primacy (beginning) and recency (end) bias, with degraded attention to middle content (Liu et al. 2023, "Lost in the Middle").
+LLMs exhibit a U-shaped attention curve: strong primacy and recency bias, with degraded attention to middle content.
 
 ### Placement Rules
 
@@ -65,36 +58,11 @@ Lives in: plan files, session notes, git history.
 
 ## Format Guidance
 
-### When to use Markdown (default)
-- Simple instruction files with clear section hierarchy
-- Files under 100 lines
-- Instructions that are primarily sequential (do this, then that)
-
-### When to consider XML tags
-- Complex instruction files with many interleaved categories (role + rules + examples + constraints)
-- Files where section boundaries are ambiguous in Markdown
-- Instruction files consumed by multiple different models/tools
-
-XML tags create unambiguous boundaries that reduce model interpretation errors:
-
-```xml
-<security>
-Validate all user input. Use parameterized queries.
-</security>
-
-<style>
-Use camelCase for JS. Use snake_case for Python.
-</style>
-```
-
-vs. Markdown where "## Security" and "## Style" rely on the model inferring boundaries.
-
-### Recommendation
-Use Markdown by default. Switch to XML tags only when Markdown headers create genuine ambiguity — usually in files >150 lines with complex conditional structure.
+Use Markdown by default. Consider XML tags when instruction files exceed 150 lines with many interleaved categories (role + rules + examples + constraints), where Markdown section boundaries become ambiguous.
 
 ## Constraint Ordering
 
-Within each instruction file, order constraints from hard to easy (arxiv:2502.17204).
+Within each instruction file, order constraints from hard to easy. Models follow complex constraints better when they appear before simple ones.
 
 ### Hard constraints (place first)
 - Architectural patterns and invariants

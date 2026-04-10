@@ -65,20 +65,14 @@ def find_instruction_files(root):
     """Find all instruction files in the project."""
     found = []
     root = Path(root)
-    for dirpath, _, filenames in os.walk(root):
+    for dirpath, dirnames, filenames in os.walk(root):
         dirpath = Path(dirpath)
-        # Skip hidden dirs except .cursorrules
-        if any(p.startswith(".") and p != ".cursorrules" for p in dirpath.parts):
-            if ".git" in dirpath.parts:
-                continue
+        # Skip hidden directories (prune them from walk)
+        dirnames[:] = [d for d in dirnames if not d.startswith(".")]
         for pattern in INSTRUCTION_PATTERNS:
             filepath = dirpath / pattern
             if filepath.exists():
                 found.append(filepath)
-        # Also pick up subdirectory AGENTS.md / CLAUDE.md
-        for f in filenames:
-            if f in ("AGENTS.md", "CLAUDE.md") and (dirpath / f) not in found:
-                found.append(dirpath / f)
     return sorted(set(found))
 
 
