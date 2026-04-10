@@ -30,6 +30,32 @@ Detailed rubric for deep context audits.
 
 - Same rule appears in multiple files with slight wording differences.
 
+### 6) Security Gaps
+
+- Project handles user input, APIs, or data but instruction files include no security constraints.
+- No input validation rules specified for user-facing endpoints.
+- No secret management policy (e.g., "never commit .env files", "use environment variables").
+- No dependency security expectations (e.g., "run audit before adding packages").
+- Auth/authz rules absent for projects with authentication flows.
+
+### 7) Missing Permission Boundaries
+
+- Agent-facing instruction files lack always/ask-first/never permission tiers.
+- No explicit boundary on destructive operations (force push, schema drops, file deletion).
+- No approval gates for high-risk changes (dependency upgrades, CI/CD modifications).
+
+### 8) Positional Burial
+
+- Critical rules (security, permissions, breaking changes) buried in middle sections of long files.
+- High-impact instructions nested inside low-priority subsections.
+- "Must" / "never" constraints placed after optional style guidance.
+
+### 9) Tone Overtriggering
+
+- Aggressive capitalization ("YOU MUST NEVER", "ABSOLUTELY DO NOT") — causes model overtriggering.
+- Excessive negation chains ("do not ever under any circumstances") — prefer clear positive directives.
+- Triple emphasis or exclamation marks — moderate phrasing produces better instruction following.
+
 ## Refactoring Patterns
 
 ### Extract and Point
@@ -72,9 +98,22 @@ Move progress/changelog text out of persistent references.
 
 ## Practical Thresholds
 
-- Keep always-loaded instruction files lean.
-- Prefer one clear default command over many equivalent options.
-- Keep references one level deep to avoid partial-loading misses.
+| Metric | Target | Rationale |
+|---|---|---|
+| Always-loaded file size | <150 lines / ~2000 tokens | Beyond this, models lose attention on middle content (Liu et al. 2023) |
+| Split threshold | >200 lines | Split into root + subdirectory files (Augment research on 2500+ repos) |
+| Single section length | <40 lines | Longer sections should use a `Read when:` split to a reference file |
+| Freshness | Flag dates >30 days old | Unless marked with an explicit "still valid" annotation |
+| Instruction density | >60% actionable directives | Ratio of imperative instructions to explanatory prose |
+| Command variants | 1 default per task | Prefer one clear default command over many equivalent options |
+| Reference depth | 1 level from SKILL.md | Keep references one level deep to avoid partial-loading misses |
+
+### Freshness Heuristics
+
+- Dates in instruction files (deadlines, "as of" markers) older than 30 days: tag `context_rot` / `medium`.
+- Completed milestones still listed as active: tag `context_rot` / `high`.
+- File paths or symbol names referenced in instructions that no longer exist: tag `context_rot` / `high`.
+- Dependency versions pinned in instructions that differ from lockfile: tag `context_rot` / `medium`.
 
 ## Extended Verification Checklist
 

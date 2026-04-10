@@ -38,6 +38,7 @@ Run this sequence:
    - Read pointer/index docs and planning docs (e.g., `docs/INDEX.md`, `docs/ROADMAP.md`) if they exist.
    - Discover rule/override surfaces (e.g., rules directories, host config files, override docs, or policy sidecars).
    - Map each file's purpose in one line before editing.
+   - If multiple instruction sources coexist, read [references/priority-resolution.md](references/priority-resolution.md) and establish precedence before proceeding.
 
 2. **Diagnose with explicit tags**
    - Read [reference.md](reference.md) for the detailed failure-pattern rubric and refactoring patterns.
@@ -46,15 +47,18 @@ Run this sequence:
    - Prioritize `contradiction`, `security_gap`, and `high` impact items first.
 
 3. **Design the minimal fix**
+   - Read [references/context-design-patterns.md](references/context-design-patterns.md) for positional optimization, dynamic loading tiers, and format guidance.
    - Prefer deletion or pointer replacement over rewriting large blocks.
    - Replace duplicated policy text with explicit pointers to canonical sources (for example: `Read when:` directives or equivalent conventions).
    - Keep durable rules in canonical sources; keep host-specific overlays as thin pointers.
+   - Apply positional optimization: move critical rules (security, permissions, breaking-change warnings) to the first 20% of each file. Place supporting detail after. Avoid burying high-impact instructions in middle sections.
    - If unsure whether content is historical or active, move it to an archive note instead of deleting.
 
 4. **Apply remediation**
    - Edit only files tied to diagnosed findings.
    - Keep instructions specific, measurable, and operational (who does what, when, where).
    - Add examples only for behaviors that repeatedly fail.
+   - For projects handling data, APIs, or user input: verify instruction files include security constraints (input validation, auth rules, secret management, dependency security). Tag missing constraints as `security_gap` with `high` impact.
 
 5. **Verify against acceptance checks**
    - Re-read all edited files.
@@ -89,7 +93,10 @@ Before considering the pass complete, all must be true:
 - Index/pointer docs contain pointers, not status/changelog narrative.
 - Planning docs are forward-looking; completed detail is archived.
 - No duplicated instruction exists across top-priority canonical sources.
-- Critical instructions are easy to find (top-level sections, not buried).
+- Critical instructions are positioned in the first 20% of each file, not buried in middle sections.
+- Security-relevant projects include explicit security constraints in instruction files.
+- Permission boundaries (always/ask-first/never) are defined for agent-facing instruction files.
+- Instruction files under quantitative thresholds (see [reference.md](reference.md) § Practical Thresholds).
 - At least one acceptance check verifies each high-impact fix.
 - Output includes one retrospective friction point and one concrete prevention action.
 
