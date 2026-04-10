@@ -111,6 +111,10 @@ Return results in this order:
 3. **Residual risk**: what remains and why.
 4. **Optional next pass**: narrow recommendations only.
 
+## Automated Validation
+
+Run `scripts/validate_context.py <project-root>` for deterministic checks before manual review. Covers: file size thresholds, broken references, stale dates, duplicate headings, missing permissions, positional burial, tone patterns. Use output to seed Step 2 (Diagnose) findings.
+
 ## Anti-Patterns To Reject
 
 - Large instruction dumps copied across multiple files
