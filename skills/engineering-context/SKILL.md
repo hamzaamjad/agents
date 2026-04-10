@@ -61,6 +61,7 @@ Determine the audit scope:
 
 3. **Design the minimal fix**
    - Read [references/context-design-patterns.md](references/context-design-patterns.md) for positional optimization, dynamic loading tiers, and format guidance.
+   - Apply the core diagnostic: **"Would removing this line cause the agent to make mistakes?"** If no, delete it. Empirical evidence shows poorly curated instruction files *reduce* task success.
    - Prefer deletion or pointer replacement over rewriting large blocks.
    - Replace duplicated policy text with explicit pointers to canonical sources (for example: `Read when:` directives or equivalent conventions).
    - Keep durable rules in canonical sources; keep host-specific overlays as thin pointers.
@@ -106,6 +107,7 @@ Before considering the pass complete, all must be true:
 - Security-relevant projects include explicit security constraints in instruction files.
 - Permission boundaries (always/ask-first/never) are defined for agent-facing instruction files.
 - Instruction files under quantitative thresholds (see [references/rubric.md](references/rubric.md) § Practical Thresholds).
+- Every line passes the "would removing this cause mistakes?" diagnostic.
 - At least one acceptance check verifies each high-impact fix.
 
 ## References

@@ -2,9 +2,15 @@
 
 Apply these patterns to optimize model attention and support dynamic loading in instruction files.
 
+## Cumulative Context Degradation (Context Rot)
+
+Length itself degrades attention quality independently of position. Research (Chroma/Morphllm 2025, Maximum Effective Context Window studies) shows all frontier models degrade as context grows — even when relevant information is isolated and the model is forced to attend only to it. Some models show catastrophic collapse at specific thresholds (e.g., F1 drops from 0.55 to 0.30 over a 10% context range).
+
+**Implication**: the first lever for improving instruction following is *reducing total length*, not just repositioning content. Every line you keep must earn its presence.
+
 ## Positional Optimization
 
-LLMs exhibit a U-shaped attention curve: strong primacy and recency bias, with degraded attention to middle content.
+Within the length you keep, position matters. Models exhibit strong primacy and recency bias, with degraded attention to middle content. This is a secondary lever; reduce length first, then optimize positioning.
 
 ### Placement Rules
 
@@ -32,9 +38,13 @@ Lives in: `CLAUDE.md`, `AGENTS.md`, `.cursorrules` (project root)
 
 **Exclude**: detailed style guides, architecture deep-dives, historical context.
 
-### Tier 1: On-demand modules (loaded via "Read when:" triggers)
-Domain-specific rules loaded when the task matches.
-Lives in: subdirectory instruction files, reference docs.
+### Tier 1: On-demand modules
+Domain-specific rules loaded when the task matches. Lives in: subdirectory instruction files, reference docs.
+
+**Loading mechanisms**:
+- `@path/to/file.md` syntax — Claude Code officially supports recursive imports up to 5 hops (see [code.claude.com/docs/en/memory](https://code.claude.com/docs/en/memory)). Prefer this for Claude Code workspaces.
+- `Read when: <trigger>` directive — portable across tools, readable as prose.
+- Subdirectory instruction files (e.g., `api/CLAUDE.md`) — auto-loaded when working in that directory.
 
 **Examples**:
 - `api/CLAUDE.md` — API-specific patterns, loaded when working in `api/`

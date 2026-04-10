@@ -9,6 +9,7 @@ Use this rubric to classify and remediate instruction file issues.
 - Instruction files exceed practical size and attention budget.
 - Explanations repeat what code or linters already enforce.
 - Large static reference material is embedded instead of linked.
+- **Counterproductive context**: empirical evidence (ETH Zurich, Feb 2026, 438-task benchmark) shows that poorly curated AGENTS.md files *reduce* task success by ~3% while inflating inference costs by >20%. Human-written files provide only ~4% marginal gains at ~19% cost overhead. Benefits materialize only with ruthlessly curated, project-specific content focused on non-derivable information. Apply Anthropic's diagnostic: **"Would removing this line cause the agent to make mistakes?"** If no, delete it.
 
 ### 2) Context Rot
 
@@ -93,13 +94,14 @@ Move progress/changelog text out of persistent references.
 
 | Metric | Target | Rationale |
 |---|---|---|
-| Always-loaded file size | <150 lines / ~2000 tokens | Beyond this, models lose attention on middle content |
-| Split threshold | >200 lines | Split into root + subdirectory files |
+| Lean target | <60 lines | HumanLayer and Anthropic's own examples (~20-60 lines); tightest practical files |
+| Practical max (always-loaded) | <150 lines | Practitioner consensus across Anthropic, HumanLayer, Globant; context degrades with length |
+| Split threshold | >200 lines | GitHub analysis of 2500+ repositories (2025) — modular files outperform monolithic |
 | Single section length | <40 lines | Longer sections should use a `Read when:` split to a reference file |
 | Freshness | Flag dates >30 days old | Unless marked with an explicit "still valid" annotation |
-| Instruction density | >60% actionable directives | Ratio of imperative instructions to explanatory prose |
 | Command variants | 1 default per task | Prefer one clear default command over many equivalent options |
-| Reference depth | 1 level from SKILL.md | Keep references one level deep to avoid partial-loading misses |
+| Reference depth | 1 level recommended, 5 max | Claude Code supports up to 5-hop `@path` imports; deeper chains risk partial-load misses |
+| Prose-to-directive ratio | Prefer imperative directives | Flag files where explanatory prose dominates actionable instructions |
 
 ### Freshness Heuristics
 
