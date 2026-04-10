@@ -4,13 +4,12 @@ description: >-
   Audits and remediates workspace instruction quality for agentic coding.
   Trigger when: (1) context cleanup, context rot, or documentation hygiene,
   (2) canonical instruction source maintenance (AGENTS.md, CLAUDE.md,
-  .cursorrules, README-agent.md, or host-specific equivalents),
-  (3) contradiction, duplication, or staleness remediation across instruction
-  files, (4) "agent is confused" / "too much context" / "workspace is noisy",
-  (5) instruction file review or quality scoring, (6) setting up or auditing
-  AGENTS.md or CLAUDE.md structure, (7) context window optimization or
-  instruction prioritization, (8) permission boundary or security guardrail
-  review in agent instruction files.
+  .cursorrules, or host-specific equivalents), (3) contradiction,
+  duplication, or staleness remediation across instruction files,
+  (4) instruction file quality review or scoring, (5) setting up or
+  auditing AGENTS.md or CLAUDE.md structure, (6) context window
+  optimization or instruction prioritization, (7) permission boundary
+  or security guardrail review in agent instruction files.
 ---
 
 # Context Engineering
@@ -26,15 +25,33 @@ Treat instruction files as production interfaces: each edit should reduce model 
 
 ## Workflow
 
-Run this sequence:
+### Scope selection (before starting)
 
-1. **Inventory canonical context**
-   - Run `scripts/validate_context.py <project-root>` to seed initial findings (file sizes, broken refs, stale dates, tone, positional burial).
-   - Read the highest-priority instruction sources (e.g., `AGENTS.md`, `CLAUDE.md`, `README-agent.md`, system prompt files, or equivalent).
-   - Read pointer/index docs and planning docs (e.g., `docs/INDEX.md`, `docs/ROADMAP.md`) if they exist.
-   - Discover rule/override surfaces (e.g., rules directories, host config files, override docs, or policy sidecars).
+Determine the audit scope:
+- **(A) Single-file review**: skip Steps 1 and 6. Run the script on the target file, diagnose, fix, verify, report.
+- **(B) Targeted fix**: skip Steps 1 and 6. Go directly to diagnose/fix/verify on the identified problem.
+- **(C) Full workspace audit**: run all steps.
+- **(D) No instruction files exist**: skip to scaffolding — propose an initial `AGENTS.md` using [references/agents-md-spec.md](references/agents-md-spec.md). Ask the user which sections are relevant before generating.
+
+### Reference loading map
+
+| Step | File | Condition |
+|---|---|---|
+| 1 | `references/priority-resolution.md` | Only when multiple instruction sources exist |
+| 2 | `references/rubric.md` | Always — failure patterns and thresholds |
+| 3 | `references/context-design-patterns.md` | Always — positional optimization, tiers |
+| As needed | `references/agents-md-spec.md` | When auditing or creating AGENTS.md |
+
+### Steps
+
+1. **Inventory canonical context** (full audit only)
+   - Run `scripts/validate_context.py <project-root>` to seed initial findings.
+   - Read the highest-priority instruction sources (e.g., `AGENTS.md`, `CLAUDE.md`, system prompt files, or equivalent).
+   - Read pointer/index docs and planning docs if they exist.
+   - Discover rule/override surfaces (rules directories, host config files, override docs).
    - Map each file's purpose in one line before editing.
-   - If multiple instruction sources coexist, read [references/priority-resolution.md](references/priority-resolution.md) and establish precedence before proceeding.
+   - For monorepos: read root files first, then scan subdirectory files only in areas relevant to the user's concern. List discovered files and confirm scope with the user before loading all.
+   - If multiple instruction sources coexist, read [references/priority-resolution.md](references/priority-resolution.md) and establish precedence.
 
 2. **Diagnose with explicit tags**
    - Read [references/rubric.md](references/rubric.md) for the detailed failure-pattern rubric and refactoring patterns.
@@ -65,16 +82,10 @@ Run this sequence:
    - Confirm constraint ordering: complex behavioral constraints (architecture, edge cases, security) before simple formatting/style rules.
    - Confirm instruction tone uses moderate, clear phrasing — no ALL CAPS directives or aggressive emphasis patterns (see references/rubric.md § Tone Overtriggering).
 
-6. **Run a micro-retrospective (from session-retrospective)**
-   - Capture at least one friction point from this pass.
-   - State one transferable prompting/workflow improvement for future sessions.
-   - Propose at most two concrete workspace improvements with file targets.
-
-7. **Report in strict order**
-   - Findings (severity-sorted, with file references)
-   - Applied changes
-   - Residual risks
-   - Optional next pass (narrow, high-leverage only)
+6. **Report**
+   - **Scan mode** (no edits applied): Findings + Recommendations. Omit Applied Changes and Residual Risk.
+   - **Audit mode** (edits applied): Findings, Applied Changes, Residual Risk, Next Pass.
+   - If the audit surfaced a systemic workflow issue (not just a file issue), note one process improvement in the Next Pass section.
 
 ## Editing Rules
 
@@ -96,7 +107,6 @@ Before considering the pass complete, all must be true:
 - Permission boundaries (always/ask-first/never) are defined for agent-facing instruction files.
 - Instruction files under quantitative thresholds (see [references/rubric.md](references/rubric.md) § Practical Thresholds).
 - At least one acceptance check verifies each high-impact fix.
-- Output includes one retrospective friction point and one concrete prevention action.
 
 ## References
 

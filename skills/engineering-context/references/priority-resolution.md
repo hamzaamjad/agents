@@ -34,6 +34,14 @@ When auditing, build this matrix for each dimension of concern:
 | Tool-specific behavior | Tool-specific file (e.g., `CLAUDE.md`) | N/A | Should not duplicate shared rules |
 | Build / run commands | `AGENTS.md` or `README.md` | Yes, per-directory | Monorepo subdirectories may have own commands |
 
+## Consolidation Guidance
+
+Preferred configuration: `AGENTS.md` (canonical, portable) + thin tool-specific overlays (`CLAUDE.md`, `.cursorrules`) containing only tool-specific behavior.
+
+- If `.cursorrules` duplicates content from `AGENTS.md`, recommend consolidation into `AGENTS.md` with `.cursorrules` as a pointer.
+- If a project uses only one AI tool, a single `AGENTS.md` is sufficient.
+- If `CLAUDE.md` has grown into a second copy of `AGENTS.md`, refactor it back to a thin overlay with pointers.
+
 ## Audit Checklist
 
 - [ ] Each instruction file declares its scope (project-wide, directory, tool-specific)
