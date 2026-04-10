@@ -66,6 +66,8 @@ Run this sequence:
    - Confirm index/pointer docs are pointer-first (not status/changelog narrative).
    - Confirm planning docs are forward-looking (completed detail archived).
    - Confirm no rule is duplicated across canonical sources unless intentionally mirrored.
+   - Confirm constraint ordering within each file: complex behavioral constraints (architecture, edge cases, security) before simple formatting/style rules. Models follow hard-to-easy ordering better (arxiv:2502.17204).
+   - Confirm instruction tone uses moderate, clear phrasing — no ALL CAPS directives or aggressive emphasis patterns (see reference.md § Tone Overtriggering).
 
 6. **Run a micro-retrospective (from session-retrospective)**
    - Capture at least one friction point from this pass.

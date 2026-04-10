@@ -56,6 +56,13 @@ Detailed rubric for deep context audits.
 - Excessive negation chains ("do not ever under any circumstances") — prefer clear positive directives.
 - Triple emphasis or exclamation marks — moderate phrasing produces better instruction following.
 
+### 10) Agentic Workflow Gaps
+
+- **Missing checkpoints**: Instruction files describe multi-step workflows without "pause and validate" gates. Agents loop or proceed past errors without human review.
+- **Missing decomposition**: Complex tasks described as single instructions ("Build a REST API") without intermediate steps. Agents perform better when instruction files break tasks into ordered stages.
+- **Missing rollback guidance**: No instructions for what to do when an agentic step fails (revert? retry? escalate?). Agents may silently produce broken state.
+- **Missing iteration markers**: No version or progress tracking in instruction files used across multi-turn sessions. Agents lose track of what was already attempted.
+
 ## Refactoring Patterns
 
 ### Extract and Point
