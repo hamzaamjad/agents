@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+secrets.json
+
+# Editor and IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+*.tmp
+.cache/
+
+# Agent workflow artifacts (per-workspace, not shared skill content)
+.tickets/
+.claude/worktrees/
+.prompts/

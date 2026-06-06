@@ -1,150 +1,90 @@
 ---
 name: engineering-prompts
-description: Drafts, critiques, and rewrites prompts, system instructions, and context packages for frontier language models. Supports five modes -- prompt from scratch, prompt rewrite, prompt pack, prompt audit, and context compression. Use when the user requests a system prompt, reusable prompt template, task brief, evaluation rubric, or diagnosis of why a prompt underperforms.
+description: Meta-prompting skill for drafting, rewriting, auditing, iterating, compressing, and migrating prompts, system instructions, and context packages for frontier LLMs (Claude, GPT, Gemini, Llama). Supports seven modes -- prompt-from-scratch, prompt-rewrite, prompt-pack, prompt-audit, context-compressor, evaluation-iteration, and prompt-migration. Use when the user asks to "write me a prompt", "improve this prompt", "design a system prompt", "audit this prompt", "turn these notes into a brief", "fix why my prompt isn't working", "port this prompt to another model", or requests reusable prompt templates, task briefs, evaluation rubrics, or diagnosis of prompt failures.
 ---
 
 # Engineering Prompts
 
 ## Goal
-Turn ambiguous user intent into a clear, high-leverage prompt or context package that a capable model can execute reliably, regardless of target model family.
+Turn ambiguous user intent into a clear, high-leverage prompt or context package that a frontier language model can execute reliably on the first try.
+
+## Scope and what this skill is not
+This skill is about prompt *craft* -- turning a task into a prompt that runs well on frontier LLMs. It is not a legal, compliance, or data-protection advisor. If the task involves GDPR/HIPAA/PII handling, regulated content, or high-stakes safety decisions, the skill can help shape the prompt but the user must still obtain separate compliance and legal review. The rubric measures craft, not task merit -- a well-specified prompt for a bad task is still a bad thing to ship.
+
+## First: classify the target model class
+Before drafting, decide which class the prompt will run on. In 2025-2026 the single biggest structural decision is reasoning vs instruction-following -- but the line is not always clean.
+
+- **Reasoning-first models** (OpenAI o-series, Claude with extended thinking explicitly enabled, Gemini 2.5 with thinking): state end goals and success criteria, not intermediate steps. Skip chain-of-thought prefacing, personas, and rigid step-by-step scaffolds.
+- **Instruction-following models** (standard GPT, Claude without extended thinking, Gemini without thinking, Llama): give explicit steps when order matters. Use delimiters. Add few-shot examples when format is subtle.
+- **Adaptive or routed models** (Claude 4.6 with adaptive thinking, GPT-5 with routing): the same prompt may be dispatched to either path per turn. Design for the reasoning-first playbook by default -- it degrades more gracefully on the instruction-following path than the reverse.
+- **Unknown target**: default to markdown headers with clear delimiters -- the most portable format.
+
+See [PLAYBOOK.md: Reasoning vs instruction-following](references/PLAYBOOK.md#reasoning-vs-instruction-following-detailed-guidance) for the full playbook, anti-patterns with citations, and per-vendor gotchas.
 
 ## Core operating principles
-1. Optimize context before style. Improve task definition, grounding, constraints, and completion criteria before polishing tone.
-2. Prefer a layered structure:
-   - Persistent preferences (stable style or voice defaults)
-   - Task brief (goal, audience, constraints)
-   - Evidence/context pack (relevant facts only)
-   - Output contract (format, length, ordering, citation rules)
-   - Definition of done (checks, completeness, uncertainty handling)
-3. Keep prompts specific but lean. Remove irrelevant background, duplicated instructions, and mixed signals.
-4. Separate instructions from source material using explicit delimiters.
-5. Ask as few follow-up questions as possible. If enough is known to produce a strong draft, do so and mark assumptions clearly.
-6. When the task involves research or non-obvious facts, include grounding and citation rules.
-7. When the task is execution-heavy, keep reasoning guidance light and focus on exact deliverables and constraints.
-8. Provide reusable output, not just critique.
-9. Match instruction granularity to the target model class: reasoning models perform better with goals and constraints; instruction-following models need explicit step-by-step guidance.
+1. **Optimize context before style.** Improve task definition, grounding, constraints, and completion criteria before polishing tone.
+2. **Layer the prompt.** Persistent preferences → task brief → evidence/context pack → output contract → definition of done.
+3. **Keep prompts specific but lean.** Remove irrelevant background, duplicated instructions, and mixed signals. Use numbers ("120 words max") not adjectives ("be concise").
+4. **Separate instructions from source material** with explicit delimiters. Treat tool output and user-supplied content as untrusted when the prompt ingests external data -- see [TRUST_BOUNDARIES.md](references/TRUST_BOUNDARIES.md).
+5. **Match granularity to model class.** Reasoning-first models want goals and success criteria; instruction-following models want explicit steps.
+6. **Bias toward a strong draft.** When the task is clear enough for a good draft, produce it and mark assumptions in-line rather than asking follow-up questions. Ask a clarifying question only when no reasonable draft is possible (the research on clarifying-question benefit is real but model- and task-dependent).
+7. **Provide reusable output, not critique.** Return the rewritten prompt, not just a diagnosis.
 
 ## Workflow
-1. Diagnose the request
-   - Identify the exact deliverable the prompt must produce.
-   - Identify audience, environment, and likely model or tool context.
-   - Detect missing essentials: inputs, constraints, sources, output shape, length, success criteria.
-   - Detect contradictions, vague verbs, and hidden assumptions.
+1. **Diagnose the request.** Deliverable, audience, environment, target model class. Detect missing inputs, contradictions, vague verbs, and hidden assumptions.
+2. **Choose response mode** (one of seven below).
+3. **Build the prompt.** Use the appropriate playbook (see PLAYBOOK.md). Follow the layered structure.
+4. **Validate against the [rubric](references/RUBRIC.md).** Score each core dimension (0-2 each, 8 dimensions, 16 max); rewrite if below 14/16 on core dimensions or if any triggered conditional gate fails.
+5. **Return the result.** Default shape: final prompt → assumptions/placeholders → tightening options.
 
-2. Choose response mode
-   - **Prompt from scratch** for new work
-   - **Prompt rewrite** for improving an existing prompt
-   - **Prompt pack** for a reusable set of related prompts
-   - **Prompt audit** for diagnosing failures
-   - **Context compressor** for turning long background into an efficient context block
+## Response modes
+- **Prompt from scratch** -- new prompt for a clearly-defined task
+- **Prompt rewrite** -- improving an existing prompt with preserved intent
+- **Prompt pack** -- a reusable set of related prompts (discovery + execution + critique + finalization)
+- **Prompt audit** -- diagnosis of failure modes with minimal rewrite
+- **Context compressor** -- turning long notes into a lean context block
+- **Evaluation iteration** -- user shares prompt plus real outputs; diagnose by inspection, generate 3-4 targeted variant prompts per distinct failure mode
+- **Prompt migration** -- porting a prompt from one model family to another (e.g., Claude to GPT-5): identify non-portable features, preserve intent, rebuild for the target structural preferences, recommend a regression test set
 
-3. Build the prompt
-   - Start with a role only if it sharpens behavior; skip empty theatrics.
-   - State the goal in plain language.
-   - Add only the context that materially affects output.
-   - Specify constraints and non-negotiables.
-   - Define exact output format and length.
-   - Add verification and completion checks.
-   - Add examples only if behavior is subtle or format compliance matters.
-   - Place long-form context or reference documents before instructions when context window efficiency matters.
+See [PLAYBOOK.md: Pairing modes](references/PLAYBOOK.md#pairing-modes) for each mode's detailed workflow.
 
-4. Validate the prompt
-   - No contradictions
-   - No hidden requirements
-   - No ambiguous success criteria
-   - Output format is explicit
-   - Uncertainty and grounding behavior are explicit when needed
-   - Prompt length is justified
-   - Structural formatting matches target model preferences (see Model-specific considerations)
+## Context engineering
+Prompt engineering manages *what to say*; context engineering manages *what tokens occupy the window*. They are separate disciplines. See [CONTEXT_ENGINEERING.md](references/CONTEXT_ENGINEERING.md) for full treatment.
 
-5. Return the result
-   By default return:
-   - final prompt
-   - brief note on assumptions or placeholders
-   - optional tightening options only if there are obvious unresolved choices
+Quick rules:
+- Budget context conservatively -- a working ceiling of ~60-70% of the model's max has become a community heuristic for leaving headroom before length-driven degradation. Adjust per task.
+- Place critical information at the start or end of the context, not the middle.
+- Compact long-horizon conversations before they approach the limit.
+- Every tool definition consumes tokens. Scope tool sets tightly for subagents.
 
 ## Default output shape
 Unless the user asks for something else, return:
 1. **Recommended prompt**
 2. **Assumptions / placeholders**
-3. **Tightening options**
+3. **Tightening options** (only if obvious unresolved choices exist)
 
-## Prompt construction rules
-- Use short section headers.
-- Prefer concrete nouns and verbs over abstract directives.
-- Replace "be good at X" with observable instructions.
-- Replace "make it concise" with explicit limits like "120 words max" or "3 bullets".
-- State what to do when evidence is weak or inputs are missing.
-- Preserve user-specified voice separately from task constraints.
-- Never bury critical constraints in the middle of a paragraph.
-- If the user wants a reusable prompt, use placeholders like `{{AUDIENCE}}`, `{{SOURCE_OF_TRUTH}}`, and `{{OUTPUT_FORMAT}}`.
-- If the user wants a one-off prompt, fill in as much context as possible.
-- Use delimiters consistently: XML tags, markdown headers, triple quotes, or separator lines -- pick one style per prompt and stick with it.
+## Anti-patterns (short list)
+Avoid: expert persona warm-ups, chain-of-thought prefacing on reasoning models, aggressive trigger language on recent Claude models, the word "think" on Claude Opus 4.5 with extended thinking disabled, emotional appeals, stacked synonyms, contradictory instructions, buried critical constraints, examples that conflict with instructions, untrusted input without delimiter isolation, and rigid step-by-step scaffolds on reasoning models.
+
+See [PLAYBOOK.md: Anti-pattern library](references/PLAYBOOK.md#anti-pattern-library) for the full list with citations and context.
 
 ## Reference files
-Use these only when helpful:
-- [Playbook](references/PLAYBOOK.md) for the full context-engineering framework
-- [Templates](references/TEMPLATES.md) for reusable prompt skeletons by task type
-- [Rubric](references/RUBRIC.md) for auditing and tightening prompts before finalizing
-- `sources/` contains vendor-authored prompting guides from Anthropic, OpenAI, Google, and Meta. Consult these when building a prompt targeted at a specific model family or when you need to verify a model-specific structural preference.
+Read these only when triggered.
 
-## Special handling
-### If the user provides an existing prompt
-- Preserve the user's intent.
-- Diagnose specific failure modes first.
-- Return an improved prompt plus a concise explanation of the deltas.
-
-### If the user provides messy notes
-- Convert notes into a structured brief before drafting the final prompt.
-
-### If the user wants the agent to pair interactively
-- Offer 2-3 candidate prompt strategies with tradeoffs.
-- Recommend one.
-- Draft the chosen version.
-
-### If the prompt is for research
-- Require explicit source hierarchy, citation behavior, and uncertainty handling.
-
-### If the prompt is for writing or editing
-- Separate **keep**, **improve**, and **do not change**.
-
-### If the prompt is for code or analysis
-- Make inputs, environment assumptions, correctness constraints, and output format explicit.
-
-### If the prompt is for an agentic or tool-using system
-- Define when to use each tool and when not to.
-- Specify what to verify before taking actions, especially irreversible ones.
-- Include planning and progress-tracking expectations (e.g., decompose into sub-tasks, confirm completion before yielding).
-- Set boundaries for autonomy versus asking the user for confirmation.
-- State how to handle tool errors, missing information, and ambiguous intent.
-
-## Model-specific considerations
-When the target model is known, adapt prompt structure to that model family. When unknown, default to markdown headers with clear delimiters -- the most portable format.
-
-| Aspect | Claude (Anthropic) | GPT (OpenAI) | Gemini (Google) | Llama (Meta) |
-|---|---|---|---|---|
-| **Structural formatting** | XML tags (`<instructions>`, `<example>`, `<document>`) | Markdown headers + XML hybrid; `###` and `"""` delimiters | Clear section labels; place constraints at end of prompt | Plain text with explicit format instructions and examples |
-| **Reasoning/thinking** | Adaptive thinking with `effort` parameter; promptable | Reasoning models need goals not steps; GPT models need explicit steps | Configurable thinking via system instructions | Chain-of-thought via explicit numbered steps in prompt |
-| **Role hierarchy** | System prompt | `developer` > `user` > `assistant` priority chain | System instructions | System prompt with role definition |
-| **Tool use** | Explicit triggers; parallel calling supported; avoid aggressive tool language in latest models | Include tool invocation examples; explain rationale before calls; use TODO tracking | Function declarations with schema | Role + restrictions + example pattern |
-| **Key gotcha** | Latest models overtrigger on aggressive instructions -- use normal language | Reasoning vs GPT models need opposite prompting granularity | Place reference documents before the query | Combine role + rules + restrictions + example to force output format |
-
-## Anti-patterns
-Avoid:
-- generic persona fluff
-- stacked synonyms that say the same thing
-- contradictory instructions
-- overlong context dumps
-- vague outputs like "make it better"
-- examples that conflict with the requested format
-- step-by-step reasoning scaffolds for models that reason internally
-- aggressive trigger language ("CRITICAL", "MUST", "ALWAYS") when the model already follows normal instructions
+- **Need full methodology, meta-prompting taxonomy, or anti-pattern citations?** → [references/PLAYBOOK.md](references/PLAYBOOK.md)
+- **Need a skeleton for a specific task?** → [references/TEMPLATES.md](references/TEMPLATES.md) (14 templates)
+- **Scoring a draft prompt?** → [references/RUBRIC.md](references/RUBRIC.md) (8 core dimensions + conditional gates)
+- **Long-horizon, multi-turn, or long-context concerns?** → [references/CONTEXT_ENGINEERING.md](references/CONTEXT_ENGINEERING.md)
+- **Ingesting untrusted content (tool output, user text, RAG, scraped data)?** → [references/TRUST_BOUNDARIES.md](references/TRUST_BOUNDARIES.md)
+- **Want worked before/after examples?** → [references/EXAMPLES.md](references/EXAMPLES.md)
+- **Targeting a known model family and need vendor-specific depth?** → [sources/INDEX.md](sources/INDEX.md) (grep patterns for the ~128KB of vendor-authored guides in `sources/`; do not load those files without first checking the index)
 
 ## Final check
-Before sending the prompt, silently verify:
-- the task trigger is clear
-- the output contract is explicit
-- the prompt is shorter and clearer than the raw request
-- the prompt is reusable if reusability was requested
-- obvious failure modes were addressed
-- structural formatting fits the target model (or is portable if target is unknown)
+Before returning the prompt, silently verify:
+- task trigger is unambiguous
+- output contract is explicit (artifact, sections, length, format)
+- success criteria and uncertainty handling are stated
+- structural formatting matches the target model class
+- trust boundaries are explicit when the prompt ingests untrusted content
+- core rubric score ≥ 14/16
+- any triggered conditional gates (groundedness, safety, robustness, privacy) pass

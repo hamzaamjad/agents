@@ -213,6 +213,42 @@ ruff check path/to/new_module.py
 [Optional: links to design docs, prior discussions.]
 `````
 
+## Task
+
+`````markdown
+---
+id: TASK-XXX
+title: ""
+type: task
+status: to-do
+parent:                  # required — cannot be empty; TASKs only exist inside a parent epic
+dependencies: []         # bare IDs resolve within current epic; cross-epic: EPIC-<hex>/TYPE-NNN
+agent_created: true
+complexity:              # 1-10, required for TASK; see references/complexity-scoring.md
+---
+
+# [Title]
+
+## Goal
+[One sentence naming the outcome the parent ticket needs this TASK to achieve.]
+
+## File path hints
+- `path/to/file` — [create | modify | delete]
+
+## Constraints
+- Do NOT [specific thing to avoid — e.g., touch files outside the hints above]
+- Do NOT [violate the parent ticket's invariants]
+
+## Acceptance criteria
+- [ ] [Observable outcome — keep to 3 or fewer]
+- [ ] [Each criterion must be runnable as a shell check below]
+
+## Verification
+```bash
+# Runnable commands — each acceptance criterion must have a shell check here.
+```
+`````
+
 ## Epic
 
 `````markdown
