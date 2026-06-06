@@ -1,0 +1,15 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created `SPEC-ticket-validation-2026-06-05.md` and `notes-questions.md`."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "The spec includes open questions and the companion notes file records assumptions/questions."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": false, "evidence": "The spec includes summary, problem, non-goals, requirements-like sections, test plan, and open questions, but it lacks an explicit acceptance criteria section."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "The output defines stable diagnostic codes such as `TV001` through `TV017`, which downstream agents can reference."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": false, "evidence": "The test plan is concrete, but the output does not include explicit acceptance criteria."},
+    {"text": "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.", "passed": true, "evidence": "The spec mentions `.tickets/`, ticket templates, status values, priority values, and outcome expectations."},
+    {"text": "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.", "passed": true, "evidence": "Only assigned output markdown files were created."}
+  ],
+  "summary": {"passed": 5, "failed": 2, "total": 7, "pass_rate": 0.7143},
+  "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 0, "errors_encountered": 0, "output_chars": 0, "transcript_chars": 0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["Timing/token metrics were unavailable from subagent notifications."], "needs_review": ["Baseline has a concrete test plan but no explicit acceptance criteria."], "workarounds": []}
+}

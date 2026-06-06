@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "skill_name": "defining-specifications",
+    "skill_path": "/Users/hamzaamjad/.agents/skills/defining-specifications",
+    "timestamp": "2026-06-05T20:48:00-07:00",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1,
+    "notes": [
+      "Timing and token metrics were unavailable in subagent completion notifications.",
+      "Grades were based on output files and shared eval assertions."
+    ]
+  },
+  "runs": [
+    {"eval_id": 0, "eval_name": "ticket-validation-spec", "configuration": "with_skill", "run_number": 1, "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []},
+    {"eval_id": 0, "eval_name": "ticket-validation-spec", "configuration": "without_skill", "run_number": 1, "pass_rate": 0.7143, "passed": 5, "failed": 2, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []},
+    {"eval_id": 1, "eval_name": "spec-skill-improvement", "configuration": "with_skill", "run_number": 1, "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []},
+    {"eval_id": 1, "eval_name": "spec-skill-improvement", "configuration": "without_skill", "run_number": 1, "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []},
+    {"eval_id": 2, "eval_name": "agent-memory-spec", "configuration": "with_skill", "run_number": 1, "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []},
+    {"eval_id": 2, "eval_name": "agent-memory-spec", "configuration": "without_skill", "run_number": 1, "pass_rate": 0.7143, "passed": 5, "failed": 2, "total": 7, "time_seconds": 0.0, "tokens": 0, "expectations": []}
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.8095, "stddev": 0.1649, "min": 0.7143, "max": 1.0},
+      "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
+    },
+    "delta": {
+      "pass_rate": "+0.19",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "analyst_observations": [
+    "Iteration 2 fixed the iteration-1 stable-ID miss in the with-skill spec-skill-improvement run.",
+    "The revised skill consistently produced source context, status metadata, stable IDs, explicit assumptions/open questions, verification guidance, and acceptance criteria.",
+    "The strongest baseline remained the spec-skill-improvement task, likely because the prompt itself asked for agent-consumable improvement guidance.",
+    "The lower baseline scores came from missing explicit acceptance criteria, requirements, verification sections, or stable IDs in broader tasks.",
+    "The revised skill now appears to add measurable structure over baseline on this eval set."
+  ]
+}

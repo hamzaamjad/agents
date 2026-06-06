@@ -1,0 +1,15 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created `SPEC-defining-specifications-skill-improvement-2026-06-05.md` and `notes-questions.md`."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Includes open questions and assumptions."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Includes summary, problem statement, goals, non-goals, requirements, testing and verification, open questions, assumptions, and acceptance criteria."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "Uses stable IDs such as `REQ-###`, `NFR-###`, `SLICE-###`, `TEST-###`, `RISK-###`, `Q-###`, `ASM-###`, and `AC-###`."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "Acceptance criteria define inspectable changes to the skill and dry-read verification scenarios."},
+    {"text": "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.", "passed": true, "evidence": "Current state directly summarizes the updated skill and identifies remaining gaps."},
+    {"text": "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.", "passed": true, "evidence": "Non-goals and requirements preserve boundaries against ticketing, implementation planning, and source edits."}
+  ],
+  "summary": {"passed": 7, "failed": 0, "total": 7, "pass_rate": 1.0},
+  "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 0, "errors_encountered": 0, "output_chars": 0, "transcript_chars": 0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["Timing/token metrics were unavailable from subagent notifications."], "needs_review": [], "workarounds": []}
+}

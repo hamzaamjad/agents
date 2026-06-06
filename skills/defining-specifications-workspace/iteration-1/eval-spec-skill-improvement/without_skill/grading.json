@@ -1,0 +1,64 @@
+{
+  "expectations": [
+    {
+      "text": "Produces at least one markdown specification file in the assigned output directory.",
+      "passed": true,
+      "evidence": "Created `SPEC-defining-specifications-skill-improvement-2026-06-05.md` and `notes-questions.md`."
+    },
+    {
+      "text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+      "passed": true,
+      "evidence": "The output includes a clarifying question protocol plus notes/questions in the companion file."
+    },
+    {
+      "text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+      "passed": true,
+      "evidence": "The spec includes summary, current seed assessment, goals, non-goals, target users, improved behavior, output structure, verification/quality gates, and acceptance criteria."
+    },
+    {
+      "text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+      "passed": true,
+      "evidence": "The proposed template explicitly requires stable IDs such as `G-###`, `NG-###`, `REQ-###`, `NFR-###`, `TEST-###`, `AC-###`, `RISK-###`, `Q-###`, `ASM-###`, and `DEC-###`."
+    },
+    {
+      "text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+      "passed": true,
+      "evidence": "The spec proposes concrete inspection criteria around YAML frontmatter, required sections, write boundaries, source references, and output paths."
+    },
+    {
+      "text": "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
+      "passed": true,
+      "evidence": "The current seed assessment directly cites the existing skill's frontmatter issue, broad trigger, missing output template, and unclear tool boundaries."
+    },
+    {
+      "text": "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.",
+      "passed": true,
+      "evidence": "The non-goals say not to implement features, replace ticket workflow, or create project management artifacts; the write-boundary guidance restricts edits."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Timing/token metrics were not available in the completion notifications.",
+      "Baseline provided the strongest proposed ID convention for the rewrite."
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

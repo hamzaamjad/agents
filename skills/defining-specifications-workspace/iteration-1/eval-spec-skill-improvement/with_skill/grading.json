@@ -1,0 +1,65 @@
+{
+  "expectations": [
+    {
+      "text": "Produces at least one markdown specification file in the assigned output directory.",
+      "passed": true,
+      "evidence": "Created `SPEC-defining-specifications-improvement-2026-06-05.md` and `NOTES-questions-assumptions-2026-06-05.md`."
+    },
+    {
+      "text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+      "passed": true,
+      "evidence": "The spec includes clarification protocol requirements and the companion notes file records questions and assumptions."
+    },
+    {
+      "text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+      "passed": true,
+      "evidence": "The spec includes summary, current state, goals, non-goals, required behavior, artifact requirements, acceptance criteria, output and write-boundary rules."
+    },
+    {
+      "text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+      "passed": false,
+      "evidence": "The document uses numbered sections and bullets, but does not consistently assign stable IDs like `REQ-###`, `AC-###`, or `Q-###` to requirements and acceptance criteria."
+    },
+    {
+      "text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+      "passed": true,
+      "evidence": "Acceptance criteria include file inspection checks for frontmatter, output location, write boundaries, required sections, and agent-readable structure."
+    },
+    {
+      "text": "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
+      "passed": true,
+      "evidence": "The current state section identifies the seed skill's strengths and gaps, including malformed frontmatter, missing template, and ambiguous workflow."
+    },
+    {
+      "text": "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.",
+      "passed": true,
+      "evidence": "The non-goals and write-boundary sections say not to create tickets, epics, branches, PRs, implementation code, or source edits."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 1,
+    "total": 7,
+    "pass_rate": 0.8571
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Timing/token metrics were not available in the completion notifications."
+    ],
+    "needs_review": [
+      "Add stable ID conventions directly to the skill template."
+    ],
+    "workarounds": []
+  }
+}

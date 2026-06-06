@@ -1,0 +1,55 @@
+{
+  "skill_name": "defining-specifications",
+  "evals": [
+    {
+      "id": 0,
+      "name": "ticket-validation-spec",
+      "prompt": "Create a focused specification for adding a ticket validation capability to this `.agents` workspace. The validation should inspect `.tickets/` markdown files for required frontmatter, allowed status values, dependency references, and ticket lifecycle consistency. Please inspect relevant workspace context read-only, ask or record the clarifying questions you would need, and save the resulting specification markdown under your assigned output directory. Do not create tickets or implementation code.",
+      "expected_output": "A markdown spec for ticket validation with clear scope, constraints, requirements, acceptance criteria, verification steps, and open questions. It should not create ticket files or implementation code.",
+      "assertions": [
+        "Produces at least one markdown specification file in the assigned output directory.",
+        "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+        "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+        "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+        "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+        "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.",
+        "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory."
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "spec-skill-improvement",
+      "prompt": "Review the existing `skills/defining-specifications/SKILL.md` seed and create a focused specification for improving it so agents can produce better spec-driven development artifacts. The spec should optimize for AI coding agents as the primary consumers, while still being reviewable by humans. Please inspect the current skill read-only, ask or record clarifying questions, and save the resulting specification markdown under your assigned output directory. Do not edit the skill itself.",
+      "expected_output": "A markdown spec for improving the defining-specifications skill, with agent-consumable structure, explicit non-goals, acceptance criteria, and verification steps.",
+      "assertions": [
+        "Produces at least one markdown specification file in the assigned output directory.",
+        "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+        "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+        "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+        "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+        "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
+        "Keeps tickets, task decomposition, and implementation edits explicitly out of scope."
+      ],
+      "files": [
+        "/Users/hamzaamjad/.agents/skills/defining-specifications/SKILL.md"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "agent-memory-spec",
+      "prompt": "Create a focused specification for adding a lightweight agent memory/context summary convention to this `.agents` workspace. The goal is to help future coding agents quickly understand durable project decisions without reading every past chat. Please inspect relevant existing skills and docs read-only, ask or record clarifying questions, and save the resulting specification markdown under your assigned output directory. Do not create tickets, implementation code, or broad documentation rewrites.",
+      "expected_output": "A markdown spec for an agent memory/context convention with scoped requirements, constraints, acceptance criteria, verification guidance, and explicit relationship to existing skills or docs.",
+      "assertions": [
+        "Produces at least one markdown specification file in the assigned output directory.",
+        "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+        "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+        "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+        "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+        "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.",
+        "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set."
+      ],
+      "files": []
+    }
+  ]
+}

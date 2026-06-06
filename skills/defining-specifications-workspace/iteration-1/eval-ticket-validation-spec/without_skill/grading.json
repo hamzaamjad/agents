@@ -1,0 +1,64 @@
+{
+  "expectations": [
+    {
+      "text": "Produces at least one markdown specification file in the assigned output directory.",
+      "passed": true,
+      "evidence": "Created `ticket-validation-spec.md` and `notes-and-questions.md` under the assigned `without_skill/outputs/` directory."
+    },
+    {
+      "text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+      "passed": true,
+      "evidence": "The spec includes `Clarifications And Assumptions` with questions to confirm and working assumptions."
+    },
+    {
+      "text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+      "passed": true,
+      "evidence": "The output includes summary, inspected context, clarifications, goals, non-goals, requirements, acceptance criteria, verification plan, and open decisions."
+    },
+    {
+      "text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+      "passed": true,
+      "evidence": "Requirements use stable IDs such as `REQ-FM-001`, `REQ-FLD-001`, `REQ-DEP-001`, and acceptance criteria use `AC-###`."
+    },
+    {
+      "text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+      "passed": true,
+      "evidence": "Acceptance criteria describe exact fixture conditions and expected validator diagnostics or exit codes."
+    },
+    {
+      "text": "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.",
+      "passed": true,
+      "evidence": "The spec names ticket workflow reference files, `.tickets/`, `_archive`, outcome schema, complexity scoring, and status conventions."
+    },
+    {
+      "text": "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.",
+      "passed": true,
+      "evidence": "Only the specification and notes files were created in the assigned output directory."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Timing/token metrics were not available in the completion notifications.",
+      "Baseline output was at least as structurally strong as the current-skill output, indicating the skill needs stronger defaults."
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

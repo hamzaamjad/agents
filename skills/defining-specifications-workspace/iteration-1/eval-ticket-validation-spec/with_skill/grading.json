@@ -1,0 +1,63 @@
+{
+  "expectations": [
+    {
+      "text": "Produces at least one markdown specification file in the assigned output directory.",
+      "passed": true,
+      "evidence": "Created `SPEC-ticket-validation-2026-06-05.md` and `notes-and-questions.md` under the assigned `with_skill/outputs/` directory."
+    },
+    {
+      "text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+      "passed": true,
+      "evidence": "`notes-and-questions.md` records assumptions and clarifying questions; the spec also records assumptions such as the missing `.tickets/` directory."
+    },
+    {
+      "text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+      "passed": true,
+      "evidence": "The spec includes context, problem, goals, non-goals, validation rules, acceptance criteria, verification plan, and open decisions."
+    },
+    {
+      "text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+      "passed": true,
+      "evidence": "Acceptance criteria use `AC-###`, verification plan uses `VP-###`, and open decisions use `OD-###`; validation rules are grouped by stable named sections."
+    },
+    {
+      "text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+      "passed": true,
+      "evidence": "Acceptance criteria describe concrete validator inputs and expected diagnostics or exit behavior, such as malformed frontmatter, duplicate IDs, dependency cycles, and strict mode."
+    },
+    {
+      "text": "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.",
+      "passed": true,
+      "evidence": "The context section cites `skills/ticket-workflow/SKILL.md`, `.tickets/` directory conventions, ticket statuses, dependency resolution, and outcome requirements."
+    },
+    {
+      "text": "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.",
+      "passed": true,
+      "evidence": "Only markdown files were created under the assigned output directory."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Timing/token metrics were not available in the completion notifications."
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

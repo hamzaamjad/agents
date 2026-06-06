@@ -1,0 +1,15 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created `agent-memory-context-summary-spec.md` and `notes-and-questions.md`."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Includes open questions and companion notes/questions."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": false, "evidence": "Includes background, goals, non-goals, convention, acceptance criteria, and open questions, but lacks explicit requirements and verification sections."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": false, "evidence": "The proposed memory entry format uses dates, but the spec itself does not use stable requirement, test, risk, question, assumption, or acceptance criterion IDs."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "Acceptance criteria mention creating `.context/agent-memory.md`, required structure, size limits, root instruction pointers, and no broad rewrites."},
+    {"text": "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.", "passed": true, "evidence": "Background mentions missing root instruction/context directories and existing context guidance, session retrospectives, and ticket outcomes."},
+    {"text": "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.", "passed": true, "evidence": "The spec focuses on `.context/agent-memory.md` and explicitly excludes automation, tickets, docs rewrites, and broad chat summaries."}
+  ],
+  "summary": {"passed": 5, "failed": 2, "total": 7, "pass_rate": 0.7143},
+  "execution_metrics": {"tool_calls": {}, "total_tool_calls": 0, "total_steps": 0, "errors_encountered": 0, "output_chars": 0, "transcript_chars": 0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["Timing/token metrics were unavailable from subagent notifications."], "needs_review": ["Baseline is focused but less traceable for downstream agents because it lacks explicit requirement IDs and verification structure."], "workarounds": []}
+}

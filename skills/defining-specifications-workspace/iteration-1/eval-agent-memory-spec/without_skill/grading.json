@@ -1,0 +1,63 @@
+{
+  "expectations": [
+    {
+      "text": "Produces at least one markdown specification file in the assigned output directory.",
+      "passed": true,
+      "evidence": "Created `agent-memory-context-summary-spec.md` and `notes-and-questions.md`."
+    },
+    {
+      "text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+      "passed": true,
+      "evidence": "The output includes assumptions and open questions in the spec and companion notes."
+    },
+    {
+      "text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+      "passed": true,
+      "evidence": "The spec includes purpose, background, goals, non-goals, proposed files, memory criteria, format, update workflow, retrieval workflow, acceptance criteria, verification, risks, and open questions."
+    },
+    {
+      "text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+      "passed": true,
+      "evidence": "The spec uses dated durable-memory entry headings and acceptance criteria; however, it is less explicit than the with-skill run's `MEM-REQ-###` and `MEM-AC-###` convention."
+    },
+    {
+      "text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+      "passed": true,
+      "evidence": "Acceptance criteria include checking `.context/agent-memory.md`, line counts, required headings, entry fields, and duplicated content."
+    },
+    {
+      "text": "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.",
+      "passed": true,
+      "evidence": "The background section references existing context guidance, session-scoped context, ticket outcome blocks, and retrospective guidance."
+    },
+    {
+      "text": "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.",
+      "passed": true,
+      "evidence": "The spec focuses on `.context/agent-memory.md` and explicitly excludes tickets, broad documentation rewrites, scripts, hooks, embeddings, and databases."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Timing/token metrics were not available in the completion notifications."
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

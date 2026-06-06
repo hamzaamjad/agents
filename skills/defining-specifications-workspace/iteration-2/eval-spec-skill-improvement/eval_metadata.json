@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "spec-skill-improvement",
+  "prompt": "Review the existing `skills/defining-specifications/SKILL.md` seed and create a focused specification for improving it so agents can produce better spec-driven development artifacts. The spec should optimize for AI coding agents as the primary consumers, while still being reviewable by humans. Please inspect the current skill read-only, ask or record clarifying questions, and save the resulting specification markdown under your assigned output directory. Do not edit the skill itself.",
+  "assertions": [
+    "Produces at least one markdown specification file in the assigned output directory.",
+    "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+    "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+    "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+    "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+    "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
+    "Keeps tickets, task decomposition, and implementation edits explicitly out of scope."
+  ]
+}
