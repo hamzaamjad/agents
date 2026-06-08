@@ -1,0 +1,17 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-agent-memory-context-summary.md and notes-and-questions.md."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Open Questions Q1-Q6 each with an assumption taken, plus a companion notes file."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Summary, Problem & Motivation, Goals & Non-Goals, Proposed Convention, Acceptance Criteria, Out of Scope, Open Questions."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "G1-G5, NG1-NG5, AC1-AC8, and AM-NNNN record IDs."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "AC1-AC8 are checkable by file inspection (path, header, schema fields, line cap, ID monotonicity)."},
+    {"text": "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.", "passed": true, "evidence": "Current State table cites session-retrospective, engineering-context references, .gitignore, and git check-ignore results."},
+    {"text": "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.", "passed": true, "evidence": "Scoped to a single .context/agent-memory.md convention; explicit non-goals exclude automation, transcript ingestion, and doc rewrites."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": false, "evidence": "Requirements are expressed as Goals ('Give...', 'Define...') and prose promotion criteria/schema tables; no EARS 'shall' statements with When/If/While/Where."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": false, "evidence": "AC1-AC8 are prose pass/fail bullets referencing section numbers (e.g. \u00a75.3); no Given/When/Then and no (verifies REQ-###) mapping."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": false, "evidence": "No 'For Implementing Agents' section and no statement that open questions are blockers; status was even set to 'Ready for Review' despite open questions."}
+  ],
+  "summary": {"passed": 7, "failed": 3, "total": 10, "pass_rate": 0.7},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}
+}

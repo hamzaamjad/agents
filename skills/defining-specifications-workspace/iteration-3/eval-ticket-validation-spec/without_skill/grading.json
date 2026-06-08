@@ -1,0 +1,17 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-ticket-validation-2026-06-05.md and notes-and-questions.md."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Assumptions A1-A7 and Open Questions Q1-Q6 plus a companion notes file."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Summary, Background, Goals, Non-Goals, Validation Rule Catalog (requirements), Acceptance Criteria, Testing Strategy, Open Questions."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "G1-G6, N1-N6, rule IDs TV-001..TV-407, AC1-AC11."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "AC1-AC11 specify exit codes, per-rule fixtures, JSON schema validation, and a read-only checksum check."},
+    {"text": "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.", "passed": false, "evidence": "Only .gitignore was inspected; the agent explicitly did NOT read the ticket-workflow skill and invented a generic schema (statuses backlog/in-review/cancelled) that contradicts the real to-do/in-progress/done/blocked lifecycle. Grounding is superficial."},
+    {"text": "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.", "passed": true, "evidence": "Only the spec and notes file were written; explicit scope note that this is a specification only."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": false, "evidence": "Requirements are expressed as Goals ('Detect...', 'Enforce...') and a rule-catalog table of descriptions; no EARS 'shall' statements with When/If/While/Where."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": false, "evidence": "AC1-AC11 are prose pass/fail bullets ('A fully valid ticket set produces 0 errors...'); no Given/When/Then and no (verifies REQ-###) mapping."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": false, "evidence": "No 'For Implementing Agents' section; no statement that open questions are blockers."}
+  ],
+  "summary": {"passed": 6, "failed": 4, "total": 10, "pass_rate": 0.6},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["Baseline intentionally avoided skill files, so the ticket schema is hypothetical and partly wrong."], "needs_review": [], "workarounds": ["Made schema config-driven to absorb the wrong assumptions later."]}
+}

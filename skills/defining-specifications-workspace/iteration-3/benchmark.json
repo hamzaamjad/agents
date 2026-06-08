@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "skill_name": "defining-specifications",
+    "skill_path": "/Users/hamzaamjad/.agents/skills/defining-specifications",
+    "timestamp": "2026-06-05T21:10:00-07:00",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1,
+    "notes": [
+      "Iteration 3 baseline is no-skill (same as prior iterations).",
+      "Three discriminating assertions were added this iteration: EARS phrasing, Given/When/Then + REQ traceability, and a 'For Implementing Agents' handoff block.",
+      "Timing/token metrics were not present in subagent completion notifications, so this benchmark compares output quality only."
+    ]
+  },
+  "runs": [
+    {"eval_id": 0, "eval_name": "ticket-validation-spec", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 10, "failed": 0, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": []},
+    {"eval_id": 0, "eval_name": "ticket-validation-spec", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6, "passed": 6, "failed": 4, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": ["Baseline avoided skill files and invented a ticket schema that contradicts the real lifecycle; no EARS, no GWT traceability, no handoff block."]},
+    {"eval_id": 1, "eval_name": "spec-skill-improvement", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 10, "failed": 0, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": []},
+    {"eval_id": 1, "eval_name": "spec-skill-improvement", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 10, "failed": 0, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": ["Non-discriminating: the baseline reads SKILL.md v1.2 as its subject and mirrors EARS/GWT/handoff conventions even without loading the skill as operating instructions."]},
+    {"eval_id": 2, "eval_name": "agent-memory-spec", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 10, "failed": 0, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": []},
+    {"eval_id": 2, "eval_name": "agent-memory-spec", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.7, "passed": 7, "failed": 3, "total": 10, "time_seconds": 0.0, "tokens": 0}, "expectations": [], "notes": ["Strong grounding and scoping, but no EARS, no GWT traceability, no handoff block; set status 'Ready for Review' despite open questions."]}
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.7667, "stddev": 0.2082, "min": 0.6, "max": 1.0},
+      "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+      "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
+    },
+    "delta": {
+      "pass_rate": "+0.23",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": [
+    "with_skill: 30/30 assertions passed (100%) across the three test cases.",
+    "without_skill: 23/30 assertions passed (76.7%). The 7 misses are concentrated in the three new discriminating assertions (EARS, GWT traceability, handoff block) plus one grounding miss on the ticket-validation baseline.",
+    "Delta +23pt overall, but this understates the effect: eval-1 is confounded (baseline reads the skill as subject material), so on the two clean evals (0 and 2) the skill delta is +0.6 and +0.3 respectively.",
+    "The three new assertions are strongly discriminating on evals 0 and 2 (skill passes all three; both baselines fail all three) and non-discriminating on eval 1.",
+    "Recommendation: replace or drop eval-1 as a value discriminator, or swap its subject for an artifact that does not already embody EARS/GWT/handoff conventions."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-defining-specifications-skill-improvement-2026-06-05.md and notes-questions.md."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Open Questions (Q-###) and Assumptions (ASM-###) plus a companion notes file with grounded defects D1-D8."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Summary, Problem Statement, Non-Goals, Requirements, Acceptance Criteria, verification, and Open Questions present."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "Uses REQ-###, AC-###, NFR-###, ASM-###, Q-### conventions."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "Every AC is checkable by inspecting the edited skill files or running the evals; definition of done ties REQ to passing AC."},
+    {"text": "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.", "passed": true, "evidence": "Source Context cites SKILL.md v1.2, both references, and evals.json; Problem Statement enumerates specific defects (DEC-### orphan, Status lifecycle) found by inspection."},
+    {"text": "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.", "passed": true, "evidence": "For Implementing Agents and Non-Goals exclude tickets, task decomposition, branches, commits, PRs."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": true, "evidence": "Requirements use 'shall' with EARS keywords (confirmed by the skill's agent-handoff profile being applied)."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": true, "evidence": "ACs use Given/When/Then and name the REQ-### they verify; a REQ->AC->TEST traceability matrix is included."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": true, "evidence": "'For Implementing Agents' block names authoritative sections and states 'Open Questions (Q-###) are blockers, not decisions.'"}
+  ],
+  "summary": {"passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}
+}

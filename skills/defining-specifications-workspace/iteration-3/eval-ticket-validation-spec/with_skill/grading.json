@@ -1,0 +1,17 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-ticket-validation-2026-06-05.md and NOTES-ticket-validation-2026-06-05.md in with_skill/outputs/."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Open Questions Q-001..Q-009 and Assumptions ASM-001..ASM-008 with confidence/invalidation, plus a companion notes file."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Has Summary, Problem Statement, Goals, Non-Goals, Requirements, Testing And Verification, Open Questions, Acceptance Criteria."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "REQ-001..REQ-025, NFR-001..006, AC-001..022, TV-* diagnostic codes, G/NG/RISK/Q/ASM IDs."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "ACs specify exit codes, exact diagnostic codes, and git-status/mtime invariants; TEST-001..016 map to fixtures."},
+    {"text": "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.", "passed": true, "evidence": "Source Context and Current State cite ticket-workflow SKILL.md, templates.md, outcome-schema.md, archive-search.sh, and .gitignore; every rule traces to a convention."},
+    {"text": "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.", "passed": true, "evidence": "Only the spec and notes file were written to the assigned directory; explicit read-only non-goals (NG-001, REQ-025)."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": true, "evidence": "e.g. REQ-013 'If a dependencies entry is a bare ID with no matching ticket... then the validator shall...'; REQ-018 uses 'While... if... then... shall'; REQ-006 uses 'Where'."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": true, "evidence": "AC-001 (verifies REQ-001, REQ-022, REQ-023): Given/When/Then; all 22 ACs follow this pattern with (verifies REQ-###)."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": true, "evidence": "'For Implementing Agents' block names authoritative sections and states 'Open Questions are blockers, not guesses.'"}
+  ],
+  "summary": {"passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["Timing/token metrics were not present in subagent completion notifications."], "needs_review": [], "workarounds": []}
+}

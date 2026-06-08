@@ -3,7 +3,7 @@ name: defining-specifications
 description: "Create, review, or refine focused software specifications for spec-driven development. Use this skill whenever the user asks to draft a spec, define an idea, formalize rough notes, write product requirements, create an implementation-ready design/RFC, review an existing spec, or prepare an agent handoff before coding. Especially use when the primary consumer of the artifact is an AI coding agent. Do not use for direct implementation, ordinary code review, or ticket decomposition unless the user asks for a specification first."
 metadata:
   author: "Hamza Amjad"
-  version: "1.1"
+  version: "1.2"
 ---
 
 # Specification Creator
@@ -24,9 +24,10 @@ This skill produces specifications only. Tickets, task decomposition, implementa
 - Treat the spec as the source of truth for downstream agent work. It should stand alone without requiring the next agent to reconstruct the chat.
 - Be constructively critical. Surface ambiguity, contradictions, missing constraints, and risky assumptions before writing final artifacts.
 - Keep the artifact focused. Prefer one coherent spec over a broad documentation rewrite. If multiple focused specs are justified, ask before creating them.
-- Ground the spec in evidence. Read user-provided inputs in full and inspect relevant workspace context read-only.
-- Separate facts, decisions, assumptions, and open questions. Future agents need to know which parts are confirmed and which are inferred.
-- Make completion objectively checkable. Acceptance criteria and verification steps should be concrete enough for tests, commands, file inspection, or manual review.
+- Ground the spec in evidence. Read user-provided inputs in full and inspect relevant workspace context read-only. Never present an inference as a fact: cite the file, doc, or command behind any claim, and label unverified API names, dependency versions, or system behavior as assumptions rather than requirements. Avoid "typically the system does X" unless you can point to the evidence.
+- Separate facts, decisions, assumptions, and open questions. Future agents need to know which parts are confirmed and which are inferred, and which questions are still blocking.
+- Calibrate specificity. Specify *what* and *why* (behavior, constraints, acceptance), and defer *how* (implementation choices) to the downstream agent unless a constraint forces a choice. Over-specifying invented implementation detail is as harmful as under-specifying behavior; apply YAGNI and KISS to each requirement.
+- Make completion objectively checkable. Write functional requirements in EARS form and acceptance criteria as Given/When/Then by default (see `references/requirements-and-acceptance-criteria.md`), concrete enough for tests, commands, file inspection, or manual review.
 
 ## Workflow
 
@@ -87,8 +88,14 @@ Unless the user requests otherwise:
 - Use filename format `SPEC-{{short-kebab-description}}-{{YYYY-MM-DD}}.md`.
 - Create the output directory if it does not exist.
 - Write only the spec file and, when useful, one companion notes/questions file.
+- Start from the default template, then apply the matching spec-type profile from `references/spec-type-profiles.md` (feature, bug, refactor, migration, UX, or agent handoff).
+- Write functional requirements in EARS form and acceptance criteria as Given/When/Then, mapping each criterion back to the requirement IDs it verifies. See `references/requirements-and-acceptance-criteria.md` for templates, when not to use EARS, and worked examples.
 
-If modifying an existing spec, preserve its filename and structure where appropriate. Do not silently replace user-authored decisions; mark proposed changes clearly or ask first.
+If modifying an existing spec, prefer updating it in place: preserve its filename and structure, add a short changelog/date entry, and avoid spawning a near-duplicate spec. Do not silently replace user-authored decisions; mark proposed changes clearly or ask first.
+
+### 6. Self-Review Before Handoff
+
+Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing.
 
 ## Default Spec Template
 
@@ -102,6 +109,9 @@ Date: <YYYY-MM-DD>
 Owner/Requester: <Name if known>
 Primary Consumers: AI coding agents, human reviewers
 Source Context: <brief list of key files, docs, URLs, or artifacts>
+
+## For Implementing Agents
+<Short orientation for the downstream agent: which sections are authoritative (Requirements, Acceptance Criteria, Non-Goals), that Assumptions are unconfirmed and Open Questions are blockers to surface rather than guess, and any constraints that override defaults.>
 
 ## Summary
 <One to three paragraphs describing the desired outcome and why it matters.>
@@ -125,7 +135,7 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 <Target behavior from product and system perspectives.>
 
 ## Requirements
-- REQ-001: <Testable functional requirement>
+- REQ-001: <Testable functional requirement in EARS form, e.g. "When <trigger>, the <system> shall <response>." See references for patterns.>
 
 ## Nonfunctional Requirements
 - NFR-001: <Performance, reliability, privacy, accessibility, security, maintainability, or operability requirement>
@@ -158,7 +168,7 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 - ASM-001: <Assumption, confidence level, and what would invalidate it>
 
 ## Acceptance Criteria
-- AC-001: <Observable condition that indicates the work satisfies the spec>
+- AC-001 (verifies REQ-001): Given <context>, When <action>, Then <observable outcome>.
 
 ## Source References
 - <Path, URL, issue, ticket, transcript reference, or artifact>
@@ -167,22 +177,26 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 ## Agent-Friendly Conventions
 
 - Use stable IDs for anything future agents may reference: `G-###`, `NG-###`, `REQ-###`, `NFR-###`, `SLICE-###`, `TEST-###`, `AC-###`, `RISK-###`, `Q-###`, `ASM-###`, and `DEC-###`.
-- Write requirements as observable behavior, not vague intent. Avoid phrases like "make it better", "improve UX", or "handle errors" unless translated into specific behavior.
+- Write functional requirements in EARS form (`shall`, with `While`/`When`/`If-Then`/`Where` as appropriate) so the requirement type and trigger are explicit. Fall back to tables, formulas, or JSON when a single sentence would distort the requirement. Avoid vague intent like "make it better", "improve UX", or "handle errors".
+- Write acceptance criteria as Given/When/Then scenarios that name the requirement IDs they verify, so traceability runs `REQ -> AC -> TEST`. Every non-trivial requirement should be reachable from at least one acceptance criterion.
 - Keep implementation slices optional and lightweight. This skill may prepare a spec for a ticketing skill, but it should not create tickets or full task decompositions.
 - Include explicit non-goals. They are high-leverage guardrails for coding agents and prevent scope creep.
 - Include source references whenever workspace context influences the spec.
 - Use concise prose and bullets. Avoid large tables unless they materially improve clarity.
+- See `references/requirements-and-acceptance-criteria.md` for EARS/GWT detail and `references/spec-type-profiles.md` for per-type structure.
 
 ## Quality Checklist
 
 Before finalizing, verify that the spec:
 
-- Has a clear title, status, date, primary consumers, and source context.
-- States the problem, goals, non-goals, current state, and proposed behavior.
+- Has a clear title, status, date, primary consumers, source context, and a `For Implementing Agents` orientation block.
+- States the problem, goals, non-goals, current state, and proposed behavior, applying the matching spec-type profile.
 - Uses stable IDs for requirements, acceptance criteria, questions, assumptions, and risks when the spec is more than a very small artifact.
-- Separates confirmed facts from assumptions and open questions.
+- Writes functional requirements in EARS form and acceptance criteria as Given/When/Then, with each criterion mapped to the requirement IDs it verifies.
+- Separates confirmed facts from assumptions and open questions, and presents no unverified API, version, or behavior claim as a fact.
+- Calibrates specificity: behavior and constraints are specified, but implementation choices are left to the downstream agent unless a constraint forces them.
 - Includes constraints and non-goals that limit downstream agent behavior.
-- Contains concrete acceptance criteria and verification steps.
+- Contains concrete acceptance criteria and verification steps, with traceability from requirements to verification.
 - Notes security, privacy, accessibility, compatibility, migration, rollout, or operational concerns when relevant.
 - Is scoped enough that a downstream agent can plan or implement without guessing.
 - Does not contain unrelated implementation edits, tickets, or broad documentation rewrites.

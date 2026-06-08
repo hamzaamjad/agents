@@ -1,0 +1,17 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-agent-memory-convention-2026-06-05.md and its .notes.md companion."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Open Questions Q-001..Q-006 (two marked decision-critical) and Assumptions ASM-001..ASM-008 with confidence/invalidation."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Summary, Problem Statement, Goals, Non-Goals, Requirements, Testing And Verification, Open Questions, Acceptance Criteria."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "REQ-001..010, NFR-001..005, AC-001..010, G/NG/RISK/Q/ASM IDs, plus DEC-### record convention."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "ACs check file existence, header presence, ID uniqueness via grep, secret-pattern scans, and git-diff append-only behavior."},
+    {"text": "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.", "passed": true, "evidence": "Grounded in session-retrospective tiers, engineering-context patterns + agents-md-spec, defining-specifications DEC-### convention, .gitignore, and absence of AGENTS.md verified by glob."},
+    {"text": "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.", "passed": true, "evidence": "Scoped to a single .context/decisions.md convention with a one-line AGENTS.md pointer; non-goals exclude tooling, transcript ingestion, and doc rewrites."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": true, "evidence": "e.g. REQ-005 'When a decision is reversed or replaced, the agent shall...'; REQ-008 'Where the active log exceeds the length threshold... shall'; REQ-006 uses 'if... then... shall'."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": true, "evidence": "AC-001 (verifies REQ-001, REQ-007): Given/When/Then; all 10 ACs follow this pattern with (verifies REQ/NFR-###)."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": true, "evidence": "'For Implementing Agents' block names authoritative sections and states 'Open Questions (Q-###) are blockers, not decisions... do not silently guess.'"}
+  ],
+  "summary": {"passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": [], "needs_review": [], "workarounds": []}
+}

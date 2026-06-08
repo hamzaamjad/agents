@@ -1,0 +1,17 @@
+{
+  "eval_id": 2,
+  "eval_name": "agent-memory-spec",
+  "prompt": "Create a focused specification for adding a lightweight agent memory/context summary convention to this `.agents` workspace. The goal is to help future coding agents quickly understand durable project decisions without reading every past chat. Please inspect relevant existing skills and docs read-only, ask or record clarifying questions, and save the resulting specification markdown under your assigned output directory. Do not create tickets, implementation code, or broad documentation rewrites.",
+  "assertions": [
+    "Produces at least one markdown specification file in the assigned output directory.",
+    "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+    "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+    "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+    "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+    "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.",
+    "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.",
+    "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
+    "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
+    "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
+  ]
+}

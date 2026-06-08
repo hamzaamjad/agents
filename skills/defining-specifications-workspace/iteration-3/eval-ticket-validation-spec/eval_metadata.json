@@ -1,0 +1,17 @@
+{
+  "eval_id": 0,
+  "eval_name": "ticket-validation-spec",
+  "prompt": "Create a focused specification for adding a ticket validation capability to this `.agents` workspace. The validation should inspect `.tickets/` markdown files for required frontmatter, allowed status values, dependency references, and ticket lifecycle consistency. Please inspect relevant workspace context read-only, ask or record the clarifying questions you would need, and save the resulting specification markdown under your assigned output directory. Do not create tickets or implementation code.",
+  "assertions": [
+    "Produces at least one markdown specification file in the assigned output directory.",
+    "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
+    "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
+    "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
+    "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
+    "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.",
+    "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.",
+    "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
+    "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
+    "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
+  ]
+}

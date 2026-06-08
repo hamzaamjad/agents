@@ -1,0 +1,18 @@
+{
+  "expectations": [
+    {"text": "Produces at least one markdown specification file in the assigned output directory.", "passed": true, "evidence": "Created SPEC-defining-specifications-improvement-2026-06-05.md and NOTES-clarifying-questions-and-analysis-2026-06-05.md."},
+    {"text": "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.", "passed": true, "evidence": "Open questions with safe-default assumptions recorded in the spec and the companion notes file."},
+    {"text": "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.", "passed": true, "evidence": "Summary, Problem Statement, Goals, Non-Goals, Requirements, Acceptance Criteria, Testing And Verification, Open Questions."},
+    {"text": "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.", "passed": true, "evidence": "18 EARS requirements with IDs plus 5 NFRs and AC IDs."},
+    {"text": "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.", "passed": true, "evidence": "Every requirement is backed by a file- or script-checkable Given/When/Then criterion."},
+    {"text": "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.", "passed": true, "evidence": "Identifies seven concrete gaps grounded in read-only inspection of SKILL.md v1.2 and both reference files."},
+    {"text": "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.", "passed": true, "evidence": "Explicit non-goals exclude tickets, task decomposition, and implementation."},
+    {"text": "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.", "passed": true, "evidence": "18 EARS-form requirements (subject artifact SKILL.md v1.2 supplied the EARS convention the baseline mirrored). NOTE: non-discriminating for this eval since the skill is the subject."},
+    {"text": "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).", "passed": true, "evidence": "Given/When/Then ACs mapped to requirement IDs. NOTE: non-discriminating; baseline absorbed this from the subject skill."},
+    {"text": "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing.", "passed": true, "evidence": "'For Implementing Agents' block names authoritative sections and treats open questions as blockers. NOTE: non-discriminating; mirrored from the subject skill."}
+  ],
+  "summary": {"passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0},
+  "timing": {"total_duration_seconds": 0.0},
+  "user_notes_summary": {"uncertainties": ["This eval is a weak discriminator: the baseline reads SKILL.md v1.2 as its subject material and naturally mirrors EARS/GWT/handoff conventions."], "needs_review": [], "workarounds": []},
+  "eval_feedback": {"suggestions": [{"reason": "For the skill-improvement eval, the baseline reads the very skill being improved, so EARS/GWT/handoff assertions pass regardless of whether the skill is loaded as operating instructions. Consider a subject artifact that does NOT already embody the conventions, or drop this eval as a discriminator."}], "overall": "Evals 0 and 2 are the real discriminators; eval 1 is confounded."}
+}

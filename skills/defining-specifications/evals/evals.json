@@ -13,7 +13,10 @@
         "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
         "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
         "Mentions relevant existing workspace context, especially the ticket workflow skill or `.tickets` conventions, based on read-only inspection.",
-        "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory."
+        "Does not create implementation code, ticket files, or unrelated documentation outside the assigned output directory.",
+        "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
+        "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
+        "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
       ],
       "files": []
     },
@@ -29,7 +32,10 @@
         "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
         "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
         "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
-        "Keeps tickets, task decomposition, and implementation edits explicitly out of scope."
+        "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.",
+        "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
+        "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
+        "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
       ],
       "files": [
         "/Users/hamzaamjad/.agents/skills/defining-specifications/SKILL.md"
@@ -47,7 +53,10 @@
         "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
         "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
         "Mentions relevant existing workspace context such as current skills, docs, or instruction files based on read-only inspection.",
-        "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set."
+        "Converts a broad idea into one focused spec rather than producing a broad documentation rewrite or downstream ticket set.",
+        "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
+        "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
+        "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
       ],
       "files": []
     }
