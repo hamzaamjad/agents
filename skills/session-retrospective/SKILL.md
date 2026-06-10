@@ -21,7 +21,7 @@ Run a two-phase end-of-session review: first a conversational retrospective, the
 
 ## Phase 1: Retrospective
 
-Deliver four sections conversationally. Never write retrospective output to a file.
+Deliver four sections conversationally. Never write retrospective output to a file. An externally mandated session log (for example, a friction log a brief requires as its own deliverable) may be referenced as evidence here without violating this rule — the retrospective references it, never authors it in Phase 1.
 
 ### Section 1 — What Went Well
 

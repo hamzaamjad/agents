@@ -7,6 +7,19 @@ budget, and the six terminal outcome states. The orchestration prompt
 template at [orchestration-template.md](orchestration-template.md) (same
 directory) is the executable form of this protocol; the two must not drift.
 
+## Gate cost tiers
+
+Gates fall into three cost tiers, matching the GATE COST TIERS block in
+the orchestration template. Per-ticket inspection gates (the template's
+Gates A and C–G) always run for every ticket. The scoped sanity tier
+(the template's Gate B and post-rebase H4) runs `<SANITY_COMMANDS>`: the
+ticket's own Verification block plus tests touching its declared
+allowlist paths — never the full suite by default. The full battery
+(`<POST_MERGE_CHECKS>`) runs only at integration boundaries: after the
+last content ticket merges into the epic branch, and again at the
+epic-to-main merge. Tickets with complexity >= 6 or cross-cutting paths
+may opt into the broader suite at their own merge.
+
 ## Review Gates
 
 Execute the twelve gates below in order. Each gate produces an explicit
@@ -92,7 +105,7 @@ chosen per failing review.
    - Documentation/telemetry missing but easy to add
    - Small refactor needed for readability/maintainability
    **Why this works:** Mirrors "guardrails + feedback loop" patterns in agent frameworks: validate output, and if it fails, return precise feedback for a bounded correction.
-   **Ticket shape:** the corrective sub-ticket **must** use the TASK template from `references/templates.md` § Task. Bare IDs in its `dependencies:` field resolve within the current epic.
+   **Ticket shape:** the corrective sub-ticket **must** use the TASK template from `templates.md` § Task. Bare IDs in its `dependencies:` field resolve within the current epic.
 
 3. **`ESCALATE_TO_PR_AGENT_WITH_FLAG`** — from R2 "Mark the ticket blocked and escalate to the downstream PR review agent with a flag".
    **Best when:** the failure is *high-stakes or ambiguous*, where a "stronger reviewer" (or a different review stage) is appropriate:

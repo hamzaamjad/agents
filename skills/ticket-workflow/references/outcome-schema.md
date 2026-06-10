@@ -1,6 +1,6 @@
 # `## Outcome` schema
 
-Every ticket marked `done` from the point FEAT-003 lands must carry an
+Every ticket marked `done` must carry an
 `## Outcome` section. The Outcome is the archived ticket's retrieval
 surface: a single dense block that a future agent can grep or embed
 without having to re-read the full ticket body.
@@ -78,13 +78,12 @@ template's seven subsections once rather than twice.
 ## Scale horizon for Lane B
 
 When `.tickets/_archive/` exceeds ~2,000 `## Outcome` chunks (≈ 200
-tickets at ~10 bullets each), Lane A precision will degrade; at that
-point ship Lane B per `docs/implementation_plan.md` §4 trigger. Until
-then, Lane A alone is sufficient. See
-`docs/research/r4-archive-knowledge-retrieval.md` §"Upgrade path as the
-archive grows".
+tickets at ~10 bullets each), Lane A (plain grep over Outcome blocks)
+precision will degrade; that volume is the trigger for shipping Lane B
+(semantic retrieval over the same blocks). Until then, Lane A alone is
+sufficient.
 
-Lane B's eventual `--semantic` flag on `scripts/archive-search.sh` will
+Lane B's eventual `--semantic` flag on `../scripts/archive-search.sh` will
 build an in-session embedding index (default model
 `sentence-transformers/all-MiniLM-L6-v2`, overridable via
 `ARCHIVE_SEARCH_MODEL`) and write nothing to disk — the

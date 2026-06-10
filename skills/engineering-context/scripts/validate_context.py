@@ -39,14 +39,26 @@ DIRECTIVE_VERBS = re.compile(
     re.IGNORECASE,
 )
 
-# Overtriggering tone patterns
+# Overtriggering tone patterns (the bare all-caps token case is handled
+# separately in check_tone so filenames/technical tokens can be excluded)
 TONE_PATTERNS = [
-    re.compile(r"\b[A-Z]{4,}\b"),
     re.compile(r"!!!"),
     re.compile(r"ABSOLUTELY\s+(NEVER|DO NOT|MUST)"),
     re.compile(r"YOU MUST (NEVER|NOT|ALWAYS)"),
     re.compile(r"UNDER NO CIRCUMSTANCES"),
 ]
+
+# All-caps token candidate for tone check
+CAPS_TOKEN = re.compile(r"\b[A-Z]{4,}\b")
+
+# Inline code spans — stripped before tone analysis
+CODE_SPAN = re.compile(r"`[^`]*`")
+
+# Technical all-caps tokens that are not aggressive tone
+CAPS_ALLOWLIST = {
+    "AGENTS", "CLAUDE", "SKILL", "README", "CHECKPOINT", "PATH",
+    "JSON", "YAML", "HTML", "HTTP", "HTTPS", "TODO", "EPIC", "FEAT",
+}
 
 # Permission-related keywords
 PERMISSION_KEYWORDS = ["always", "ask first", "ask-first", "never", "approval", "permission"]
@@ -82,10 +94,21 @@ def find_instruction_files(root):
     """Find all instruction files in the project."""
     found = []
     root = Path(root)
-    skip_dirs = {".git", ".svn", ".hg", "node_modules", "__pycache__"}
+    skip_dirs = {".git", ".svn", ".hg", "node_modules", "__pycache__", "worktrees"}
+
+    def keep_dir(parent, d):
+        if d in skip_dirs and not (d == "worktrees" and parent.name != ".claude"):
+            return False
+        # A `.git` *file* (not directory) marks a worktree checkout — skip it
+        # to avoid double-counting nested checkouts.
+        git_marker = parent / d / ".git"
+        if git_marker.is_file():
+            return False
+        return True
+
     for dirpath, dirnames, filenames in os.walk(root):
         dirpath = Path(dirpath)
-        dirnames[:] = [d for d in dirnames if d not in skip_dirs]
+        dirnames[:] = [d for d in dirnames if keep_dir(dirpath, d)]
         for pattern in INSTRUCTION_PATTERNS:
             filepath = dirpath / pattern
             if filepath.exists():
@@ -241,13 +264,80 @@ def check_tone(filepath, lines):
             continue
         if in_code_block:
             continue
-        for pat in TONE_PATTERNS:
-            if pat.search(line):
-                findings.append(Finding(
-                    str(filepath), i, "tone_overtrigger", "low",
-                    "Aggressive tone detected. Moderate phrasing improves instruction following."
-                ))
+        # Ignore inline code spans — backticked tokens are technical, not tonal.
+        stripped = CODE_SPAN.sub("", line)
+        hit = any(pat.search(stripped) for pat in TONE_PATTERNS)
+        if not hit:
+            for match in CAPS_TOKEN.finditer(stripped):
+                token = match.group(0)
+                if token in CAPS_ALLOWLIST:
+                    continue
+                # Skip all-caps tokens that are part of a filename (e.g. AGENTS.md).
+                end = match.end()
+                if end < len(stripped) and stripped[end] == "." and \
+                        re.match(r"\.\w", stripped[end:]):
+                    continue
+                hit = True
                 break
+        if hit:
+            findings.append(Finding(
+                str(filepath), i, "tone_overtrigger", "low",
+                "Aggressive tone detected. Moderate phrasing improves instruction following."
+            ))
+    return findings
+
+
+def check_dangling_references(root):
+    """Check skill files for relative references that do not resolve.
+
+    Scans skills/*/SKILL.md and skills/*/references/*.md for markdown links
+    and backticked relative paths. Placeholders (containing <, *, or {) are
+    tolerated. A reference is dangling only if it resolves neither from the
+    containing file's directory nor from the repo root (skill content may
+    legitimately use repo-root-relative paths when citing other skills).
+    """
+    findings = []
+    skill_files = sorted(
+        list(root.glob("skills/*/SKILL.md")) +
+        list(root.glob("skills/*/references/*.md"))
+    )
+    link_pat = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+    # Backticked token that looks like a relative file path: has a slash or
+    # a file extension, no spaces, no shell metacharacters beyond placeholders.
+    path_like = re.compile(r"^(?:\.\.?/)?[\w.<>{}*-]+(?:/[\w.<>{}*-]+)*\.\w{1,5}$|"
+                           r"^(?:\.\.?/)?[\w.<>{}*-]+(?:/[\w.<>{}*-]+)+/?$")
+    for filepath in skill_files:
+        lines = filepath.read_text(encoding="utf-8", errors="replace").splitlines()
+        in_code_block = False
+        for i, line in enumerate(lines, 1):
+            if line.strip().startswith("```"):
+                in_code_block = not in_code_block
+                continue
+            if in_code_block:
+                continue
+            candidates = [m.group(1) for m in link_pat.finditer(line)]
+            # Backticked tokens are only treated as references when they use
+            # skill-convention prefixes; bare paths like `src/foo.ts` or
+            # `origin/main` are usually illustrative examples, not links.
+            for m in CODE_SPAN.finditer(line):
+                token = m.group(0)[1:-1]
+                if token.startswith(("./", "../", "references/", "scripts/", "skills/")) \
+                        and path_like.match(token):
+                    candidates.append(token)
+            for ref in candidates:
+                ref = ref.split("#", 1)[0].strip()
+                if not ref or ref.startswith(("http://", "https://", "mailto:", "/", "~")):
+                    continue
+                if any(c in ref for c in "<*{"):
+                    continue  # placeholder path
+                if not path_like.match(ref):
+                    continue
+                if (filepath.parent / ref).exists() or (root / ref).exists():
+                    continue
+                findings.append(Finding(
+                    str(filepath), i, "dangling_reference", "medium",
+                    f"Reference '{ref}' does not resolve from {filepath.parent} or repo root."
+                ))
     return findings
 
 
@@ -288,7 +378,8 @@ def main():
         sys.exit(1)
 
     files = find_instruction_files(root)
-    if not files:
+    dangling_findings = check_dangling_references(root)
+    if not files and not dangling_findings:
         if args.format == "json":
             print(json.dumps({"files": 0, "findings": []}))
         else:
@@ -310,6 +401,7 @@ def main():
 
     all_findings.extend(check_duplicate_headings(all_files_lines))
     all_findings.extend(check_gitignore(root, files))
+    all_findings.extend(dangling_findings)
 
     severity_order = {"high": 0, "medium": 1, "low": 2}
     all_findings.sort(key=lambda f: severity_order.get(f.severity, 3))
