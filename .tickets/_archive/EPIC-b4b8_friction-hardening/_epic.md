@@ -2,7 +2,7 @@
 id: EPIC-b4b8
 title: "Fold the v1.3 dogfood friction log back into the toolchain"
 type: epic
-status: to-do
+status: done
 priority: high
 branch: epic/b4b8/friction-hardening
 created: 2026-06-10
@@ -31,12 +31,13 @@ codex-skills consolidation memo, relocating `skills/defining-specifications-work
 
 | ID       | Title                                                       | Status |
 |----------|-------------------------------------------------------------|--------|
-| FEAT-001 | ticket-workflow SKILL.md: closure and integration fixes     | to-do  |
-| FEAT-002 | ticket-workflow SKILL.md: creation and execution guidance   | to-do  |
-| FEAT-003 | ticket-workflow references: drift and portability cleanup   | to-do  |
-| FEAT-004 | validate_context.py: tone false-positives, worktree skip, skill-reference scan | to-do  |
-| FEAT-005 | Cross-skill one-line clarifications (defspec, retro, eval contract) | to-do  |
-| CHORE-001| Epic closure: mark done, archive, cleanup                   | to-do  |
+| FEAT-001 | ticket-workflow SKILL.md: closure and integration fixes     | done   |
+| FEAT-002 | ticket-workflow SKILL.md: creation and execution guidance   | done   |
+| FEAT-003 | ticket-workflow references: drift and portability cleanup   | done   |
+| FEAT-004 | validate_context.py: tone false-positives, worktree skip, skill-reference scan | done   |
+| FEAT-005 | Cross-skill one-line clarifications (defspec, retro, eval contract) | done   |
+| TASK-001 | Fix four dangling skill references (corrective, FEAT-004 review) | done   |
+| CHORE-001| Epic closure: mark done, archive, cleanup                   | done   |
 
 ## Merge order
 
@@ -49,11 +50,11 @@ codex-skills consolidation memo, relocating `skills/defining-specifications-work
 
 ## Acceptance criteria
 
-- [ ] All sub-tickets are `done`
-- [ ] `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high, 0 medium, 0 low on the epic branch (FEAT-004 removes the documented false-positive class)
-- [ ] Epic archived and orchestration prompt deleted (by closure ticket)
-- [ ] Integrated to main per repo policy: local `git merge --no-ff` from the primary clone (no pushable-remote PR required)
-- [ ] Every open friction entry (FRIC-001, 003, 004, 005, 008..019) maps to a shipped edit or a recorded descope rationale in a ticket Outcome block
+- [x] All sub-tickets are `done`
+- [x] `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high, 0 medium, 0 low on the epic branch (FEAT-004 removes the documented false-positive class; reports "All checks passed." at zero findings)
+- [x] Epic archived and orchestration prompt deleted (by closure ticket)
+- [x] Integrated to main per repo policy: local `git merge --no-ff` from the primary clone (performed by the orchestrator immediately after the closure commit)
+- [x] Every open friction entry (FRIC-001, 003, 004, 005, 008..019) maps to a shipped edit or a recorded descope rationale in a ticket Outcome block
 
 ## Notes
 

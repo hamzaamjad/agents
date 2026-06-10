@@ -2,7 +2,7 @@
 id: CHORE-001
 title: "Epic closure: mark done, archive, cleanup"
 type: chore
-status: to-do
+status: done
 priority: high
 created: 2026-06-10
 updated: 2026-06-10
@@ -10,7 +10,7 @@ parent: EPIC-b4b8
 dependencies: [FEAT-001, FEAT-002, FEAT-003, FEAT-004, FEAT-005]
 tags: [closure]
 agent_created: false
-complexity:
+complexity: 1
 ---
 
 # Epic closure: mark done, archive, cleanup
@@ -61,3 +61,30 @@ git log -1 --format=%s | rg -q 'EPIC-b4b8: archive epic'
 
 After the epic merges to main, the orchestrator (not this ticket) removes this epic's
 worktrees and deletes branches from the epic worktree per SKILL.md post-merge cleanup.
+
+## Outcome
+
+> Summary: Closed EPIC-b4b8 on the epic branch: all eight tickets marked done, epic folder archived to `.tickets/_archive/`, orchestration prompt deleted. Executed directly by the orchestrator (mechanical closure, no content work, per FRIC-009 separation).
+
+> Key decisions:
+> - Archive count amended 7 → 8 before execution — corrective TASK-001 was created mid-epic by the FEAT-004 review; the stale count would have failed verification by construction (FRIC-017 dry-run rule applied).
+> - Worktree-artifact rm step left as guarded no-op — closure ran from the epic worktree itself; authoritative cleanup is the post-merge orchestrator block.
+
+> Constraints & invariants discovered (keep):
+> - Closure verification commands that hard-code ticket counts must be re-checked whenever corrective sub-tickets are added mid-epic.
+> - Frontmatter status checks must scope to the first `status:` line per file — ticket bodies can contain literal `status: blocked` prose.
+
+> Implementation notes (high signal only):
+> - Touch points: `.tickets/_archive/EPIC-b4b8_friction-hardening/`, `.prompts/orchestration/`
+> - Pattern: guarded `mkdir -p` + `git mv` + `git rm`, single closure commit.
+
+> Verification:
+> - archive ls count = 8 → pass; per-file first `status:` all `done` → pass
+> - no `epic-b4b8_*.md` under `.prompts/orchestration/` → pass
+
+> Risk / regression surface:
+> - None to runtime content; archive is read-only by convention.
+
+> Retrieval tags: EPIC-b4b8, closure, archive, friction-hardening, TASK-001, FRIC-009, FRIC-017, orchestration prompt
+
+Tool rounds: 6 (orchestrator-executed).
