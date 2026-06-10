@@ -3,7 +3,7 @@ name: defining-specifications
 description: "Create, review, or refine focused software specifications for spec-driven development. Use this skill whenever the user asks to draft a spec, define an idea, formalize rough notes, write product requirements, create an implementation-ready design/RFC, review an existing spec, or prepare an agent handoff before coding. Especially use when the primary consumer of the artifact is an AI coding agent. Do not use for direct implementation, ordinary code review, or ticket decomposition unless the user asks for a specification first."
 metadata:
   author: "Hamza Amjad"
-  version: "1.2"
+  version: "1.3"
 ---
 
 # Specification Creator
