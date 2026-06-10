@@ -2,7 +2,7 @@
 id: FEAT-002
 title: "Status lifecycle and clarify-tier definitions"
 type: feature
-status: to-do
+status: done
 priority: medium
 created: 2026-06-10
 updated: 2026-06-10
@@ -10,7 +10,7 @@ parent: EPIC-e164
 dependencies: [FEAT-001]
 tags: [skills, defining-specifications]
 agent_created: false
-complexity:              # populate at execution Step 3 per references/complexity-scoring.md
+complexity: 3            # rubric: files 2(.20) deps 4(.15) testing 3(.15) risk 2(.15) new/mod 2(.10) crosscut 1(.10) api 1(.05) db 1(.10) = 2.20 → 3
 ---
 
 # Status lifecycle and clarify-tier definitions
@@ -23,10 +23,10 @@ Depends on FEAT-001 because both edit `SKILL.md` (serialized to avoid same-file 
 
 ## Requirements
 
-- [ ] REQ-003: Define entry and exit criteria for each `Status` value (`Draft`, `Ready for Review`, `Approved`, `Blocked`), colocated with the existing Self-Review status gate; the current Draft-to-Ready-for-Review rule's meaning is preserved.
-- [ ] REQ-004: If a spec is marked `Blocked`, the status line or an adjacent note must name the blocking `Q-###` or external dependency.
-- [ ] REQ-005: `Approved` requires approver and date recorded; material post-approval edits revert the spec to `Draft` or `Ready for Review` with a changelog entry.
-- [ ] REQ-006: Define Simple, Medium, and Large tiers using observable scope signals (e.g. components/files touched, contract/data/schema changes, rollout or migration needs, residual ambiguity after intake), keeping the existing 3/5/7 question budgets unchanged.
+- [x] REQ-003: Define entry and exit criteria for each `Status` value (`Draft`, `Ready for Review`, `Approved`, `Blocked`), colocated with the existing Self-Review status gate; the current Draft-to-Ready-for-Review rule's meaning is preserved.
+- [x] REQ-004: If a spec is marked `Blocked`, the status line or an adjacent note must name the blocking `Q-###` or external dependency.
+- [x] REQ-005: `Approved` requires approver and date recorded; material post-approval edits revert the spec to `Draft` or `Ready for Review` with a changelog entry.
+- [x] REQ-006: Define Simple, Medium, and Large tiers using observable scope signals (e.g. components/files touched, contract/data/schema changes, rollout or migration needs, residual ambiguity after intake), keeping the existing 3/5/7 question budgets unchanged.
 
 ## File path hints
 
@@ -41,10 +41,10 @@ Depends on FEAT-001 because both edit `SKILL.md` (serialized to avoid same-file 
 
 ## Acceptance criteria
 
-- [ ] AC-003: each of the four statuses has at least one entry criterion and one exit criterion; `Blocked` requires naming its blocker; `Approved` requires approver-and-date plus the re-approval rule for material edits.
-- [ ] AC-004: Simple, Medium, and Large are each defined by observable scope signals, and the literal budgets "up to 3", "up to 5", "up to 7" remain.
-- [ ] `wc -l skills/defining-specifications/SKILL.md` ≤ 300.
-- [ ] `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high, 0 medium, ≤ 6 low.
+- [x] AC-003: each of the four statuses has at least one entry criterion and one exit criterion; `Blocked` requires naming its blocker; `Approved` requires approver-and-date plus the re-approval rule for material edits.
+- [x] AC-004: Simple, Medium, and Large are each defined by observable scope signals, and the literal budgets "up to 3", "up to 5", "up to 7" remain.
+- [x] `wc -l skills/defining-specifications/SKILL.md` ≤ 300.
+- [x] `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high, 0 medium, ≤ 6 low.
 
 ## Verification
 
@@ -64,3 +64,38 @@ python3 skills/engineering-context/scripts/validate_context.py .
 ## Notes
 
 Spec sections: REQ-003..006, AC-003/AC-004, Technical Context placement guidance. The rg checks above are heuristics — the executing agent must confirm AC-003/AC-004 by reading the modified sections, then record evidence in the verification log.
+
+## Verification log (2026-06-10)
+
+- Lifecycle block read-confirmed: all four statuses carry explicit entry and exit rules (SKILL.md:100-105); Draft→Ready-for-Review meaning preserved (gate sentence untouched above it)
+- `rg -i 'blocked.*(Q-|blocker|dependency)'` → SKILL.md:105; `rg -i 'approved.*approver'` → SKILL.md:104
+- Tiers read-confirmed at SKILL.md:66-68, defined by scope signals; literal budgets "up to 3/5/7" intact
+- `wc -l` → 221 (≤ 300); Self-Review section 12 lines (< 40)
+- `validate_context.py` → 0 high, 0 medium, 6 low (baseline)
+- Actual tool rounds: 5 batched rounds (7 repo-acting tool calls) vs complexity 3 — in line
+
+## Outcome
+
+**Summary:** Defined the previously dangling spec `Status` lifecycle — all four values (`Draft`, `Ready for Review`, `Approved`, `Blocked`) now have explicit entry and exit rules colocated with the Self-Review gate, including the approver-and-date requirement and the material-edit reversion rule. Defined the Simple/Medium/Large clarify tiers by observable scope signals inline in the existing budget bullets, leaving the 3/5/7 budgets untouched. One file, +7 net lines (214 → 221).
+
+**Key decisions:**
+- Lifecycle expressed as per-status entry/exit bullets, not a transition diagram — greppable and renders anywhere.
+- Tier definitions inlined as parentheticals in the existing bullets — avoids a new section and keeps the budget literals stable for downstream greps.
+- `Blocked` exits to "the status it interrupted" rather than always `Draft` — avoids penalizing approved specs blocked late.
+
+**Constraints & invariants discovered (keep):**
+- The Draft→Ready-for-Review gate sentence is load-bearing for v1.2 compatibility; lifecycle text extends it without rewording it.
+- Budget literals "up to 3/5/7" are verification anchors; do not rephrase.
+
+**Implementation notes (high signal only):**
+- Touch points: `skills/defining-specifications/SKILL.md` (workflow steps 3 and 6)
+- Pattern: define-where-referenced — semantics live adjacent to first use
+
+**Verification:**
+- `rg -i 'blocked.*(Q-|blocker|dependency)'` → :105; `rg -i 'approved.*approver'` → :104
+- `rg 'up to 3|up to 5|up to 7'` → :66-68; `wc -l` → 221; validator → baseline
+
+**Risk / regression surface:**
+- FEAT-003's example must keep its Status line consistent with these rules (dependency encoded).
+
+**Retrieval tags:** defining-specifications, status lifecycle, Draft, Ready for Review, Approved, Blocked, clarify tiers, Simple Medium Large, question budget, v1.3

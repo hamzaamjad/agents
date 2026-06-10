@@ -63,9 +63,9 @@ Ask focused questions before writing when interaction is allowed and the answers
 
 Use your question asking tool when present. Prefer:
 
-- Simple spec: up to 3 questions.
-- Medium spec: up to 5 questions.
-- Large or ambiguous spec: up to 7 questions grouped by theme.
+- Simple spec (one component or behavior; no contract, schema, or data changes; no rollout or migration needs; little ambiguity left after intake): up to 3 questions.
+- Medium spec (a few related components or files; minor contract or data changes; limited UX surface; some open decisions remaining after intake): up to 5 questions.
+- Large or ambiguous spec (cross-cutting or multi-system scope; schema, API, migration, or rollout impact; or substantial ambiguity remaining after intake): up to 7 questions grouped by theme.
 
 Do not ask questions that can be answered by reading available context. If the user asks you to proceed, or the environment does not allow live clarification, write the questions and your working assumptions into the spec and continue.
 
@@ -96,6 +96,13 @@ If modifying an existing spec, prefer updating it in place: preserve its filenam
 ### 6. Self-Review Before Handoff
 
 Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing. When a blocking question is resolved during review, record the resolution as a `DEC-###` entry in `Decisions` and mark the `Q-###` item resolved with a pointer to that entry, rather than deleting the question.
+
+Status lifecycle (entry and exit rules for the template's `Status` line):
+
+- Draft — entry: initial state for any new or materially revised spec. Exit: the gate above passes → `Ready for Review`.
+- Ready for Review — entry: the Draft exit. Exit: reviewer approves → `Approved`; review surfaces material gaps → `Draft`; an unresolved decision or external dependency emerges → `Blocked`.
+- Approved — entry: approval recorded on the status line with approver and date. Exit: material post-approval edits revert the spec to `Draft` or `Ready for Review`, with a changelog entry noting what changed and why re-review is needed.
+- Blocked — entry: progress stopped by something outside the author's control; the status line or an adjacent note names the blocking `Q-###` or external dependency. Exit: blocker resolved and recorded as a `DEC-###` entry → return to the status it interrupted.
 
 ## Default Spec Template
 
