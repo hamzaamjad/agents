@@ -42,7 +42,7 @@ Every step is re-run-safe: check existence before acting.
 
 ## Acceptance criteria
 
-- [ ] All seven ticket files (`_epic.md` + 5 FEAT + this CHORE) live under `.tickets/_archive/EPIC-b4b8_friction-hardening/` with frontmatter `status: done`.
+- [ ] All eight ticket files (`_epic.md` + 5 FEAT + TASK-001 + this CHORE) live under `.tickets/_archive/EPIC-b4b8_friction-hardening/` with frontmatter `status: done`.
 - [ ] No `epic-b4b8_*.md` remains under `.prompts/orchestration/`.
 - [ ] The closure commit is a single commit with the prescribed message.
 
@@ -51,7 +51,7 @@ Every step is re-run-safe: check existence before acting.
 ```bash
 # Frontmatter-scoped status check: ticket bodies legitimately contain the literal
 # "status: blocked" (FEAT-002 prose), so only the first status line per file counts.
-ls .tickets/_archive/EPIC-b4b8_friction-hardening/ | wc -l | awk '{exit ($1!=7)}'
+ls .tickets/_archive/EPIC-b4b8_friction-hardening/ | wc -l | awk '{exit ($1!=8)}'
 for f in .tickets/_archive/EPIC-b4b8_friction-hardening/*.md; do awk '/^status:/{print $2; exit}' "$f"; done | rg -v '^done$'; test $? -eq 1
 ls .prompts/orchestration/epic-b4b8_*.md 2>/dev/null; test $? -ne 0
 git log -1 --format=%s | rg -q 'EPIC-b4b8: archive epic'
