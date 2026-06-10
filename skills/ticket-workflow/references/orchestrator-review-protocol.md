@@ -105,7 +105,7 @@ chosen per failing review.
    - Documentation/telemetry missing but easy to add
    - Small refactor needed for readability/maintainability
    **Why this works:** Mirrors "guardrails + feedback loop" patterns in agent frameworks: validate output, and if it fails, return precise feedback for a bounded correction.
-   **Ticket shape:** the corrective sub-ticket **must** use the TASK template from `references/templates.md` § Task. Bare IDs in its `dependencies:` field resolve within the current epic.
+   **Ticket shape:** the corrective sub-ticket **must** use the TASK template from `templates.md` § Task. Bare IDs in its `dependencies:` field resolve within the current epic.
 
 3. **`ESCALATE_TO_PR_AGENT_WITH_FLAG`** — from R2 "Mark the ticket blocked and escalate to the downstream PR review agent with a flag".
    **Best when:** the failure is *high-stakes or ambiguous*, where a "stronger reviewer" (or a different review stage) is appropriate:

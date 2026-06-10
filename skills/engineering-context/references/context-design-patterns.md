@@ -48,8 +48,8 @@ Domain-specific rules loaded when the task matches. Lives in: subdirectory instr
 
 **Examples**:
 - `api/CLAUDE.md` — API-specific patterns, loaded when working in `api/`
-- `references/testing.md` — test framework rules, loaded when writing tests
-- `references/security.md` — security checklist, loaded when touching auth/data flows
+- `references/<testing-topic>.md` — test framework rules, loaded when writing tests
+- `references/<security-topic>.md` — security checklist, loaded when touching auth/data flows
 
 ### Tier 2: Session-scoped context
 Current task state, recent decisions, iteration progress.
