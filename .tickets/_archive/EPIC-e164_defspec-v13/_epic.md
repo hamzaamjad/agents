@@ -2,7 +2,7 @@
 id: EPIC-e164
 title: "Ship defining-specifications v1.3"
 type: epic
-status: to-do
+status: done
 priority: high             # critical | high | medium | low
 branch: epic/e164/defspec-v13
 created: 2026-06-10
@@ -26,11 +26,11 @@ What must NOT change: frontmatter `name` and `description` (load-bearing trigger
 
 | ID        | Title                                                        | Status |
 |-----------|--------------------------------------------------------------|--------|
-| FEAT-001  | Decisions template section, Q-to-DEC rule, checklist update  | to-do  |
-| FEAT-002  | Status lifecycle and clarify-tier definitions                | to-do  |
-| FEAT-003  | Inline worked example                                        | to-do  |
-| FEAT-004  | Replace confounded eval-1 with convention-free fixture       | to-do  |
-| CHORE-001 | Version bump, final verification sweep, epic closure         | to-do  |
+| FEAT-001  | Decisions template section, Q-to-DEC rule, checklist update  | done   |
+| FEAT-002  | Status lifecycle and clarify-tier definitions                | done   |
+| FEAT-003  | Inline worked example                                        | done   |
+| FEAT-004  | Replace confounded eval-1 with convention-free fixture       | done   |
+| CHORE-001 | Version bump, final verification sweep, epic closure         | done   |
 
 ## Merge order
 
@@ -42,11 +42,11 @@ What must NOT change: frontmatter `name` and `description` (load-bearing trigger
 
 ## Acceptance criteria
 
-- [ ] All sub-tickets are `done`
-- [ ] Sanity suite passes on epic branch: `wc -l skills/defining-specifications/SKILL.md` ≤ 300; `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high / 0 medium / ≤ 6 low; `evals.json` parses
-- [ ] Epic archived and orchestration prompt deleted (by closure ticket)
-- [ ] Epic branch integrated to main per the merge strategy approved at the Phase B checkpoint (local merge; nothing pushed)
-- [ ] Spec acceptance criteria AC-001..AC-010 all verifiable against the epic branch
+- [x] All sub-tickets are `done`
+- [x] Sanity suite passes on epic branch: `wc -l skills/defining-specifications/SKILL.md` ≤ 300; `python3 skills/engineering-context/scripts/validate_context.py .` reports 0 high / 0 medium / ≤ 6 low; `evals.json` parses
+- [x] Epic archived and orchestration prompt deleted (by closure ticket)
+- [ ] Epic branch integrated to main per the merge strategy approved at the Phase B checkpoint (local merge; nothing pushed) — completes immediately after the closure merge; see main history
+- [x] Spec acceptance criteria AC-001..AC-010 all verifiable against the epic branch
 
 ## Notes
 
