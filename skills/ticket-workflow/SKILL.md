@@ -126,11 +126,11 @@ This prevents cross-epic conflicts on shared files. Conflicts between epics surf
 
 ## Orchestrator Review Protocol
 
-The orchestrator is the first automated quality gate between a sub-agent's finished ticket and the epic branch. The canonical 12-gate review checklist, the four escalation actions, the `MAX_FIX_CYCLES = 2` retry budget, and the six terminal outcome states live in [references/orchestrator-review-protocol.md](references/orchestrator-review-protocol.md). The executable form of the same protocol — the orchestration prompt with all placeholders — lives at [.prompts/orchestration/_template.md](../../../.prompts/orchestration/_template.md); per-epic briefs in `.prompts/orchestration/epic-<hex>_*.md` are instances of that template.
+The orchestrator is the first automated quality gate between a sub-agent's finished ticket and the epic branch. The canonical 12-gate review checklist, the four escalation actions, the `MAX_FIX_CYCLES = 2` retry budget, and the six terminal outcome states live in [references/orchestrator-review-protocol.md](references/orchestrator-review-protocol.md). The executable form of the same protocol — the orchestration prompt with all placeholders — is the canonical template at [references/orchestration-template.md](references/orchestration-template.md); per-epic briefs in the target repo's `.prompts/orchestration/epic-<hex>_*.md` are instances of that template.
 
 - Outcome states: `MERGED / NEEDS_FIX / REASSIGNED / ESCALATED / RESTARTED / BLOCKED_DEPENDENCY`.
 
-The file `.prompts/orchestration/_template.md` is underscore-prefixed so it is **not** matched by the closure ticket's `epic-<hex>_*.md` glob; do not change that glob.
+If a deployment keeps a working copy of the template at `.prompts/orchestration/_template.md`, the underscore prefix keeps it out of the closure ticket's `epic-<hex>_*.md` glob; do not change that glob.
 
 ## Execution Protocol
 

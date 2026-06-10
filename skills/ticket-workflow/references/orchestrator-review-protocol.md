@@ -4,8 +4,8 @@ The orchestrator is the first automated quality gate between a sub-agent's
 finished ticket and the epic branch. This file is the canonical source of
 the 12-gate review checklist, the four escalation actions, the retry
 budget, and the six terminal outcome states. The orchestration prompt
-template at `.prompts/orchestration/_template.md` is the executable form
-of this protocol; the two must not drift.
+template at [orchestration-template.md](orchestration-template.md) (same
+directory) is the executable form of this protocol; the two must not drift.
 
 ## Review Gates
 
