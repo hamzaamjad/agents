@@ -2,7 +2,7 @@
 id: TASK-001
 title: "Fix four dangling skill references surfaced by the FEAT-004 scanner"
 type: task
-status: to-do
+status: done
 parent: EPIC-b4b8
 dependencies: [FEAT-003, FEAT-004]
 agent_created: true
@@ -43,3 +43,30 @@ python3 skills/engineering-context/scripts/validate_context.py . | tail -1
 ## Notes
 
 Findings originate from the FEAT-004 Outcome block and the orchestrator's post-merge battery run on the epic branch (commit 784d931).
+
+## Outcome
+
+**Summary:** Fixed the four dangling `dangling_reference` MEDIUM findings across three reference files: the two hypothetical example paths in engineering-context's context-design-patterns.md now use placeholder-style names, and two skill-root-relative paths in ticket-workflow references were corrected to resolve from `references/`. Validator is clean on the branch; meaning of every sentence preserved.
+
+**Key decisions:**
+- Rewrote example entries as `references/<topic>.md`-style placeholders — keeps the illustrative intent while triggering the scanner's placeholder tolerance, rather than creating stub files.
+- Fixed paths at the reference site (`templates.md`, `../scripts/archive-search.sh`) — per ticket constraint, no validator changes or allowlist entries.
+
+**Constraints & invariants discovered (keep):**
+- Paths inside `references/` docs must resolve relative to that directory, not the skill root.
+- Hypothetical example paths in skill docs must use placeholder syntax (`<topic>`) or they register as dangling references.
+
+**Implementation notes (high signal only):**
+- Touch points: `skills/engineering-context/references/context-design-patterns.md`, `skills/ticket-workflow/references/orchestrator-review-protocol.md`, `skills/ticket-workflow/references/outcome-schema.md`
+- Pattern: fix-at-reference-site, minimal rewording
+
+**Verification:**
+- `python3 skills/engineering-context/scripts/validate_context.py .` → "All checks passed." (zero-finding output; Summary line only prints when findings exist)
+- `--format json` summary → `{'high': 0, 'medium': 0, 'low': 0}`
+
+**Risk / regression surface:**
+- Future docs adding skill-root-relative paths from `references/` will reintroduce findings; the FEAT-004 scanner guards this.
+
+**Retrieval tags:** dangling_reference, validate_context.py, context-design-patterns, orchestrator-review-protocol, outcome-schema, archive-search.sh, templates.md, placeholder paths, FEAT-004, EPIC-b4b8
+
+Tool rounds: 11
