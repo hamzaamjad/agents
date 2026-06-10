@@ -22,23 +22,23 @@
     },
     {
       "id": 1,
-      "name": "spec-skill-improvement",
-      "prompt": "Review the existing `skills/defining-specifications/SKILL.md` seed and create a focused specification for improving it so agents can produce better spec-driven development artifacts. The spec should optimize for AI coding agents as the primary consumers, while still being reviewable by humans. Please inspect the current skill read-only, ask or record clarifying questions, and save the resulting specification markdown under your assigned output directory. Do not edit the skill itself.",
-      "expected_output": "A markdown spec for improving the defining-specifications skill, with agent-consumable structure, explicit non-goals, acceptance criteria, and verification steps.",
+      "name": "rough-notes-formalization",
+      "prompt": "Review the rough notes in `skills/defining-specifications/evals/fixtures/snippets-library-notes.md` and formalize them into a focused specification for the capability they describe. The notes are informal and incomplete: inspect them read-only, identify gaps and risky assumptions, ask or record the clarifying questions you would need, and save the resulting specification markdown under your assigned output directory. Do not implement the capability and do not edit the notes file.",
+      "expected_output": "A markdown spec that converts the informal snippets-library notes into an agent-consumable specification with clear scope, requirements, acceptance criteria, verification steps, and open questions.",
       "assertions": [
         "Produces at least one markdown specification file in the assigned output directory.",
         "Includes a clarification section with questions, assumptions, or confirmed understanding before finalizing the spec.",
         "Includes stable agent-readable sections for summary/problem, scope or non-goals, requirements, acceptance criteria, verification, and open questions.",
         "Uses requirement identifiers or another stable numbering convention that downstream agents can reference.",
         "Acceptance criteria are concrete enough to verify through file inspection, tests, commands, or scripted checks.",
-        "Grounds the spec in the current `defining-specifications` skill content based on read-only inspection.",
+        "Grounds the spec in the fixture notes' actual content based on read-only inspection, without inventing capabilities the notes do not mention.",
         "Keeps tickets, task decomposition, and implementation edits explicitly out of scope.",
         "Functional requirements are written in EARS form, using 'shall' with When/If/While/Where keywords where appropriate.",
         "Acceptance criteria use Given/When/Then phrasing and reference the requirement IDs they verify (traceability).",
         "Includes a 'For Implementing Agents' handoff orientation that identifies authoritative sections and treats open questions as blockers rather than guessing."
       ],
       "files": [
-        "/Users/hamzaamjad/.agents/skills/defining-specifications/SKILL.md"
+        "skills/defining-specifications/evals/fixtures/snippets-library-notes.md"
       ]
     },
     {

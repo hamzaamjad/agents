@@ -3,7 +3,7 @@ name: defining-specifications
 description: "Create, review, or refine focused software specifications for spec-driven development. Use this skill whenever the user asks to draft a spec, define an idea, formalize rough notes, write product requirements, create an implementation-ready design/RFC, review an existing spec, or prepare an agent handoff before coding. Especially use when the primary consumer of the artifact is an AI coding agent. Do not use for direct implementation, ordinary code review, or ticket decomposition unless the user asks for a specification first."
 metadata:
   author: "Hamza Amjad"
-  version: "1.2"
+  version: "1.3"
 ---
 
 # Specification Creator
@@ -63,9 +63,9 @@ Ask focused questions before writing when interaction is allowed and the answers
 
 Use your question asking tool when present. Prefer:
 
-- Simple spec: up to 3 questions.
-- Medium spec: up to 5 questions.
-- Large or ambiguous spec: up to 7 questions grouped by theme.
+- Simple spec (one component or behavior; no contract, schema, or data changes; no rollout or migration needs; little ambiguity left after intake): up to 3 questions.
+- Medium spec (a few related components or files; minor contract or data changes; limited UX surface; some open decisions remaining after intake): up to 5 questions.
+- Large or ambiguous spec (cross-cutting or multi-system scope; schema, API, migration, or rollout impact; or substantial ambiguity remaining after intake): up to 7 questions grouped by theme.
 
 Do not ask questions that can be answered by reading available context. If the user asks you to proceed, or the environment does not allow live clarification, write the questions and your working assumptions into the spec and continue.
 
@@ -95,7 +95,14 @@ If modifying an existing spec, prefer updating it in place: preserve its filenam
 
 ### 6. Self-Review Before Handoff
 
-Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing.
+Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing. When a blocking question is resolved during review, record the resolution as a `DEC-###` entry in `Decisions` and mark the `Q-###` item resolved with a pointer to that entry, rather than deleting the question.
+
+Status lifecycle (entry and exit rules for the template's `Status` line):
+
+- Draft — entry: initial state for any new or materially revised spec. Exit: the gate above passes → `Ready for Review`.
+- Ready for Review — entry: the Draft exit. Exit: reviewer approves → `Approved`; review surfaces material gaps → `Draft`; an unresolved decision or external dependency emerges → `Blocked`.
+- Approved — entry: approval recorded on the status line with approver and date. Exit: material post-approval edits revert the spec to `Draft` or `Ready for Review`, with a changelog entry noting what changed and why re-review is needed.
+- Blocked — entry: progress stopped by something outside the author's control; the status line or an adjacent note names the blocking `Q-###` or external dependency. Exit: blocker resolved and recorded as a `DEC-###` entry → return to the status it interrupted.
 
 ## Default Spec Template
 
@@ -161,6 +168,9 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 ## Risks And Mitigations
 - RISK-001: <Risk> / Mitigation: <Mitigation>
 
+## Decisions
+- DEC-001: <decision> — Rationale: <why>. Alternatives considered: <list>. Date: <YYYY-MM-DD>.
+
 ## Open Questions
 - Q-001: <Question and why it matters>
 
@@ -172,6 +182,31 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 
 ## Source References
 - <Path, URL, issue, ticket, transcript reference, or artifact>
+```
+
+## Worked Example (condensed)
+
+A minimal filled instance of the template, showing the load-bearing conventions: EARS requirements, Given/When/Then acceptance criteria with traceability, a recorded decision, and a lifecycle-consistent status line. Sections not shown follow the template unchanged; full patterns, and when not to force them, are in `references/requirements-and-acceptance-criteria.md`.
+
+```markdown
+# Specification: Skip archived tickets in search results
+
+Status: Ready for Review (gate passed 2026-06-10; Q-001 accepted as non-blocking)
+Date: 2026-06-10
+
+## Requirements
+- REQ-001: When `--active-only` is passed, the search script shall exclude tickets under `_archive/` from results.
+- REQ-002: If `--active-only` and `--archived` are combined, then the script shall exit non-zero with a usage error naming both flags.
+
+## Decisions
+- DEC-001: Filter results at query time instead of maintaining a second index. — Rationale: the archive is small and an extra index invites drift. Alternatives considered: separate index; post-hoc grep. Date: 2026-06-10.
+
+## Open Questions
+- Q-001 (non-blocking): Add a `-a` short form? Default: long flag only until users ask.
+
+## Acceptance Criteria
+- AC-001 (verifies REQ-001): Given an archive containing one matching ticket, When the script runs with `--active-only`, Then the output contains no `_archive/` paths.
+- AC-002 (verifies REQ-002): Given both flags, When the script runs, Then the exit code is 2 and stderr names the conflicting flags.
 ```
 
 ## Agent-Friendly Conventions
@@ -193,7 +228,7 @@ Before finalizing, verify that the spec:
 - States the problem, goals, non-goals, current state, and proposed behavior, applying the matching spec-type profile.
 - Uses stable IDs for requirements, acceptance criteria, questions, assumptions, and risks when the spec is more than a very small artifact.
 - Writes functional requirements in EARS form and acceptance criteria as Given/When/Then, with each criterion mapped to the requirement IDs it verifies.
-- Separates confirmed facts from assumptions and open questions, and presents no unverified API, version, or behavior claim as a fact.
+- Separates confirmed facts from decisions, assumptions, and open questions, and presents no unverified API, version, or behavior claim as a fact.
 - Calibrates specificity: behavior and constraints are specified, but implementation choices are left to the downstream agent unless a constraint forces them.
 - Includes constraints and non-goals that limit downstream agent behavior.
 - Contains concrete acceptance criteria and verification steps, with traceability from requirements to verification.
