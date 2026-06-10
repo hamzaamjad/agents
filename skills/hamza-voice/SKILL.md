@@ -1,14 +1,15 @@
 ---
 name: hamza-voice
 description: >
-  Write in Hamza Amjad's personal voice and tone. Use this skill whenever you need to draft, rewrite,
-  or polish text that should sound like Hamza — emails, LinkedIn messages, job application responses,
-  professional outreach, cover letters, Slack messages, blog posts, memos, or any written communication.
-  Also use for creative writing, poetry, spoken word, philosophical reflections, personal manifestos,
-  or any introspective/spiritual writing in Hamza's voice. Trigger whenever the user says "write this
-  in my voice," "make this sound like me," "draft an email," "draft a message," "write a poem,"
-  "write something personal," or any request where the output is written communication that represents
-  Hamza personally. Also use when reviewing or editing text to check if it matches Hamza's voice.
+  Write in Hamza Amjad's personal voice and tone. Use when drafting, rewriting, or polishing text
+  that represents Hamza personally and where the wording carries weight — professional outreach,
+  LinkedIn messages, job applications, cover letters, blog posts, high-stakes emails or Slack
+  messages — and for creative work: poetry, spoken word, manifestos, philosophical reflections,
+  or introspective/spiritual writing. Trigger on "write this in my voice," "make this sound like
+  me," "write a poem," "write something personal," or "draft an email"/"draft a message" when the
+  recipient or audience matters, and when reviewing text for whether it sounds like Hamza. Skip
+  routine transactional notes (scheduling, status updates, logistics) and non-personal product or
+  team writing (release notes, shared templates, documentation) where plain wording serves.
 ---
 
 # Hamza Amjad — Voice & Tone

@@ -2,13 +2,15 @@
 name: session-retrospective
 description: >-
   End-of-session retrospective and workspace improvement skill for AI coding agents.
-  The agent reviews the current session from in-context memory, delivering an honest
-  assessment of what went well, what didn't, and how the user can improve as a pair
-  programmer. Then optionally applies workspace improvements (AGENTS.md, CLAUDE.md,
-  .context/, docs/) to give future sessions a head start. Use when the user requests
-  a "session review", "retrospective", "retro", "what did we learn", "end of session",
-  "debrief", or "session debrief". Also use when the user signals they are wrapping up
-  a working session and wants to capture lessons learned.
+  The agent reviews the just-finished working session from in-context memory — what
+  went well, what didn't, and how the user can improve as a pair programmer — then
+  optionally applies workspace improvements (AGENTS.md, CLAUDE.md, .context/, docs/)
+  grounded in session evidence. Use when the user asks to review the current working
+  session: "session review", "session retro", "retro this session", "what did we
+  learn", "end of session", "session debrief" — or signals they are wrapping up and
+  want lessons captured. Not for sprint or team retrospectives, incident postmortems,
+  or retrospective documents about events outside this session; for standalone
+  instruction-file audits unrelated to a session, use engineering-context.
 ---
 
 # Session Retrospective

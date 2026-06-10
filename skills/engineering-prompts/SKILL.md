@@ -1,6 +1,6 @@
 ---
 name: engineering-prompts
-description: Meta-prompting skill for drafting, rewriting, auditing, iterating, compressing, and migrating prompts, system instructions, and context packages for frontier LLMs (Claude, GPT, Gemini, Llama). Supports seven modes -- prompt-from-scratch, prompt-rewrite, prompt-pack, prompt-audit, context-compressor, evaluation-iteration, and prompt-migration. Use when the user asks to "write me a prompt", "improve this prompt", "design a system prompt", "audit this prompt", "turn these notes into a brief", "fix why my prompt isn't working", "port this prompt to another model", or requests reusable prompt templates, task briefs, evaluation rubrics, or diagnosis of prompt failures.
+description: Meta-prompting skill for drafting, rewriting, auditing, iterating, compressing, and migrating prompts, system instructions, and context packages for frontier LLMs (Claude, GPT, Gemini, Llama). Supports seven modes -- prompt-from-scratch, prompt-rewrite, prompt-pack, prompt-audit, context-compressor, evaluation-iteration, and prompt-migration. Use when the user asks to "write me a prompt", "improve this prompt", "design a system prompt", "audit this prompt", "turn these notes into a brief", "fix why my prompt isn't working", "port this prompt to another model", or requests reusable prompt templates, task briefs, evaluation rubrics, or diagnosis of prompt failures. For auditing or maintaining workspace agent instruction files (AGENTS.md, CLAUDE.md, .cursorrules), use engineering-context instead.
 ---
 
 # Engineering Prompts

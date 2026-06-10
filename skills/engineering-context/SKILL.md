@@ -2,14 +2,18 @@
 name: engineering-context
 description: >-
   Audits and remediates workspace instruction quality for agentic coding.
-  Trigger when: (1) context cleanup, context rot, or documentation hygiene,
-  (2) canonical instruction source maintenance (AGENTS.md, CLAUDE.md,
-  .cursorrules, or host-specific equivalents), (3) contradiction,
-  duplication, or staleness remediation across instruction files,
-  (4) instruction file quality review or scoring, (5) setting up or
-  auditing AGENTS.md or CLAUDE.md structure, (6) context window
-  optimization or instruction prioritization, (7) permission boundary
-  or security guardrail review in agent instruction files.
+  Trigger when: (1) cleanup of agent instruction files, context rot, or
+  documentation hygiene, (2) canonical instruction source maintenance
+  (AGENTS.md, CLAUDE.md, .cursorrules, or host-specific equivalents),
+  (3) contradiction, duplication, or staleness remediation across
+  instruction files, (4) instruction file quality review or scoring,
+  (5) setting up or auditing AGENTS.md or CLAUDE.md structure,
+  (6) context-window budgeting or instruction prioritization for
+  instruction files, (7) permission boundary or security guardrail
+  review in agent instruction files. Boundaries: prompts, system
+  prompts, and context packages for LLM applications belong to
+  engineering-prompts; reviewing a just-finished working session
+  belongs to session-retrospective.
 ---
 
 # Context Engineering

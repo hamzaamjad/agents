@@ -1,6 +1,6 @@
 ---
 name: ticket-workflow
-description: "Manage structured tickets in .tickets/. Use when: creating tickets, executing/implementing tickets, decomposing tickets into sub-tickets, updating ticket status, creating or closing epics, archiving completed epics, or verifying ticket completion. Handles the full lifecycle: template-based creation, ID assignment, dependency checking, complexity assessment, decomposition, scoped execution, verification, and archival."
+description: "Manage structured tickets in .tickets/. Use when: creating tickets, executing/implementing tickets, decomposing tickets into sub-tickets, updating ticket status, creating or closing epics, archiving completed epics, or verifying ticket completion. Handles the full lifecycle: template-based creation, ID assignment, dependency checking, complexity assessment, decomposition, scoped execution, verification, and archival. For shaping a vague feature idea into requirements before tickets exist, use defining-specifications first; this skill takes over once work is ready to become tickets."
 ---
 
 # Ticket Workflow
