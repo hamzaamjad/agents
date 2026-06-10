@@ -83,7 +83,7 @@ precision will degrade; that volume is the trigger for shipping Lane B
 (semantic retrieval over the same blocks). Until then, Lane A alone is
 sufficient.
 
-Lane B's eventual `--semantic` flag on `scripts/archive-search.sh` will
+Lane B's eventual `--semantic` flag on `../scripts/archive-search.sh` will
 build an in-session embedding index (default model
 `sentence-transformers/all-MiniLM-L6-v2`, overridable via
 `ARCHIVE_SEARCH_MODEL`) and write nothing to disk — the
