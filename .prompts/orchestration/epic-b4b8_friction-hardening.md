@@ -24,6 +24,11 @@ PERSISTENT ORCHESTRATOR INSTRUCTIONS (stable, always apply)
   never-cd-to-primary-clone rule).
 - Orchestrator checkpoint convention per AGENTS.md § Orchestration: stop with a line
   starting "CHECKPOINT:" when a decision is reserved for the user.
+- Gate tiering (user decision 2026-06-10): inspection gates (A, C-G) run per ticket;
+  Gate B is the scoped sanity tier (in this repo: the validator one-liner — never a
+  full battery per ticket); the full verification battery runs at integration
+  boundaries only (after the last content ticket merges, and at the epic-to-main
+  merge). FEAT-003 codifies this rule into the canonical template and protocol.
 
 EPIC TASK BRIEF (session-specific, injected each run)
 Epic name: EPIC-b4b8 friction-hardening
