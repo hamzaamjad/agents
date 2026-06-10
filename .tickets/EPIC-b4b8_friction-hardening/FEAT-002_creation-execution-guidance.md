@@ -2,7 +2,7 @@
 id: FEAT-002
 title: "ticket-workflow SKILL.md: creation and execution guidance fixes"
 type: feature
-status: to-do
+status: done
 priority: high
 created: 2026-06-10
 updated: 2026-06-10
@@ -10,7 +10,7 @@ parent: EPIC-b4b8
 dependencies: [FEAT-001]
 tags: [friction-log, benchmark-foldback]
 agent_created: false
-complexity:
+complexity: 3
 ---
 
 # ticket-workflow SKILL.md: creation and execution guidance fixes
@@ -64,3 +64,32 @@ python3 skills/engineering-context/scripts/validate_context.py . | tail -1
 The benchmark found the baseline arm recorded blockers better than the skill arm — the
 skill says "STOP and report" but never says where the record lives. That gap is the
 highest-value fold-back here.
+
+## Outcome
+
+**Summary:** Folded five guidance fixes into `skills/ticket-workflow/SKILL.md`: per-prefix sub-ticket numbering (§ Naming), a verification-command dry-run rule (§ Quality Rules), the nested-worktree tree-scan hazard (§ Worktree Rules), durable blocker recording in Execution Protocol Step 2, and a minimal per-command verification-log format in Step 6. Resolves FRIC-008, FRIC-014, FRIC-017 and both iteration-1 benchmark skill gaps (blocked-status durability, verification-log format). SKILL.md grew 247 → 249 lines, within the 280-line budget.
+
+**Key decisions:**
+- One-sentence additions appended to existing sections — keeps the file under budget and avoids restructuring after FEAT-001.
+- Step 2 keeps "stop" semantics but adds the durable record (`status: blocked` + one-line note) before reporting — closes the gap where the baseline arm out-performed the skill arm.
+
+**Constraints & invariants discovered (keep):**
+- Status lifecycle vocabulary (`to-do`, `in-progress`, `done`, `blocked`) is fixed; new guidance must reference it, not extend it.
+- Tree-scanning verification must run after worktree cleanup or scope out `.claude/worktrees/`.
+
+**Implementation notes (high signal only):**
+- Touch points: `skills/ticket-workflow/SKILL.md` §§ Naming, Worktree Rules, Execution Protocol Steps 2 and 6, Quality Rules
+- Pattern: friction-log fold-back via minimal additive edits
+
+**Verification:**
+- `rg -n -i 'per.type prefix|per.prefix' skills/ticket-workflow/SKILL.md` → pass (line 22)
+- `rg -n -i 'dry.run' skills/ticket-workflow/SKILL.md` → pass (line 246)
+- `rg -n 'status: blocked' skills/ticket-workflow/SKILL.md` → pass (line 147)
+- `wc -l ... | awk '{exit ($1>280)}'` → pass (249 lines)
+- `validate_context.py . | tail -1` → `Summary: 0 high, 0 medium, 10 low` (all 10 low findings are under sibling `.claude/worktrees/` checkouts; none in skill content)
+- Tool-round count: 9 meaningful rounds.
+
+**Risk / regression surface:**
+- Eval-suite regexes keyed to old Step 2 wording ("STOP and report the blocker") would need updating; the eval suite doubles as the regression harness.
+
+**Retrieval tags:** ticket-workflow, SKILL.md, FRIC-008, FRIC-014, FRIC-017, per-prefix numbering, status: blocked, dry-run verification, nested worktrees, verification log format
