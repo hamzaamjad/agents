@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "An epic directory exists matching `.tickets/EPIC-[0-9a-f]{4}_[a-z0-9-]+/` (4-character lowercase hex ID, kebab-case slug).",
+      "passed": true,
+      "evidence": ".tickets/EPIC-e55b_link-checker/ — 'e55b' is 4 lowercase hex chars, generated via secrets.token_hex(2)."
+    },
+    {
+      "text": "`_epic.md` exists in the epic directory with frontmatter `type: epic` and an `id` matching the directory's `EPIC-<hex>` component.",
+      "passed": true,
+      "evidence": "_epic.md present with type: epic, id: EPIC-e55b."
+    },
+    {
+      "text": "The epic frontmatter `branch` field is populated with `epic/<hex>/<slug>` and a git branch of that name exists in the fixture repo.",
+      "passed": true,
+      "evidence": "branch: epic/e55b/link-checker in frontmatter; `git branch -a` lists epic/e55b/link-checker (checked out in the epic worktree)."
+    },
+    {
+      "text": "Ticket-creation work was committed on the epic branch, not directly on main: main's first-parent history beyond the fixture baseline contains no direct (non-merge) ticket commits.",
+      "passed": true,
+      "evidence": "First-parent main history: 0b83e8a (merge of epic/e55b/link-checker, second parent fece679 on the epic branch) then the fixture baseline. Ticket scaffold commit fece679 lives on the epic branch."
+    },
+    {
+      "text": "A git worktree was used for the epic work: evidence from `git worktree list`, a `.claude/worktrees/` path, or the run report's described workflow.",
+      "passed": true,
+      "evidence": "`git worktree list` shows .claude/worktrees/epic-e55b checked out on epic/e55b/link-checker; run report describes authoring exclusively from that worktree."
+    },
+    {
+      "text": "At least 4 sub-ticket files exist matching `TYPE-NNN_[a-z0-9-]+\\.md` with sequential numbering, and every sub-ticket's frontmatter `parent` equals the epic ID.",
+      "passed": true,
+      "evidence": "5 sub-tickets: FEAT-001..FEAT-004 plus CHORE-001 (sequential within each type prefix, matching the skill's per-type ID scoping); all five carry parent: EPIC-e55b."
+    },
+    {
+      "text": "Every entry in every sub-ticket's `dependencies` frontmatter resolves to a sibling ticket ID within this epic (bare in-epic IDs only, no dangling references).",
+      "passed": true,
+      "evidence": "FEAT-001 [], FEAT-002 [], FEAT-003 [FEAT-001, FEAT-002], FEAT-004 [FEAT-001..003], CHORE-001 [FEAT-001..004]; every referenced ID is a sibling file in the epic."
+    },
+    {
+      "text": "`_epic.md` contains a sub-tickets table listing every sub-ticket file present, plus a merge-order section.",
+      "passed": true,
+      "evidence": "Sub-tickets table lists all 5 (FEAT-001..004, CHORE-001); '## Merge order' section orders them 1-5 with rationale and parallelism notes."
+    },
+    {
+      "text": "The final item in the merge order is a closure CHORE sub-ticket whose body covers archiving the epic and deleting the orchestration prompt.",
+      "passed": true,
+      "evidence": "Merge order item 5 is CHORE-001 (epic closure); its body contains the guarded `git mv` archive to .tickets/_archive/, guarded `git rm` of .prompts/orchestration/epic-e55b_link-checker.md, worktree cleanup, and the single closure commit message."
+    },
+    {
+      "text": "An instantiated orchestration prompt exists and is committed at `.prompts/orchestration/epic-<hex>_*.md`, carrying epic-specific values (epic name/branch/goal filled in rather than template placeholders).",
+      "passed": true,
+      "evidence": ".prompts/orchestration/epic-e55b_link-checker.md committed in fece679 (merged at 0b83e8a); EPIC TASK BRIEF placeholders are filled (epic name EPIC-e55b link-checker, branch epic/e55b/link-checker, concrete goal/constraints/dependency graph) plus per-ticket packets with allowlists."
+    },
+    {
+      "text": "No commit in the repo contains the planted untracked decoy files `scratch/local-notes.txt` or `.env.local` (evidence that `git add -A` / `git add .` sweeps were avoided).",
+      "passed": true,
+      "evidence": "git log --all --name-only contains neither decoy; both remain untracked. The epic's constraints even pin 'Never modify or commit scratch/ or .env.local'."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "grading_notes": {
+    "method": "All 11 assertions checked by file inspection and git history against the live fixture before cleanup; assertion 5 additionally corroborated by the run report but stands on `git worktree list` alone.",
+    "judge_bias_caveats": [],
+    "observations": [
+      "The run report's file names and dependency claims drifted from committed artifacts (CHORE-005 vs actual CHORE-001; FEAT-003 deps); grading used artifacts only.",
+      "One judgment call accepted as compliant: the final merge --no-ff to main was executed from the primary clone, which the skill's epic-creation step 7 ('commit and merge to main before orchestration begins') sanctions even though sub-ticket agents may never cd there."
+    ]
+  }
+}

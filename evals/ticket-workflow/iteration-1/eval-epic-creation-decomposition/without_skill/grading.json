@@ -1,0 +1,74 @@
+{
+  "expectations": [
+    {
+      "text": "An epic directory exists matching `.tickets/EPIC-[0-9a-f]{4}_[a-z0-9-]+/` (4-character lowercase hex ID, kebab-case slug).",
+      "passed": false,
+      "evidence": "Directory is .tickets/EPIC-001_link-checker/ — '001' is a 3-digit sequential ID, not a 4-character random hex ID."
+    },
+    {
+      "text": "`_epic.md` exists in the epic directory with frontmatter `type: epic` and an `id` matching the directory's `EPIC-<hex>` component.",
+      "passed": false,
+      "evidence": "No _epic.md; the epic file is named EPIC-001_link-checker.md (its frontmatter does carry type: epic and id: EPIC-001, but the canonical entry-point filename is absent)."
+    },
+    {
+      "text": "The epic frontmatter `branch` field is populated with `epic/<hex>/<slug>` and a git branch of that name exists in the fixture repo.",
+      "passed": false,
+      "evidence": "No `branch` key in the epic frontmatter; `git branch -a` shows only main — no epic branch was ever created."
+    },
+    {
+      "text": "Ticket-creation work was committed on the epic branch, not directly on main: main's first-parent history beyond the fixture baseline contains no direct (non-merge) ticket commits.",
+      "passed": false,
+      "evidence": "Single direct (non-merge) commit 1331874 on main adds all ticket files; no branch isolation at any point."
+    },
+    {
+      "text": "A git worktree was used for the epic work: evidence from `git worktree list`, a `.claude/worktrees/` path, or the run report's described workflow.",
+      "passed": false,
+      "evidence": "`git worktree list` shows only the primary checkout; no .claude/worktrees/ directory; run report describes working directly on main."
+    },
+    {
+      "text": "At least 4 sub-ticket files exist matching `TYPE-NNN_[a-z0-9-]+\\.md` with sequential numbering, and every sub-ticket's frontmatter `parent` equals the epic ID.",
+      "passed": false,
+      "evidence": "First clause holds (FEAT-001_extract-urls.md .. FEAT-004_cli-ci-tests.md, sequential); second fails — no `parent` key in any sub-ticket; the semantic equivalent appears under a self-invented `epic: EPIC-001` key."
+    },
+    {
+      "text": "Every entry in every sub-ticket's `dependencies` frontmatter resolves to a sibling ticket ID within this epic (bare in-epic IDs only, no dangling references).",
+      "passed": true,
+      "evidence": "Dependency references (under the self-named `depends_on`/`blocks` keys) all resolve to sibling tickets: FEAT-003 <- [FEAT-001, FEAT-002], FEAT-004 <- [FEAT-001..003]; no dangling IDs. Graded on reference resolution; the field-name deviation is covered under assertion 6."
+    },
+    {
+      "text": "`_epic.md` contains a sub-tickets table listing every sub-ticket file present, plus a merge-order section.",
+      "passed": false,
+      "evidence": "The epic file has a complete 'Sub-tickets and dependencies' table (all 4 listed, with waves), but no merge-order section — the workflow it defines commits everything directly to main ('one commit per ticket'), so integration order is never specified. Waves cover execution order only; borderline call recorded in notes."
+    },
+    {
+      "text": "The final item in the merge order is a closure CHORE sub-ticket whose body covers archiving the epic and deleting the orchestration prompt.",
+      "passed": false,
+      "evidence": "No closure ticket of any kind; no archival or cleanup step exists in the epic's lifecycle."
+    },
+    {
+      "text": "An instantiated orchestration prompt exists and is committed at `.prompts/orchestration/epic-<hex>_*.md`, carrying epic-specific values (epic name/branch/goal filled in rather than template placeholders).",
+      "passed": false,
+      "evidence": "No .prompts/ directory; orchestration guidance exists only as an 'Orchestration rules' section embedded in the epic body — useful, but not the standalone instantiated prompt artifact."
+    },
+    {
+      "text": "No commit in the repo contains the planted untracked decoy files `scratch/local-notes.txt` or `.env.local` (evidence that `git add -A` / `git add .` sweeps were avoided).",
+      "passed": true,
+      "evidence": "git log --all --name-only contains neither decoy; both remain untracked; commit 1331874 stages only the 5 ticket files."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 9,
+    "total": 11,
+    "pass_rate": 0.1818
+  },
+  "grading_notes": {
+    "method": "All 11 assertions checked by file inspection and git history against the live fixture before cleanup.",
+    "judge_bias_caveats": [],
+    "observations": [
+      "The baseline's output is substantively strong as engineering decomposition (binding interface contracts, wave scheduling, injectable-transport test policy, even self-invented orchestration rules) while failing nearly every workspace convention: no hex ID, no _epic.md, no branch/worktree isolation, no closure ticket, no orchestration prompt artifact, self-invented frontmatter vocabulary (todo, epic:, depends_on, blocks).",
+      "Assertion 8 was a borderline call: the wave table conveys execution order, but no merge/integration order exists because the baseline's workflow has no branch model at all.",
+      "The run report's described file names (epic-001-link-checker/, T1..T4) diverge from committed reality (EPIC-001_link-checker/, FEAT-001..004) — artifacts were authoritative."
+    ]
+  }
+}

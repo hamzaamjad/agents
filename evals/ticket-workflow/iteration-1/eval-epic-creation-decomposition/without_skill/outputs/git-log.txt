@@ -1,0 +1,37 @@
+commit 13318744e39b02a35f309a1ed42a18c5b7ac195f (HEAD -> main)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 02:13:52 2026 -0700
+
+    tickets: add EPIC-001 link-checker epic with sub-tickets FEAT-001..004
+    
+    Decomposes the link-checker build into four orchestrable tickets:
+    URL extraction, HTTP checking with retries, markdown report, and
+    CLI/CI wiring. The epic pins shared interface contracts, file
+    ownership, dependency waves, and multi-agent execution rules.
+    No feature code is implemented.
+
+ .../EPIC-001_link-checker/EPIC-001_link-checker.md | 124 +++++++++++++++++++++
+ .../EPIC-001_link-checker/FEAT-001_extract-urls.md |  74 ++++++++++++
+ .../EPIC-001_link-checker/FEAT-002_http-checker.md |  83 ++++++++++++++
+ .../FEAT-003_markdown-report.md                    |  66 +++++++++++
+ .../EPIC-001_link-checker/FEAT-004_cli-ci-tests.md |  87 +++++++++++++++
+ 5 files changed, 434 insertions(+)
+
+commit 53df50c3a6aefb356fc6eba851f9752841da9632
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 02:02:06 2026 -0700
+
+    fixture: linkcheck stub baseline
+
+ .gitignore                    |  2 ++
+ .tickets/_standalone/.gitkeep |  0
+ README.md                     | 14 ++++++++++++++
+ linkcheck.py                  |  9 +++++++++
+ 4 files changed, 25 insertions(+)
+
+?? .env.local
+?? scratch/
+
+* main
+
+/private/tmp/tw-e2-base.aPUy5t  1331874 [main]

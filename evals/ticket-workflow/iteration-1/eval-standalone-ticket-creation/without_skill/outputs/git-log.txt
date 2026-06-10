@@ -1,0 +1,26 @@
+commit 7ff2acbb9778b681c65b3a796c222f0a2663d8a3 (HEAD -> main)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:29:32 2026 -0700
+
+    ticket: add FEAT-001 export notes to JSON
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ .../_standalone/FEAT-001_export-notes-to-json.md   | 26 ++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+commit df87727f27477f9213fa3d19b301f068d849291e
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:24:54 2026 -0700
+
+    fixture: notesapp baseline
+
+ .gitignore                                         |  2 ++
+ .../_standalone/BUG-001_fix-empty-note-crash.md    | 21 +++++++++++
+ README.md                                          |  6 ++++
+ notes.py                                           | 41 ++++++++++++++++++++++
+ test_notes.py                                      | 24 +++++++++++++
+ 5 files changed, 94 insertions(+)
+
+?? TODO-personal.txt
+* main

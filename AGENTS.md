@@ -36,8 +36,9 @@ This repo (`~/.agents`) is the canonical, versioned library of agent skills for 
 ## Directory layout
 
 ```
-skills/<name>/                Skill package: SKILL.md + references/ + scripts/
-skills/defining-specifications-workspace/   Eval artifacts for the defining-specifications skill (iteration-N runs; not a skill)
+skills/<name>/                Skill package: SKILL.md + references/ + scripts/ (+ evals/ eval suite: evals.json + fixtures/)
+skills/defining-specifications-workspace/   Eval artifacts for the defining-specifications skill (legacy location; iteration-N runs, not a skill)
+evals/<skill>/                Eval workspaces: iteration-N/ benchmark artifacts — the convention for new eval workspaces
 docs/audits/                  Instruction-layer audit reports (yyyy-mm-dd-<slug>.md)
 docs/decisions/               Decision memos (yyyy-mm-dd-<slug>.md)
 .prompts/                     Versioned prompts (exercise briefs, orchestration instances) — see docs/decisions/2026-06-10-version-tickets-and-prompts.md
@@ -62,7 +63,7 @@ New or revised skills are benchmarked before being trusted:
 3. Grade outputs (one grading.json per eval) and summarize each iteration in benchmark.md and benchmark.json.
 4. Fold findings back into the skill and commit the new version.
 
-Artifacts currently live in `skills/defining-specifications-workspace/iteration-N/`. That directory holds eval data, not a skill.
+Eval suites (the evals JSON plus fixture builders) live in `skills/<name>/evals/`; iteration artifacts go in a top-level workspace at `evals/<skill>/iteration-N/` — per-eval directories carrying eval metadata plus with_skill and without_skill runs (each with outputs and a grading file), topped by the iteration's benchmark summary pair. The `defining-specifications` workspace predates this convention and stays at `skills/defining-specifications-workspace/` until relocated; that directory holds eval data, not a skill.
 
 ## Deployment map
 

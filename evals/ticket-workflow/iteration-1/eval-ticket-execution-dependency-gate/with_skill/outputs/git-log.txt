@@ -1,0 +1,39 @@
+commit dd0a18c2cde25210f5d07e099946764e6e28f16f (HEAD -> main)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:45:54 2026 -0700
+
+    FEAT-003: mark ticket as done
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ .tickets/_standalone/FEAT-003_input-validation.md | 45 ++++++++++++++++++-----
+ 1 file changed, 36 insertions(+), 9 deletions(-)
+
+commit 6dcbe162545a7d45cd377fd80219a13e18b3aa21
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:45:06 2026 -0700
+
+    FEAT-003: add validate_row and optional expected_count to parse_row
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ parser.py      | 22 +++++++++++++++++++---
+ test_parser.py | 22 +++++++++++++++++++++-
+ 2 files changed, 40 insertions(+), 4 deletions(-)
+
+commit b96ec858368b3a605f9affa51803d56a5376634a
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:39:31 2026 -0700
+
+    fixture: csvtool baseline with prepared tickets
+
+ .gitignore                                        |  1 +
+ .tickets/_standalone/FEAT-001_csv-loader.md       | 43 ++++++++++++++++++++++
+ .tickets/_standalone/FEAT-002_summary-stats.md    | 43 ++++++++++++++++++++++
+ .tickets/_standalone/FEAT-003_input-validation.md | 44 +++++++++++++++++++++++
+ README.md                                         |  6 ++++
+ parser.py                                         |  8 +++++
+ test_parser.py                                    | 15 ++++++++
+ 7 files changed, 160 insertions(+)
+
+?? perf-notes.local.md

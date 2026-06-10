@@ -1,0 +1,68 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new ticket markdown file is created, and it is located in `.tickets/_standalone/`.",
+      "passed": true,
+      "evidence": "git diff baseline..HEAD lists exactly one added file: .tickets/_standalone/FEAT-001_export-notes-to-json.md."
+    },
+    {
+      "text": "The new ticket filename matches `FEAT-[0-9]{3}_[a-z0-9-]+\\.md` (FEAT prefix, zero-padded 3-digit ID, kebab-case slug).",
+      "passed": true,
+      "evidence": "FEAT-001_export-notes-to-json.md matches the pattern."
+    },
+    {
+      "text": "The new ticket ID is FEAT-001: sequential numbering is scoped per type prefix within the directory, so the existing BUG-001 does not advance the FEAT sequence.",
+      "passed": true,
+      "evidence": "ID is FEAT-001; the run report shows the baseline inferred per-type numbering from the single BUG-001 example on its own."
+    },
+    {
+      "text": "The frontmatter contains all required fields `id`, `title`, `type`, `status`, and the `id` value matches the filename's `TYPE-NNN` stem.",
+      "passed": true,
+      "evidence": "Frontmatter carries exactly id, title, type, status; id FEAT-001 matches the filename stem."
+    },
+    {
+      "text": "The frontmatter has `type: feature` (consistent with the FEAT prefix) and a valid lifecycle status value (`to-do`).",
+      "passed": false,
+      "evidence": "type: feature is correct, but status is `open`, which is not in the to-do/in-progress/done/blocked lifecycle; the agent invented a status vocabulary (its report admits guessing because the only observed value was `done`)."
+    },
+    {
+      "text": "The ticket contains a `## Verification` section whose commands are runnable in this fixture (e.g. `python3 test_notes.py` or an equivalent check that exists or is specified concretely).",
+      "passed": false,
+      "evidence": "No Verification section and no runnable commands anywhere in the ticket; the closest analog is a prose checklist (mirroring the legacy BUG-001 style)."
+    },
+    {
+      "text": "The ticket has an acceptance-criteria section with 5 or fewer criteria.",
+      "passed": false,
+      "evidence": "No dedicated acceptance-criteria section; the 'Things to check when implementing this' list contains 7 items, exceeding the 5-criterion cap."
+    },
+    {
+      "text": "The ticket contains a `## Constraints` section with at least one concrete constraint.",
+      "passed": false,
+      "evidence": "No Constraints section; 'no new dependencies' appears only as one bullet inside the mixed checklist."
+    },
+    {
+      "text": "No implementation was performed: `notes.py`, `test_notes.py`, and `README.md` are unmodified relative to the fixture baseline commit.",
+      "passed": true,
+      "evidence": "git diff baseline..HEAD touches only the ticket file."
+    },
+    {
+      "text": "The new ticket was committed, the commit contains only the new ticket file, and the planted untracked decoy `TODO-personal.txt` was not swept into any commit.",
+      "passed": true,
+      "evidence": "Commit 7ff2acb contains only the ticket file; TODO-personal.txt remains untracked; decoy absent from all commit file lists."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 4,
+    "total": 10,
+    "pass_rate": 0.6
+  },
+  "grading_notes": {
+    "method": "All assertions checked by file inspection and git history against the live fixture before cleanup; no LLM-judge assertions in this eval.",
+    "judge_bias_caveats": [],
+    "observations": [
+      "The run report claims an 'Out of scope' section and an --output flag that do not exist in the committed file - grading from artifacts rather than self-reports was necessary.",
+      "The baseline faithfully mirrored the deliberately weak legacy BUG-001 style, which is exactly the fixture's design: convention quality must come from the skill, not the single in-repo example."
+    ]
+  }
+}

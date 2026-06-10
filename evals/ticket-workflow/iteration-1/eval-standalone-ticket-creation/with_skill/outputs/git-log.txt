@@ -1,0 +1,24 @@
+commit 829b914284f3da109fd1c88b67368adf9623a11e (HEAD -> main)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:32:01 2026 -0700
+
+    FEAT-001: create ticket for CLI JSON export with tag filter
+
+ .../_standalone/FEAT-001_export-notes-to-json.md   | 73 ++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+
+commit 626b739491759ff2c0a607e40cae5622b9a4915f
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:24:53 2026 -0700
+
+    fixture: notesapp baseline
+
+ .gitignore                                         |  2 ++
+ .../_standalone/BUG-001_fix-empty-note-crash.md    | 21 +++++++++++
+ README.md                                          |  6 ++++
+ notes.py                                           | 41 ++++++++++++++++++++++
+ test_notes.py                                      | 24 +++++++++++++
+ 5 files changed, 94 insertions(+)
+
+?? TODO-personal.txt
+* main

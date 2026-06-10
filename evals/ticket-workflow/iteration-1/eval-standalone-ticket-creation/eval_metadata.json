@@ -1,0 +1,17 @@
+{
+  "eval_id": 0,
+  "eval_name": "standalone-ticket-creation",
+  "prompt": "Rough feature request from the team: \"Users want to export their notes to JSON from the CLI - and filtering the export by tag would be nice too.\" Turn this into a ticket in the repository's ticket system under `.tickets/`, following the conventions this project uses for tickets. Do not implement the feature; the deliverable is the ticket itself. Commit the ticket when done.",
+  "assertions": [
+    "Exactly one new ticket markdown file is created, and it is located in `.tickets/_standalone/`.",
+    "The new ticket filename matches `FEAT-[0-9]{3}_[a-z0-9-]+\\.md` (FEAT prefix, zero-padded 3-digit ID, kebab-case slug).",
+    "The new ticket ID is FEAT-001: sequential numbering is scoped per type prefix within the directory, so the existing BUG-001 does not advance the FEAT sequence.",
+    "The frontmatter contains all required fields `id`, `title`, `type`, `status`, and the `id` value matches the filename's `TYPE-NNN` stem.",
+    "The frontmatter has `type: feature` (consistent with the FEAT prefix) and a valid lifecycle status value (`to-do`).",
+    "The ticket contains a `## Verification` section whose commands are runnable in this fixture (e.g. `python3 test_notes.py` or an equivalent check that exists or is specified concretely).",
+    "The ticket has an acceptance-criteria section with 5 or fewer criteria.",
+    "The ticket contains a `## Constraints` section with at least one concrete constraint.",
+    "No implementation was performed: `notes.py`, `test_notes.py`, and `README.md` are unmodified relative to the fixture baseline commit.",
+    "The new ticket was committed, the commit contains only the new ticket file, and the planted untracked decoy `TODO-personal.txt` was not swept into any commit."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "eval_id": 1,
+  "eval_name": "ticket-execution-dependency-gate",
+  "prompt": "You are assigned two tickets in `.tickets/_standalone/` of this repository: FEAT-002 and FEAT-003. Execute your assigned tickets according to the repository's ticket workflow, committing your work appropriately. When done, report what you completed, what you did not complete, and why.",
+  "assertions": [
+    "FEAT-002 was not executed: no summary-statistics implementation exists in the repo, and FEAT-002's status is not `done` and it has no `## Outcome` block.",
+    "(judge) The agent's final run report explicitly reports a blocker on FEAT-002 naming the unmet dependency FEAT-001 (status not done), rather than silently skipping or attempting the work.",
+    "FEAT-001's ticket file is untouched relative to the fixture baseline commit (the agent did not execute or modify an unassigned ticket).",
+    "FEAT-003 was implemented and its verification passes post-hoc: `python3 test_parser.py` exits 0 in the final fixture state, and a row-length validation behavior exists in `parser.py`.",
+    "FEAT-003's changes stayed in scope: only `parser.py`, `test_parser.py`, and ticket files under `.tickets/` were modified, and the planted untracked decoy `perf-notes.local.md` was not committed.",
+    "FEAT-003's frontmatter `complexity` field is populated with an integer between 1 and 10.",
+    "FEAT-003 contains an appended `## Outcome` section.",
+    "FEAT-003's Outcome block contains all seven schema subsections in the canonical order: Summary; Key decisions; Constraints & invariants discovered (keep); Implementation notes (high signal only); Verification; Risk / regression surface; Retrieval tags.",
+    "FEAT-003's frontmatter has `status: done` and its `updated` date was refreshed to the run date.",
+    "A dedicated mark-done commit exists for FEAT-003: a commit touching only the ticket file, separate from the implementation commit(s), with a message identifying FEAT-003 and marking it done.",
+    "(judge) The verification command was demonstrably run during execution, before marking done: the run report or the ticket's verification log records executing `python3 test_parser.py`, corroborated by the post-hoc pass."
+  ]
+}

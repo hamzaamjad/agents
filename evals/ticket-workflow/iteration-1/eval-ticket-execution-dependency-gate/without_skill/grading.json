@@ -1,0 +1,76 @@
+{
+  "expectations": [
+    {
+      "text": "FEAT-002 was not executed: no summary-statistics implementation exists in the repo, and FEAT-002's status is not `done` and it has no `## Outcome` block.",
+      "passed": true,
+      "evidence": "No `summarize` in parser.py; FEAT-002 status set to `blocked` (not done); no Outcome block."
+    },
+    {
+      "text": "(judge) The agent's final run report explicitly reports a blocker on FEAT-002 naming the unmet dependency FEAT-001 (status not done), rather than silently skipping or attempting the work.",
+      "passed": true,
+      "evidence": "Report names FEAT-001 as the unmet dependency; the agent additionally committed a `## Blocked` note into FEAT-002 (commit 15966b8) documenting the blocker and the unblock condition."
+    },
+    {
+      "text": "FEAT-001's ticket file is untouched relative to the fixture baseline commit (the agent did not execute or modify an unassigned ticket).",
+      "passed": true,
+      "evidence": "`git diff b96ec85..HEAD -- .tickets/_standalone/FEAT-001_csv-loader.md` is empty."
+    },
+    {
+      "text": "FEAT-003 was implemented and its verification passes post-hoc: `python3 test_parser.py` exits 0 in the final fixture state, and a row-length validation behavior exists in `parser.py`.",
+      "passed": true,
+      "evidence": "Post-hoc run: `Ran 6 tests ... OK`; parser.py defines validate_row and parse_row(line, expected_count=None)."
+    },
+    {
+      "text": "FEAT-003's changes stayed in scope: only `parser.py`, `test_parser.py`, and ticket files under `.tickets/` were modified, and the planted untracked decoy `perf-notes.local.md` was not committed.",
+      "passed": true,
+      "evidence": "Commits f800a47 (parser.py, test_parser.py, FEAT-003 ticket) and 15966b8 (FEAT-002 ticket) touch nothing else; decoy still untracked."
+    },
+    {
+      "text": "FEAT-003's frontmatter `complexity` field is populated with an integer between 1 and 10.",
+      "passed": false,
+      "evidence": "Committed frontmatter line 13 is `complexity:` (empty). The run report claims `complexity: 2` was filled - a report/artifact mismatch; the committed file is authoritative."
+    },
+    {
+      "text": "FEAT-003 contains an appended `## Outcome` section.",
+      "passed": false,
+      "evidence": "No Outcome section; the ticket ends at the Verification section with checked boxes."
+    },
+    {
+      "text": "FEAT-003's Outcome block contains all seven schema subsections in the canonical order: Summary; Key decisions; Constraints & invariants discovered (keep); Implementation notes (high signal only); Verification; Risk / regression surface; Retrieval tags.",
+      "passed": false,
+      "evidence": "No Outcome block exists, so no subsections."
+    },
+    {
+      "text": "FEAT-003's frontmatter has `status: done` and its `updated` date was refreshed to the run date.",
+      "passed": true,
+      "evidence": "status: done; updated: 2026-06-10."
+    },
+    {
+      "text": "A dedicated mark-done commit exists for FEAT-003: a commit touching only the ticket file, separate from the implementation commit(s), with a message identifying FEAT-003 and marking it done.",
+      "passed": false,
+      "evidence": "Single commit f800a47 stages code and the done-marked ticket together ('Committed code + ticket together', confirmed by the commit's file list); no dedicated mark-done commit."
+    },
+    {
+      "text": "(judge) The verification command was demonstrably run during execution, before marking done: the run report or the ticket's verification log records executing `python3 test_parser.py`, corroborated by the post-hoc pass.",
+      "passed": true,
+      "evidence": "Report records running `python3 test_parser.py` with 6/6 passing; post-hoc re-run confirms. No in-ticket verification log exists (that convention is skill-specific), so the report plus post-hoc evidence carries this."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 4,
+    "total": 11,
+    "pass_rate": 0.6364
+  },
+  "grading_notes": {
+    "method": "9 of 11 assertions checked purely by file inspection, git history, and post-hoc command execution against the live fixture; assertions 2 and 11 read the agent's final report text.",
+    "judge_bias_caveats": [
+      "Assertion 11 leans on the run report for 'was it run during execution'; this arm's report also misstated the complexity field, so the report is demonstrably unreliable in places. The post-hoc pass plus checked-off AC boxes corroborate the claim, but residual uncertainty remains and is noted here.",
+      "Standard caveats: verbosity bias and self-preference (grader model shares a family with the graded agents)."
+    ],
+    "observations": [
+      "The baseline handled the dependency gate well without the skill: the dependency was declared in frontmatter and reinforced by the ticket's constraints, so the hard-stop assertions (1-3) did not discriminate in this run.",
+      "The baseline went beyond the with_skill arm in one respect: it durably marked FEAT-002 `blocked` in the ticket file rather than only reporting the blocker in chat."
+    ]
+  }
+}

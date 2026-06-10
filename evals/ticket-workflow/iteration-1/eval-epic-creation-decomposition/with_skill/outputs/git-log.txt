@@ -1,0 +1,44 @@
+commit 0b83e8a65f0c348f397abaedaaa4a62a30be70d7 (HEAD -> main)
+Merge: 53df50c fece679
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 02:15:37 2026 -0700
+
+    Merge epic/e55b/link-checker: EPIC-e55b setup (tickets + orchestration prompt)
+
+commit fece6794222a5466c9f7e6366b6059c465e7df07 (epic/e55b/link-checker)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 02:15:29 2026 -0700
+
+    EPIC-e55b: scaffold link-checker epic (tickets + orchestration prompt)
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ .prompts/orchestration/epic-e55b_link-checker.md   | 213 +++++++++++++++++++++
+ .../CHORE-001_epic-closure.md                      |  71 +++++++
+ .../FEAT-001_extract-markdown-urls.md              |  72 +++++++
+ .../FEAT-002_http-status-check-retries.md          |  74 +++++++
+ .../FEAT-003_markdown-report.md                    |  72 +++++++
+ .../FEAT-004_cli-entry-ci.md                       |  85 ++++++++
+ .tickets/EPIC-e55b_link-checker/_epic.md           |  98 ++++++++++
+ 7 files changed, 685 insertions(+)
+
+commit 53df50c3a6aefb356fc6eba851f9752841da9632
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 02:02:06 2026 -0700
+
+    fixture: linkcheck stub baseline
+
+ .gitignore                    |  2 ++
+ .tickets/_standalone/.gitkeep |  0
+ README.md                     | 14 ++++++++++++++
+ linkcheck.py                  |  9 +++++++++
+ 4 files changed, 25 insertions(+)
+
+?? .env.local
+?? scratch/
+
++ epic/e55b/link-checker
+* main
+
+/private/tmp/tw-e2-with.6HJR9e                              0b83e8a [main]
+/private/tmp/tw-e2-with.6HJR9e/.claude/worktrees/epic-e55b  fece679 [epic/e55b/link-checker]

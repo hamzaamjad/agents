@@ -1,0 +1,40 @@
+commit 15966b825194707aeb801307537cfaabdb22f446 (HEAD -> main)
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:46:31 2026 -0700
+
+    FEAT-002: mark blocked on unmet FEAT-001 dependency
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ .tickets/_standalone/FEAT-002_summary-stats.md | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+commit f800a472b366645ac6865e61820896d8e3ea425a
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:46:00 2026 -0700
+
+    FEAT-003: validate row field counts
+    
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+
+ .tickets/_standalone/FEAT-003_input-validation.md | 16 ++++++++--------
+ parser.py                                         | 22 +++++++++++++++++++---
+ test_parser.py                                    | 22 +++++++++++++++++++++-
+ 3 files changed, 48 insertions(+), 12 deletions(-)
+
+commit b96ec858368b3a605f9affa51803d56a5376634a
+Author: Eval Fixture <fixture@example.invalid>
+Date:   Wed Jun 10 01:39:31 2026 -0700
+
+    fixture: csvtool baseline with prepared tickets
+
+ .gitignore                                        |  1 +
+ .tickets/_standalone/FEAT-001_csv-loader.md       | 43 ++++++++++++++++++++++
+ .tickets/_standalone/FEAT-002_summary-stats.md    | 43 ++++++++++++++++++++++
+ .tickets/_standalone/FEAT-003_input-validation.md | 44 +++++++++++++++++++++++
+ README.md                                         |  6 ++++
+ parser.py                                         |  8 +++++
+ test_parser.py                                    | 15 ++++++++
+ 7 files changed, 160 insertions(+)
+
+?? perf-notes.local.md

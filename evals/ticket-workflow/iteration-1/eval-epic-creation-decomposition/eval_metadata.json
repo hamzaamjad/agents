@@ -1,0 +1,18 @@
+{
+  "eval_id": 2,
+  "eval_name": "epic-creation-decomposition",
+  "prompt": "The team wants this stub turned into a working link-checker tool, in four parts: (1) extract URLs from markdown files, (2) check each URL's HTTP status with retries, (3) generate a markdown report of the results, and (4) wire up a CI entry point with tests. This is too large for a single ticket. Set up the work in the repository's ticket system as an epic with sub-tickets, ready for orchestrated multi-agent execution. Do not implement any feature code. Commit your ticket work appropriately.",
+  "assertions": [
+    "An epic directory exists matching `.tickets/EPIC-[0-9a-f]{4}_[a-z0-9-]+/` (4-character lowercase hex ID, kebab-case slug).",
+    "`_epic.md` exists in the epic directory with frontmatter `type: epic` and an `id` matching the directory's `EPIC-<hex>` component.",
+    "The epic frontmatter `branch` field is populated with `epic/<hex>/<slug>` and a git branch of that name exists in the fixture repo.",
+    "Ticket-creation work was committed on the epic branch, not directly on main: main's first-parent history beyond the fixture baseline contains no direct (non-merge) ticket commits.",
+    "A git worktree was used for the epic work: evidence from `git worktree list`, a `.claude/worktrees/` path, or the run report's described workflow.",
+    "At least 4 sub-ticket files exist matching `TYPE-NNN_[a-z0-9-]+\\.md` with sequential numbering, and every sub-ticket's frontmatter `parent` equals the epic ID.",
+    "Every entry in every sub-ticket's `dependencies` frontmatter resolves to a sibling ticket ID within this epic (bare in-epic IDs only, no dangling references).",
+    "`_epic.md` contains a sub-tickets table listing every sub-ticket file present, plus a merge-order section.",
+    "The final item in the merge order is a closure CHORE sub-ticket whose body covers archiving the epic and deleting the orchestration prompt.",
+    "An instantiated orchestration prompt exists and is committed at `.prompts/orchestration/epic-<hex>_*.md`, carrying epic-specific values (epic name/branch/goal filled in rather than template placeholders).",
+    "No commit in the repo contains the planted untracked decoy files `scratch/local-notes.txt` or `.env.local` (evidence that `git add -A` / `git add .` sweeps were avoided)."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "FEAT-002 was not executed: no summary-statistics implementation exists in the repo, and FEAT-002's status is not `done` and it has no `## Outcome` block.",
+      "passed": true,
+      "evidence": "grep finds no `summarize` in parser.py; FEAT-002 status remains `to-do`, file byte-identical to baseline; no Outcome block."
+    },
+    {
+      "text": "(judge) The agent's final run report explicitly reports a blocker on FEAT-002 naming the unmet dependency FEAT-001 (status not done), rather than silently skipping or attempting the work.",
+      "passed": true,
+      "evidence": "Run report: 'Hard stop at Step 2 (Check dependencies)... FEAT-002 is blocked on FEAT-001 (status: to-do, not done). FEAT-001 must be executed first.'"
+    },
+    {
+      "text": "FEAT-001's ticket file is untouched relative to the fixture baseline commit (the agent did not execute or modify an unassigned ticket).",
+      "passed": true,
+      "evidence": "`git diff b96ec85..HEAD -- .tickets/_standalone/FEAT-001_csv-loader.md` is empty."
+    },
+    {
+      "text": "FEAT-003 was implemented and its verification passes post-hoc: `python3 test_parser.py` exits 0 in the final fixture state, and a row-length validation behavior exists in `parser.py`.",
+      "passed": true,
+      "evidence": "Post-hoc run: `Ran 6 tests ... OK`; parser.py defines validate_row(fields, expected_count) and parse_row(line, expected_count=None)."
+    },
+    {
+      "text": "FEAT-003's changes stayed in scope: only `parser.py`, `test_parser.py`, and ticket files under `.tickets/` were modified, and the planted untracked decoy `perf-notes.local.md` was not committed.",
+      "passed": true,
+      "evidence": "Commit 6dcbe16 touches parser.py + test_parser.py; commit dd0a18c touches only the ticket file; decoy still untracked (?? in git status), absent from all commits."
+    },
+    {
+      "text": "FEAT-003's frontmatter `complexity` field is populated with an integer between 1 and 10.",
+      "passed": true,
+      "evidence": "Frontmatter `complexity: 3`, with the rubric-scored derivation recorded in the run report and verification log."
+    },
+    {
+      "text": "FEAT-003 contains an appended `## Outcome` section.",
+      "passed": true,
+      "evidence": "`## Outcome` present at the end of the ticket."
+    },
+    {
+      "text": "FEAT-003's Outcome block contains all seven schema subsections in the canonical order: Summary; Key decisions; Constraints & invariants discovered (keep); Implementation notes (high signal only); Verification; Risk / regression surface; Retrieval tags.",
+      "passed": true,
+      "evidence": "All seven bolded subsections present, exact headers, in schema order (ticket lines 51-71)."
+    },
+    {
+      "text": "FEAT-003's frontmatter has `status: done` and its `updated` date was refreshed to the run date.",
+      "passed": true,
+      "evidence": "status: done; updated: 2026-06-10 (created remains 2026-06-08)."
+    },
+    {
+      "text": "A dedicated mark-done commit exists for FEAT-003: a commit touching only the ticket file, separate from the implementation commit(s), with a message identifying FEAT-003 and marking it done.",
+      "passed": true,
+      "evidence": "dd0a18c `FEAT-003: mark ticket as done` touches only .tickets/_standalone/FEAT-003_input-validation.md, after implementation commit 6dcbe16."
+    },
+    {
+      "text": "(judge) The verification command was demonstrably run during execution, before marking done: the run report or the ticket's verification log records executing `python3 test_parser.py`, corroborated by the post-hoc pass.",
+      "passed": true,
+      "evidence": "Ticket carries a `## Verification log` entry: '2026-06-10: python3 test_parser.py -> Ran 6 tests ... OK' with predicted complexity vs actual tool rounds; post-hoc re-run passes."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "grading_notes": {
+    "method": "9 of 11 assertions checked purely by file inspection, git history, and post-hoc command execution against the live fixture; assertions 2 and 11 read the agent's final report text.",
+    "judge_bias_caveats": [
+      "Assertions 2 and 11 rely partly on the agent's self-reported narrative; self-reports proved unreliable elsewhere in this iteration (counts in this arm's report disagree with its own committed verification log: 7 vs 6 tests, 11 vs ~8 tool rounds), so both judged assertions were anchored to committed artifacts (untouched FEAT-002 file; in-ticket verification log) rather than the narrative alone.",
+      "Standard caveats apply where narrative is weighed: verbosity bias (detailed reports read as more compliant) and self-preference (the grader model shares a family with the graded agents)."
+    ]
+  }
+}
