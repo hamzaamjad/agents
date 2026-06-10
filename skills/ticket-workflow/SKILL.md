@@ -121,6 +121,7 @@ Each epic develops on its own branch, isolating it from other concurrent epics.
 - **Sub-ticket worktrees**: branch from the epic branch, not main.
 - **Sub-ticket merges**: go into the epic branch, not main.
 - **Completion**: PR from epic branch to main. Archive after PR merge.
+- **Local-merge variant (no pushable remote)**: when the repo has no remote to push to, the sanctioned PR substitute is a local `git merge --no-ff <epic-branch>` run from the primary clone, where main is checked out. This is the one exception to the "never cd to the primary clone" rule — it applies only to this final integration merge.
 
 This prevents cross-epic conflicts on shared files. Conflicts between epics surface at PR review time, not during agent execution.
 
@@ -188,11 +189,14 @@ Every epic MUST include a final closure ticket (typically the last `CHORE` in me
 
 Every step below must be safe to re-run; check existence before acting. If closure crashes partway through, the re-run must be a no-op on already-completed steps, not a failure.
 
+The closure ticket may carry small finalization work (version bumps, final sweeps) provided it lands in a separate commit before the closure commit. The closure ticket does not count toward decomposition caps imposed by exercise or orchestration briefs — those caps apply to content tickets.
+
 The closure ticket must:
 
 1. **Mark all sub-tickets and epic as `done`** — set `status: done` and update `updated` dates.
 2. **Archive the epic folder** — guarded `git mv` so a partial re-run is a no-op:
    ```bash
+   mkdir -p .tickets/_archive
    [ -d .tickets/_archive/EPIC-<hex>_<slug> ] || git mv .tickets/EPIC-<hex>_<slug> .tickets/_archive/EPIC-<hex>_<slug>
    ```
 3. **Delete the orchestration prompt** — guarded `git rm`:
@@ -203,6 +207,7 @@ The closure ticket must:
    ```bash
    [ -d .claude/worktrees/epic-<hex> ] && rm -rf .claude/worktrees/epic-<hex> || true
    ```
+   This step is context-dependent: run from a nested sub-ticket worktree the guard is a no-op (the path does not exist there). Authoritative worktree cleanup happens in the post-merge orchestrator block below; treat this step as best-effort.
 5. **Commit** — single commit: `{EPIC-ID}: archive epic and clean up orchestration artifacts`.
 
 After the epic's PR is merged to main, the orchestrator cleans up only its own worktrees — never other epics':
@@ -213,6 +218,8 @@ git worktree list | grep '.claude/worktrees/epic-<hex>' | awk '{print $1}' | xar
 git branch -d epic/<hex>/<slug>
 git branch --list 'epic-<hex>/*' | xargs git branch -d 2>/dev/null
 ```
+
+Run branch deletion from the epic worktree, whose HEAD contains the merge — `git branch -d` fails elsewhere (e.g. the primary clone before the epic-to-main merge) because the branch is not yet reachable from that HEAD. Alternatively, use `git branch -D` only after verifying the merge commit is on the epic branch.
 
 Archived tickets are read-only. Do not modify files under `_archive/`. Active sources are authoritative when conflicts arise.
 
