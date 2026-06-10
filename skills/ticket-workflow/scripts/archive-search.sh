@@ -6,9 +6,9 @@
 # only — never the full ticket body.
 #
 # Lane B (`--semantic`) is not yet available; see
-# `.claude/skills/ticket-workflow/references/outcome-schema.md` for the
-# ship trigger (archive size ≥ ~2,000 Outcome chunks, or two logged
-# Lane A runs that return ≥ 5 irrelevant matches).
+# `references/outcome-schema.md` (relative to this skill's directory)
+# for the ship trigger (archive size ≥ ~2,000 Outcome chunks, or two
+# logged Lane A runs that return ≥ 5 irrelevant matches).
 
 set -euo pipefail
 
@@ -69,7 +69,7 @@ while [ $# -gt 0 ]; do
       ;;
     --semantic)
       echo "error: --semantic (Lane B) is not yet available." >&2
-      echo "See .claude/skills/ticket-workflow/references/outcome-schema.md for the ship trigger." >&2
+      echo "See references/outcome-schema.md (in this skill's directory) for the ship trigger." >&2
       exit 2
       ;;
     --type)

@@ -218,7 +218,7 @@ Archived tickets are read-only. Do not modify files under `_archive/`. Active so
 
 ## Querying past work
 
-Before creating a new epic that touches an unfamiliar subsystem, mine the archive for prior Outcome blocks. Run `bash .claude/skills/ticket-workflow/scripts/archive-search.sh '<short epic pitch>'` (optionally scoping with `--type`, `--tags`, `--complexity`) and inject the top matches' `## Outcome` snippets into the new epic's Context section. The Outcome schema in `references/outcome-schema.md` is what makes those snippets dense enough to be useful; the script prints only the Outcome block, never the full ticket body, so the injected context stays small and high-signal.
+Before creating a new epic that touches an unfamiliar subsystem, mine the archive for prior Outcome blocks. Run `bash scripts/archive-search.sh '<short epic pitch>'` — the path resolves relative to this skill's directory; run it from the project root by prefixing the skill's deployed location (optionally scoping with `--type`, `--tags`, `--complexity`) and inject the top matches' `## Outcome` snippets into the new epic's Context section. The Outcome schema in `references/outcome-schema.md` is what makes those snippets dense enough to be useful; the script prints only the Outcome block, never the full ticket body, so the injected context stays small and high-signal.
 
 Lane A (lexical) is sufficient until the archive crosses the scale horizon documented in `references/outcome-schema.md`; `--semantic` (Lane B) is reserved for that future trigger.
 
