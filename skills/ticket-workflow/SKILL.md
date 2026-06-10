@@ -64,7 +64,7 @@ ls .tickets/_standalone/[A-Z]*.md | sed 's|.*/||;s|_.*||' | sort -t- -k1,1 -k2,2
 
 ## Worktree Rules
 
-**Recovery:** If any `git worktree` step fails, stop and follow `docs/runbooks/worktree-recovery.md` § Diagnostic commands before retrying.
+**Recovery:** If any `git worktree` step fails, stop and follow [references/worktree-recovery.md](references/worktree-recovery.md) § Diagnostic commands before retrying.
 
 All epic-related work (creation, execution, orchestration, archival) MUST happen in a git worktree — never directly on the main branch. Main is the integration target; agents never modify it directly.
 
@@ -91,7 +91,7 @@ git worktree add .claude/worktrees/epic-<hex>/<ticket-id> -b epic-<hex>/<ticket-
 - **Never `cd` to the primary clone.** An agent's working directory is its worktree. All `git` and `gh` commands run from there.
 - **`gh pr create` inherits the branch from `cwd`.** Running it from the worktree automatically targets the correct branch — no checkout needed.
 - **Never use `git add -A` or `git add .`** in a worktree-heavy repo. Stage specific files by name.
-- **Serialize `git worktree add` calls per repo.** On `.git/config.lock` contention, retry with jitter — see `worktree-recovery.md` § Prevention conventions for the exact snippet.
+- **Serialize `git worktree add` calls per repo.** On `.git/config.lock` contention, retry with jitter — see [references/worktree-recovery.md](references/worktree-recovery.md) § Prevention conventions for the exact snippet.
 - Standalone ticket creation (writing a markdown file to `_standalone/`) is exempt — it may happen on main.
 
 ## Creating Tickets
@@ -182,7 +182,7 @@ On the branch, before merge:
 
 ## Epic Closure Ticket
 
-**Recovery:** If closure fails mid-run, follow `docs/runbooks/worktree-recovery.md` § Recovery procedures > Closure ticket partial execution (Goal A is the safe default).
+**Recovery:** If closure fails mid-run, follow [references/worktree-recovery.md](references/worktree-recovery.md) § Recovery procedures > Closure ticket partial execution (Goal A is the safe default).
 
 Every epic MUST include a final closure ticket (typically the last `CHORE` in merge order) that performs all cleanup. This ticket runs on the epic branch before the PR to main, so main receives a clean state.
 
