@@ -19,7 +19,7 @@ description: "Manage structured tickets in .tickets/. Use when: creating tickets
 
 ## Naming
 
-Epic directories: `EPIC-<hex>_<slug>/` where `<hex>` is a 4-character random hex ID (e.g., `EPIC-a7f3_field-contract/`). Sub-ticket files: `TYPE-NNN_kebab-slug.md` with IDs locally scoped within their epic. Cross-epic references: `EPIC-<hex>/TYPE-NNN` (e.g., `EPIC-a7f3/FEAT-001`).
+Epic directories: `EPIC-<hex>_<slug>/` where `<hex>` is a 4-character random hex ID (e.g., `EPIC-a7f3_field-contract/`). Sub-ticket files: `TYPE-NNN_kebab-slug.md` with IDs locally scoped within their epic. Cross-epic references: `EPIC-<hex>/TYPE-NNN` (e.g., `EPIC-a7f3/FEAT-001`). Sub-ticket numbering is sequential per type prefix within its scope — `FEAT-001..N` and `CHORE-001..N` coexist independently, matching the ID-assignment command's per-prefix dedupe semantics.
 
 | Prefix | Type     | Use case                                    |
 |--------|----------|---------------------------------------------|
@@ -93,6 +93,7 @@ git worktree add .claude/worktrees/epic-<hex>/<ticket-id> -b epic-<hex>/<ticket-
 - **Never use `git add -A` or `git add .`** in a worktree-heavy repo. Stage specific files by name.
 - **Serialize `git worktree add` calls per repo.** On `.git/config.lock` contention, retry with jitter — see [references/worktree-recovery.md](references/worktree-recovery.md) § Prevention conventions for the exact snippet.
 - Standalone ticket creation (writing a markdown file to `_standalone/`) is exempt — it may happen on main.
+- **Nested worktrees skew tree scans.** Sub-ticket worktrees sit inside the orchestrator worktree, so tree-scanning checks run before worktree cleanup double-count the nested checkouts; run scanning verification after cleanup or scope the scan to exclude `.claude/worktrees/`.
 
 ## Creating Tickets
 
@@ -143,7 +144,7 @@ Read the full ticket file. Understand requirements, constraints, acceptance crit
 
 ### Step 2: Check dependencies
 
-Inspect `dependencies` in frontmatter. If any dependency status != `done`, STOP and report the blocker.
+Inspect `dependencies` in frontmatter. If any dependency status != `done`, stop and record the blocker durably: set `status: blocked` in the ticket's frontmatter and append a one-line note naming the unmet dependency, then report it.
 
 ### Step 3: Assess complexity
 
@@ -167,7 +168,7 @@ Create `TASK-NNN` files with `parent:` set, `dependencies:` for execution order,
 
 ### Step 6: Verify
 
-Run every command in the ticket's `## Verification` section. All must pass.
+Run every command in the ticket's `## Verification` section. All must pass. Log results in a minimal format: one line per command — the command, pass/fail — with the actual tool-round count recorded once at the end.
 
 Record the **actual tool-round count** in the ticket's verification log alongside the `complexity` populated at Step 3. Future archive retrieval surfaces drift between predicted complexity and realized cost — this is the calibration loop that makes the Step 3 rubric empirical rather than speculative.
 
@@ -242,6 +243,7 @@ Lane A (lexical) is sufficient until the archive crosses the scale horizon docum
 - Tickets under 200 lines.
 - Maximum 5 acceptance criteria -- decompose if more needed.
 - Every ticket must have `## Verification` with runnable commands.
+- Dry-run each verification command against a sketch of the expected artifact before committing the ticket — a command that cannot pass by construction is a ticket defect, not an execution defect.
 - Include `## Constraints` to prevent scope creep.
 - Concrete nouns, verbs, and file paths -- no vague instructions.
 - Do NOT self-orchestrate decomposition -- follow the step order rigidly.
