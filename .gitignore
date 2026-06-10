@@ -38,7 +38,6 @@ secrets.json
 *.tmp
 .cache/
 
-# Agent workflow artifacts (per-workspace, not shared skill content)
-.tickets/
+# Agent workflow artifacts: worktree checkouts stay ignored; .tickets/ and
+# .prompts/ are tracked per docs/decisions/2026-06-10-version-tickets-and-prompts.md
 .claude/worktrees/
-.prompts/

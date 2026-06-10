@@ -40,8 +40,9 @@ skills/<name>/                Skill package: SKILL.md + references/ + scripts/
 skills/defining-specifications-workspace/   Eval artifacts for the defining-specifications skill (iteration-N runs; not a skill)
 docs/audits/                  Instruction-layer audit reports (yyyy-mm-dd-<slug>.md)
 docs/decisions/               Decision memos (yyyy-mm-dd-<slug>.md)
-.prompts/                     Unversioned per-workspace prompts (exercise briefs, orchestration instances) — gitignored
-.tickets/, .claude/worktrees/ Unversioned ticket-workflow runtime artifacts — gitignored
+.prompts/                     Versioned prompts (exercise briefs, orchestration instances) — see docs/decisions/2026-06-10-version-tickets-and-prompts.md
+.tickets/                     Versioned ticket-workflow tickets (active epics + _archive/)
+.claude/worktrees/            Unversioned worktree checkouts — gitignored
 ```
 
 ## Skill-authoring conventions
