@@ -38,6 +38,16 @@ This repo (`~/.agents`) is the canonical, versioned library of agent skills for 
 - `cursor` on PATH is the Cursor IDE launcher (symlink to `Cursor.app/.../bin/code`), not an agent. The headless agent CLI — primary command `agent`, back-compat alias `cursor-agent`, installed via `curl https://cursor.com/install -fsS | bash` — is not installed on this machine as of 2026-06-10. Re-check `which agent cursor-agent` before designing anything that shells out to it.
 - Until that CLI exists here, eval arms run as host subagents, which share host context (skill descriptions are visible to both arms). Record that isolation caveat in benchmark notes, as `evals/ticket-workflow/iteration-1/benchmark.md` does.
 
+## Orchestration
+
+Conventions for sessions that run exercise briefs, epics, or evals through subagents:
+
+- The orchestrator acts as the user's proxy by default: it makes checkpoint decisions, records each one in the produced artifact (or a `docs/decisions/` memo when policy-level), and surfaces only decisions the user explicitly reserved.
+- Launch prompts are self-contained: workspace root, the exact file to read and follow, pre-decided boundaries (never push; never write outside this repo), and what the final message must report.
+- Checkpoint convention: a subagent that hits a decision its brief reserves for the user stops and ends its message with a line starting `CHECKPOINT:` — decision needed, options, recommendation. The orchestrator resumes it with the decision.
+- Exercise briefs live in `.prompts/exercises/`; per-epic orchestration prompts in `.prompts/orchestration/` (instances of the ticket-workflow canonical template).
+- The orchestrator validates subagent claims independently between runs (git history, file existence, JSON/YAML parses, the validation script) before launching dependent work.
+
 ## Directory layout
 
 ```
@@ -70,16 +80,6 @@ New or revised skills are benchmarked before being trusted:
 4. Fold findings back into the skill and commit the new version.
 
 Eval suites (the evals JSON plus fixture builders) live in `skills/<name>/evals/`; iteration artifacts go in a top-level workspace at `evals/<skill>/iteration-N/` — per-eval directories carrying eval metadata plus with_skill and without_skill runs (each with outputs and a grading file), topped by the iteration's benchmark summary pair. The `defining-specifications` workspace predates this convention and stays at `skills/defining-specifications-workspace/` until relocated; that directory holds eval data, not a skill.
-
-## Orchestration
-
-Conventions for sessions that run exercise briefs, epics, or evals through subagents:
-
-- The orchestrator acts as the user's proxy by default: it makes checkpoint decisions, records each one in the produced artifact (or a `docs/decisions/` memo when policy-level), and surfaces only decisions the user explicitly reserved.
-- Launch prompts are self-contained: workspace root, the exact file to read and follow, pre-decided boundaries (never push; never write outside this repo), and what the final message must report.
-- Checkpoint convention: a subagent that hits a decision its brief reserves for the user stops and ends its message with a line starting `CHECKPOINT:` — decision needed, options, recommendation. The orchestrator resumes it with the decision.
-- Exercise briefs live in `.prompts/exercises/`; per-epic orchestration prompts in `.prompts/orchestration/` (instances of the ticket-workflow canonical template).
-- The orchestrator validates subagent claims independently between runs (git history, file existence, JSON/YAML parses, the validation script) before launching dependent work.
 
 ## Deployment map
 
