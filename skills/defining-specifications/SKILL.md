@@ -184,6 +184,31 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 - <Path, URL, issue, ticket, transcript reference, or artifact>
 ```
 
+## Worked Example (condensed)
+
+A minimal filled instance of the template, showing the load-bearing conventions: EARS requirements, Given/When/Then acceptance criteria with traceability, a recorded decision, and a lifecycle-consistent status line. Sections not shown follow the template unchanged; full patterns, and when not to force them, are in `references/requirements-and-acceptance-criteria.md`.
+
+```markdown
+# Specification: Skip archived tickets in search results
+
+Status: Ready for Review (gate passed 2026-06-10; Q-001 accepted as non-blocking)
+Date: 2026-06-10
+
+## Requirements
+- REQ-001: When `--active-only` is passed, the search script shall exclude tickets under `_archive/` from results.
+- REQ-002: If `--active-only` and `--archived` are combined, then the script shall exit non-zero with a usage error naming both flags.
+
+## Decisions
+- DEC-001: Filter results at query time instead of maintaining a second index. — Rationale: the archive is small and an extra index invites drift. Alternatives considered: separate index; post-hoc grep. Date: 2026-06-10.
+
+## Open Questions
+- Q-001 (non-blocking): Add a `-a` short form? Default: long flag only until users ask.
+
+## Acceptance Criteria
+- AC-001 (verifies REQ-001): Given an archive containing one matching ticket, When the script runs with `--active-only`, Then the output contains no `_archive/` paths.
+- AC-002 (verifies REQ-002): Given both flags, When the script runs, Then the exit code is 2 and stderr names the conflicting flags.
+```
+
 ## Agent-Friendly Conventions
 
 - Use stable IDs for anything future agents may reference: `G-###`, `NG-###`, `REQ-###`, `NFR-###`, `SLICE-###`, `TEST-###`, `AC-###`, `RISK-###`, `Q-###`, `ASM-###`, and `DEC-###`.
