@@ -287,21 +287,21 @@ what this epic specifically addresses.]
 
 <!-- List sub-tickets in the order they should be merged to the epic branch.
      Note which can execute in parallel worktrees vs. must merge sequentially.
-     The closure CHORE ticket must ALWAYS be last — it archives the epic,
-     deletes the orchestration prompt, and updates INDEX.md.
+     The closure CHORE ticket must ALWAYS be last — it archives the epic
+     and deletes the orchestration prompt.
      See SKILL.md "Epic Closure Ticket" for the full spec.
 -->
 
 1. [TICKET-ID] ([rationale — why this merges first])
 2. [TICKET-ID] ([rationale — dependency or conflict note])
-N. CHORE-NNN — Epic closure (always last: archives epic, deletes orchestration prompt, updates INDEX.md)
+N. CHORE-NNN — Epic closure (always last: archives epic, deletes orchestration prompt)
 
 ## Acceptance criteria
 
 - [ ] All sub-tickets are `done`
 - [ ] Full test suite passes on epic branch
 - [ ] Epic archived and orchestration prompt deleted (by closure ticket)
-- [ ] PR from epic branch to main created and ready for review
+- [ ] PR from epic branch to main created and ready for review (or local merge per repo policy)
 - [ ] [Epic-specific verifiable outcome]
 
 ## Notes

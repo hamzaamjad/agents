@@ -5,6 +5,11 @@
      from it as .prompts/orchestration/epic-<hex>_*.md in the target repo;
      do not edit per-epic instances here.
      <MAX_FIX_CYCLES> defaults to 2 (tunable per epic).
+     Re-run hygiene: a re-run that finds leftover artifacts from an
+     interrupted prior run (uncommitted files, stale worktrees, partial
+     tickets) must choose one path per artifact — adopt-and-verify it
+     (re-verify every claim it makes before building on it) or
+     delete-and-rewrite it from scratch. Never silently mix the two.
      See orchestrator-review-protocol.md (same directory) for the canonical
      protocol; the two must not drift. -->
 
@@ -44,6 +49,13 @@ Acceptance criteria: <ACCEPTANCE_CRITERIA_LIST>
 Constraints / Do NOT rules: <CONSTRAINTS_LIST>
 Verification commands run by sub-agent: <VERIFICATION_COMMANDS>
 Verification log output: <VERIFICATION_LOG>
+
+GATE COST TIERS (which checks run when)
+Gates fall into three cost tiers:
+1) Per-ticket inspection — Gates A, C, D, E, F, G run for every ticket; they read diffs and evidence, not test suites.
+2) Scoped sanity — Gate B (B1) and Gate H (H4) run <SANITY_COMMANDS>: the ticket's own Verification block plus tests touching its Gate D allowlist paths. Never the full suite by default.
+3) Integration-boundary full battery — <POST_MERGE_CHECKS> (the full suite and repo-wide scans) runs only at integration boundaries: after the last content ticket merges into <EPIC_BRANCH>, and again at the epic-to-main merge.
+Tickets with complexity >= 6 or cross-cutting paths may opt into the broader suite at their own merge.
 
 REVIEW PROTOCOL (execute in order; produce a YES/NO for each gate)
 
@@ -115,9 +127,11 @@ If any of these failure types occur → action:
 
 MERGE STEPS (only if all gates PASS and ticket is not blocked)
 M1. Merge <TICKET_BRANCH> into <EPIC_BRANCH> using <MERGE_METHOD>.
-M2. Run <POST_MERGE_CHECKS> on <EPIC_BRANCH>.
-M3. Record merge commit SHA and summary of what changed.
-M4. Clean up: archive logs, remove the worktree if your system expects it: <WORKTREE_CLEANUP_STEPS>.
+M2. Record merge commit SHA and summary of what changed.
+M3. Clean up: archive logs, remove the worktree if your system expects it: <WORKTREE_CLEANUP_STEPS>.
+M4. At integration boundaries only (see GATE COST TIERS): run <POST_MERGE_CHECKS> on <EPIC_BRANCH>.
+    Run this after M3 worktree cleanup, or scope repo-wide scans to ignore `.claude/worktrees/` —
+    nested checkouts otherwise poison tree-scanning sanity commands.
 
 OUTPUT FORMAT (always produce)
 1) Review Summary:
