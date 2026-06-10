@@ -95,7 +95,7 @@ If modifying an existing spec, prefer updating it in place: preserve its filenam
 
 ### 6. Self-Review Before Handoff
 
-Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing.
+Before presenting the spec, run the Quality Checklist below as a gate. Keep `Status: Draft` until the checklist passes and decision-critical open questions are resolved or explicitly accepted; only then move to `Ready for Review`. Unresolved blocking questions stay visible in `Open Questions` — never resolve them by guessing. When a blocking question is resolved during review, record the resolution as a `DEC-###` entry in `Decisions` and mark the `Q-###` item resolved with a pointer to that entry, rather than deleting the question.
 
 ## Default Spec Template
 
@@ -161,6 +161,9 @@ Source Context: <brief list of key files, docs, URLs, or artifacts>
 ## Risks And Mitigations
 - RISK-001: <Risk> / Mitigation: <Mitigation>
 
+## Decisions
+- DEC-001: <decision> — Rationale: <why>. Alternatives considered: <list>. Date: <YYYY-MM-DD>.
+
 ## Open Questions
 - Q-001: <Question and why it matters>
 
@@ -193,7 +196,7 @@ Before finalizing, verify that the spec:
 - States the problem, goals, non-goals, current state, and proposed behavior, applying the matching spec-type profile.
 - Uses stable IDs for requirements, acceptance criteria, questions, assumptions, and risks when the spec is more than a very small artifact.
 - Writes functional requirements in EARS form and acceptance criteria as Given/When/Then, with each criterion mapped to the requirement IDs it verifies.
-- Separates confirmed facts from assumptions and open questions, and presents no unverified API, version, or behavior claim as a fact.
+- Separates confirmed facts from decisions, assumptions, and open questions, and presents no unverified API, version, or behavior claim as a fact.
 - Calibrates specificity: behavior and constraints are specified, but implementation choices are left to the downstream agent unless a constraint forces them.
 - Includes constraints and non-goals that limit downstream agent behavior.
 - Contains concrete acceptance criteria and verification steps, with traceability from requirements to verification.
