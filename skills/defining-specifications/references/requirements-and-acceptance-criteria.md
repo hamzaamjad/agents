@@ -53,7 +53,7 @@ Guidelines:
 
 ## Traceability
 
-For any non-trivial spec, every `REQ-###` should be reachable from at least one `AC-###`, and acceptance criteria should map to entries in `Testing And Verification` (`TEST-###`). A requirement with no acceptance criterion is either untestable (rewrite it) or out of scope (move it to Non-Goals). This mapping is what lets a downstream agent know when it is actually done.
+For any non-trivial spec, every `REQ-###` should be reachable from at least one `AC-###`, and acceptance criteria should map to entries in `Testing And Verification` (`TEST-###`). A requirement with no acceptance criterion is either untestable (rewrite it) or out of scope (move it to Non-Goals). This mapping is what lets a downstream agent know when it is actually done. The same rule applies to `NFR-###`: every NFR needs at least one AC, or an explicit waiver recorded in the spec ("verified by inspection" plus a one-line rationale).
 
 ## Worked contrast (good vs weak)
 

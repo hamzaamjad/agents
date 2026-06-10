@@ -79,7 +79,7 @@ New or revised skills are benchmarked before being trusted:
 3. Grade outputs (one grading.json per eval) and summarize each iteration in benchmark.md and benchmark.json.
 4. Fold findings back into the skill and commit the new version.
 
-Eval suites (the evals JSON plus fixture builders) live in `skills/<name>/evals/`; iteration artifacts go in a top-level workspace at `evals/<skill>/iteration-N/` — per-eval directories carrying eval metadata plus with_skill and without_skill runs (each with outputs and a grading file), topped by the iteration's benchmark summary pair. The `defining-specifications` workspace predates this convention and stays at `skills/defining-specifications-workspace/` until relocated; that directory holds eval data, not a skill.
+Eval suites (the evals JSON plus fixture builders) live in `skills/<name>/evals/`; iteration artifacts go in a top-level workspace at `evals/<skill>/iteration-N/` — per-eval directories carrying eval metadata plus with_skill and without_skill runs (each with outputs and a grading file), topped by the iteration's benchmark summary pair. `files` entries in `skills/*/evals/evals.json` are repo-root-relative; absolute home paths violate the portability rule. The `defining-specifications` workspace predates this convention and stays at `skills/defining-specifications-workspace/` until relocated; that directory holds eval data, not a skill.
 
 ## Deployment map
 
